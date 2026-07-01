@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:#fafafa;}
+  ::selection{background:#14213d;color:#fff;}
+  ::-webkit-scrollbar{width:11px;height:11px;}
+  ::-webkit-scrollbar-track{background:#e7e7e2;}
+  ::-webkit-scrollbar-thumb{background:#1c2740;border-radius:8px;border:3px solid #e7e7e2;background-clip:content-box;}
+  @keyframes heroUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
+  @keyframes reveal{from{opacity:0;transform:translateY(34px);}to{opacity:1;transform:none;}}
+  @keyframes revealX{from{opacity:0;transform:translateX(-30px);}to{opacity:1;transform:none;}}
+  @keyframes revealScale{from{opacity:0;transform:scale(.94);}to{opacity:1;transform:none;}}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(20,33,61,.45);}70%{box-shadow:0 0 0 7px rgba(20,33,61,0);}100%{box-shadow:0 0 0 0 rgba(20,33,61,0);}}
+  @keyframes ring{0%{box-shadow:0 0 0 0 rgba(29,58,110,.5);}70%{box-shadow:0 0 0 10px rgba(29,58,110,0);}100%{box-shadow:0 0 0 0 rgba(29,58,110,0);}}
+  @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @keyframes blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+  @keyframes drift{0%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,-30px) scale(1.12);}100%{transform:translate(0,0) scale(1);}}
+  @keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-11px);}}
+  @keyframes underline{0%{transform:scaleX(0);}100%{transform:scaleX(1);}}
+  @keyframes flow{0%{left:-6px;opacity:0;}14%{opacity:1;}86%{opacity:1;}100%{left:100%;opacity:0;}}
+  @keyframes drawline{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+  .rv{animation:reveal .85s cubic-bezier(.2,.75,.25,1) both;animation-timeline:view();animation-range:entry 0% cover 32%;}
+  .rvx{animation:revealX .85s cubic-bezier(.2,.75,.25,1) both;animation-timeline:view();animation-range:entry 0% cover 30%;}
+  .rvs{animation:revealScale .9s cubic-bezier(.2,.75,.25,1) both;animation-timeline:view();animation-range:entry 0% cover 36%;}
+  .dl{transform-origin:left;animation:drawline .9s .12s cubic-bezier(.2,.75,.25,1) both;animation-timeline:view();animation-range:entry 0% cover 30%;}
+  .u-anim{transform-origin:left;animation:underline .7s 1s cubic-bezier(.2,.75,.25,1) both;}
+  image-slot{cursor:pointer;display:block;}
+  @media(min-width:760px){[data-nav]{display:flex !important;}}
+</style>
+</helmet>
+
+<div style="position:relative;min-height:100vh;background:#fafafa;color:#101218;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;overflow-x:hidden;">
+
+  <div ref="{{ barRef }}" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#14213d,#1d3a6e);z-index:100;transition:width .08s linear;"></div>
+
+  <div style="position:absolute;top:-160px;right:-160px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(29,58,110,.13),transparent 68%);filter:blur(8px);animation:drift 22s ease-in-out infinite;pointer-events:none;"></div>
+  <div style="position:absolute;top:780px;left:-180px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(20,33,61,.10),transparent 70%);filter:blur(8px);animation:drift 28s ease-in-out infinite reverse;pointer-events:none;"></div>
+
+  <nav style="position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px clamp(20px,5vw,64px);background:rgba(246,246,243,.78);backdrop-filter:blur(16px);border-bottom:1px solid rgba(16,18,24,.08);">
+    <a href="#top" style="text-decoration:none;color:#101218;font:700 clamp(15px,2.2vw,18px)/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:-.01em;display:flex;align-items:center;gap:10px;">
+      <span style="width:30px;height:30px;border-radius:9px;background:#14213d;color:#fff;display:flex;align-items:center;justify-content:center;font:700 12px/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;">AE</span>AyChEs
+    </a>
+    <div style="display:flex;align-items:center;gap:clamp(14px,2.4vw,30px);">
+      <div style="display:none;gap:26px;font:600 13px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;color:#5a5e69;" data-nav>
+        <a href="#stack" style="text-decoration:none;color:inherit;" style-hover="color:#14213d;">{{ ui.sStack }}</a>
+        <a href="#projects" style="text-decoration:none;color:inherit;" style-hover="color:#14213d;">{{ ui.sProjects }}</a>
+        <a href="#experience" style="text-decoration:none;color:inherit;" style-hover="color:#14213d;">{{ ui.sExp }}</a>
+        <a href="#contact" style="text-decoration:none;color:inherit;" style-hover="color:#14213d;">{{ ui.sContact }}</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;background:rgba(16,18,24,.05);border:1px solid rgba(16,18,24,.1);border-radius:999px;padding:4px;">
+        <button onClick="{{ setEs }}" style="border:none;cursor:pointer;font:600 12px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;padding:8px 13px;border-radius:999px;background:{{ esBg }};color:{{ esColor }};transition:all .2s;">ES</button>
+        <button onClick="{{ setEn }}" style="border:none;cursor:pointer;font:600 12px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;padding:8px 13px;border-radius:999px;background:{{ enBg }};color:{{ enColor }};transition:all .2s;">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="top" style="position:relative;padding:clamp(48px,8vw,96px) clamp(20px,5vw,64px) clamp(40px,6vw,72px);">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(32px,5vw,64px);align-items:center;">
+      <div style="flex:1 1 460px;min-width:0;">
+        <div style="display:inline-flex;align-items:center;gap:9px;font:600 12px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;color:#14213d;background:rgba(20,33,61,.07);border:1px solid rgba(20,33,61,.18);padding:8px 14px;border-radius:999px;margin-bottom:clamp(22px,3vw,30px);animation:heroUp .7s .05s ease both;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#14213d;display:inline-block;animation:pulse 2.4s infinite;"></span>{{ ui.available }}
+        </div>
+        <div style="font:600 12px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;letter-spacing:.18em;text-transform:uppercase;color:#1d3a6e;margin-bottom:20px;animation:heroUp .7s .12s ease both;">{{ ui.kicker }}</div>
+        <h1 style="margin:0 0 clamp(24px,3.2vw,34px);font:700 clamp(46px,8.6vw,94px)/.94 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:-.035em;color:#101218;animation:heroUp .8s .18s ease both;">
+          <span style="display:block;">{{ ui.heroA }}</span>
+          <span style="display:block;">{{ ui.heroB }} merge.</span>
+        </h1>
+        <p style="margin:0 0 clamp(24px,3vw,30px);font-size:clamp(16px,2.1vw,19px);line-height:1.6;color:#4a4e58;max-width:540px;animation:heroUp .8s .26s ease both;">{{ ui.heroSub }}</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;animation:heroUp .8s .34s ease both;">
+          <a href="#contact" style="text-decoration:none;background:#14213d;color:#fff;font:700 15px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;padding:15px 26px;border-radius:11px;display:inline-flex;align-items:center;gap:9px;box-shadow:0 8px 22px rgba(20,33,61,.22);transition:all .22s;" style-hover="transform:translateY(-3px);box-shadow:0 14px 30px rgba(20,33,61,.3);">{{ ui.getInTouch }} <span style="font-family:ui-monospace,'SF Mono',Menlo,Monaco,monospace;">→</span></a>
+          <a href="{{ cvHref }}" style="text-decoration:none;border:1.5px solid rgba(16,18,24,.16);color:#101218;font:600 15px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;padding:15px 26px;border-radius:11px;display:inline-flex;align-items:center;gap:9px;background:#fff;transition:all .22s;" style-hover="border-color:#14213d;transform:translateY(-3px);">{{ ui.cv }}</a>
+        </div>
+      </div>
+
+      <!-- code card -->
+      <div style="flex:1 1 360px;min-width:0;display:flex;justify-content:center;animation:heroUp .9s .3s ease both;">
+        <div style="width:100%;max-width:420px;background:#0c1322;border-radius:16px;overflow:hidden;box-shadow:0 26px 60px rgba(12,19,34,.32);border:1px solid #1c2740;animation:floaty 7s 1.2s ease-in-out infinite;">
+          <div style="display:flex;align-items:center;gap:8px;padding:14px 18px;background:#101a2e;border-bottom:1px solid #1c2740;">
+            <span style="width:11px;height:11px;border-radius:50%;background:#4a5168;"></span><span style="width:11px;height:11px;border-radius:50%;background:#5e6478;"></span><span style="width:11px;height:11px;border-radius:50%;background:#737888;"></span>
+            <span style="margin-left:8px;font:500 12px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#5c6b86;">developer.rb</span>
+          </div>
+          <div style="padding:24px 22px;font:500 13.5px/1.95 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#cdd7ea;">
+            <div><span style="color:#c792ea;">class</span> <span style="color:#82aaff;">Developer</span></div>
+            <div style="padding-left:18px;"><span style="color:#7fd1e0;">name</span>&nbsp;&nbsp;= <span style="color:#a5e8a0;">"Ayman Charoui"</span></div>
+            <div style="padding-left:18px;"><span style="color:#7fd1e0;">role</span>&nbsp;&nbsp;= <span style="color:#a5e8a0;">"Full-Stack Developer"</span></div>
+            <div style="padding-left:18px;"><span style="color:#7fd1e0;">stack</span> = [<span style="color:#a5e8a0;">"Rails"</span>, <span style="color:#a5e8a0;">"REST"</span>, <span style="color:#a5e8a0;">"SaaS"</span>]</div>
+            <div style="padding-left:18px;"><span style="color:#7fd1e0;">at</span>&nbsp;&nbsp;&nbsp;&nbsp;= <span style="color:#a5e8a0;">"Etecnic"</span></div>
+            <div><span style="color:#c792ea;">end</span><span style="color:#82aaff;animation:blink 1.1s step-end infinite;">▌</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- marquee -->
+    <div style="margin-top:clamp(40px,5vw,60px);overflow:hidden;border-top:1px solid rgba(16,18,24,.1);border-bottom:1px solid rgba(16,18,24,.1);padding:16px 0;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);">
+      <div style="display:flex;width:max-content;animation:marquee 26s linear infinite;">
+        <div style="display:flex;gap:42px;padding-right:42px;">
+          <sc-for list="{{ marquee }}" as="m" hint-placeholder-count="10"><span style="font:600 clamp(15px,2vw,19px)/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:#2c3242;display:flex;align-items:center;gap:42px;">{{ m }}<span style="color:#1d3a6e;">◆</span></span></sc-for>
+        </div>
+        <div style="display:flex;gap:42px;padding-right:42px;" aria-hidden="true">
+          <sc-for list="{{ marquee }}" as="m" hint-placeholder-count="10"><span style="font:600 clamp(15px,2vw,19px)/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:#2c3242;display:flex;align-items:center;gap:42px;">{{ m }}<span style="color:#1d3a6e;">◆</span></span></sc-for>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STACK -->
+  <section id="stack" style="padding:clamp(40px,6vw,72px) clamp(20px,5vw,64px);">
+    <div class="rv" style="display:flex;align-items:center;gap:16px;margin-bottom:clamp(28px,3.5vw,42px);">
+      <span style="font:600 13px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#1d3a6e;">01</span>
+      <h2 style="margin:0;font:700 clamp(26px,4vw,40px)/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:-.02em;">{{ ui.sStack }}</h2>
+      <span class="dl" style="flex:1;height:1px;background:rgba(16,18,24,.12);"></span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(14px,1.8vw,22px);">
+      <sc-for list="{{ techGroups }}" as="g" hint-placeholder-count="4">
+        <div class="rvs" style="position:relative;background:#fff;border:1px solid rgba(16,18,24,.09);border-radius:18px;padding:22px 22px 24px;overflow:hidden;transition:all .28s;" style-hover="border-color:#14213d;box-shadow:0 18px 40px rgba(20,33,61,.1);transform:translateY(-4px);">
+          <span style="position:absolute;top:-18px;right:-6px;font:800 76px/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:rgba(16,18,24,.04);letter-spacing:-.04em;pointer-events:none;">{{ g.num }}</span>
+          <div style="font:700 11px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;letter-spacing:.14em;text-transform:uppercase;color:#1d3a6e;margin-bottom:18px;position:relative;">{{ g.cat }}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:11px;position:relative;">
+            <sc-for list="{{ g.items }}" as="s" hint-placeholder-count="4">
+              <div title="{{ s.n }}" style="width:66px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:default;transition:transform .2s;" style-hover="transform:translateY(-4px);">
+                <div style="position:relative;width:52px;height:52px;border-radius:14px;background:#f6f7fb;border:1px solid rgba(16,18,24,.07);display:flex;align-items:center;justify-content:center;transition:all .22s;" style-hover="background:#fff;border-color:rgba(20,33,61,.35);box-shadow:0 8px 18px rgba(20,33,61,.12);">
+                  <sc-if value="{{ s.icon }}" hint-placeholder-val="{{ false }}">
+                    <img data-src="{{ s.icon }}" alt="{{ s.n }}" data-fb="1" style="width:30px;height:30px;object-fit:contain;" />
+                    <span data-mono style="display:none;font:700 15px/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:#14213d;">{{ s.m }}</span>
+                  </sc-if>
+                  <sc-if value="{{ s.noIcon }}" hint-placeholder-val="{{ false }}">
+                    <span style="font:700 14px/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:#14213d;">{{ s.m }}</span>
+                  </sc-if>
+                </div>
+                <span style="font:600 11px/1.2 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;color:#4a4e58;text-align:center;">{{ s.n }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" style="padding:clamp(40px,6vw,72px) clamp(20px,5vw,64px);">
+    <div class="rv" style="display:flex;align-items:center;gap:16px;margin-bottom:clamp(28px,3.5vw,42px);">
+      <span style="font:600 13px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#1d3a6e;">02</span>
+      <h2 style="margin:0;font:700 clamp(26px,4vw,40px)/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:-.02em;">{{ ui.sProjects }}</h2>
+      <span class="dl" style="flex:1;height:1px;background:rgba(16,18,24,.12);"></span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(18px,2.2vw,26px);">
+      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
+        <div class="rvs" style="position:relative;background:#fff;border:1px solid rgba(16,18,24,.09);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:all .28s;" style-hover="transform:translateY(-7px);box-shadow:0 26px 50px rgba(20,33,61,.15);border-color:#14213d;">
+          <div style="position:relative;height:178px;background:#0c1322;overflow:hidden;">
+            <image-slot id="{{ p.imgId }}" shape="rect" placeholder="{{ p.imgPh }}" style="width:100%;height:100%;"></image-slot>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,19,34,.05),rgba(12,19,34,.55));pointer-events:none;"></div>
+            <span style="position:absolute;top:12px;left:12px;display:inline-flex;align-items:center;gap:6px;font:500 11px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#cdd7ea;background:rgba(12,19,34,.62);backdrop-filter:blur(6px);padding:6px 10px;border-radius:7px;">◍ {{ p.file }}</span>
+            <sc-if value="{{ p.inProgress }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:12px;right:12px;font:700 9px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;letter-spacing:.08em;text-transform:uppercase;color:#0c1322;background:#fff;padding:6px 9px;border-radius:6px;">{{ ui.inProgress }}</span></sc-if>
+          </div>
+          <div style="padding:22px 22px 22px;display:flex;flex-direction:column;flex:1;">
+            <h3 style="margin:0 0 10px;font:700 20px/1.2 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:#101218;letter-spacing:-.01em;">{{ p.title }}</h3>
+            <p style="margin:0 0 18px;font-size:14px;line-height:1.6;color:#5a5e69;flex:1;">{{ p.desc }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;">
+              <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="3"><span style="font:600 11px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#14213d;background:rgba(20,33,61,.06);padding:6px 10px;border-radius:6px;">{{ t }}</span></sc-for>
+            </div>
+            <sc-if value="{{ p.hasLinks }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;gap:10px;">
+                <a href="{{ p.code }}" style="flex:1;text-align:center;color:#fff;background:#14213d;text-decoration:none;font:700 13px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;padding:12px;border-radius:10px;transition:all .2s;" style-hover="background:#1d3a6e;">↗ {{ ui.code }}</a>
+                <a href="{{ p.demo }}" style="flex:1;text-align:center;color:#14213d;border:1.5px solid rgba(20,33,61,.2);text-decoration:none;font:700 13px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;padding:12px;border-radius:10px;transition:all .2s;" style-hover="border-color:#14213d;">↗ {{ ui.demo }}</a>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" style="padding:clamp(40px,6vw,72px) clamp(20px,5vw,64px);">
+    <div class="rv" style="display:flex;align-items:center;gap:16px;margin-bottom:clamp(28px,3.5vw,42px);">
+      <span style="font:600 13px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#1d3a6e;">03</span>
+      <h2 style="margin:0;font:700 clamp(26px,4vw,40px)/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:-.02em;">{{ ui.sExp }}</h2>
+      <span class="dl" style="flex:1;height:1px;background:rgba(16,18,24,.12);"></span>
+    </div>
+    <div style="position:relative;padding-left:clamp(58px,8vw,76px);">
+      <span style="position:absolute;left:clamp(19px,2.6vw,26px);top:14px;bottom:14px;width:2px;background:linear-gradient(#14213d,rgba(20,33,61,.15));"></span>
+      <sc-for list="{{ experience }}" as="e" hint-placeholder-count="3">
+        <div class="rvx" style="position:relative;margin-bottom:clamp(16px,2vw,22px);">
+          <span style="position:absolute;left:calc(-1 * clamp(58px,8vw,76px) + clamp(19px,2.6vw,26px) - 9px);top:10px;width:18px;height:18px;border-radius:6px;background:{{ e.badgeBg }};border:3px solid #fafafa;box-shadow:0 0 0 2px {{ e.badgeBorder }};{{ e.badgeAnim }}"></span>
+          <div style="background:#fff;border:1px solid rgba(16,18,24,.09);border-radius:16px;padding:clamp(20px,2.4vw,26px);transition:all .25s;" style-hover="border-color:#14213d;box-shadow:0 16px 34px rgba(20,33,61,.12);transform:translateX(3px);">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap;">
+              <span style="display:inline-flex;align-items:center;gap:6px;font:600 11px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#1d3a6e;background:rgba(20,33,61,.07);padding:6px 11px;border-radius:999px;">{{ e.period }}</span>
+              <sc-if value="{{ e.current }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;font:700 10px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:#14213d;padding:6px 10px;border-radius:999px;"><span style="width:6px;height:6px;border-radius:50%;background:#7fd1e0;"></span>{{ ui.now }}</span></sc-if>
+            </div>
+            <h4 style="margin:0 0 4px;font:700 18px/1.25 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:#101218;">{{ e.role }}</h4>
+            <div style="font:600 13px/1.3 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;color:#5a5e69;margin-bottom:14px;">{{ e.org }} · {{ e.type }} · {{ e.place }}</div>
+            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;">
+              <sc-for list="{{ e.bullets }}" as="b" hint-placeholder-count="2"><li style="font-size:13.5px;line-height:1.6;color:#4a4e58;">{{ b }}</li></sc-for>
+            </ul>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- EDUCATION / LANG / CERT -->
+  <section style="padding:clamp(40px,6vw,72px) clamp(20px,5vw,64px);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,3.5vw,48px);">
+
+      <!-- education -->
+      <div class="rv">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;"><span style="font:600 13px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#1d3a6e;">04</span><h2 style="margin:0;font:700 clamp(22px,3vw,30px)/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:-.02em;">{{ ui.sEdu }}</h2></div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <sc-for list="{{ education }}" as="ed" hint-placeholder-count="3">
+            <div style="display:flex;gap:14px;background:#fff;border:1px solid rgba(16,18,24,.09);border-radius:15px;padding:16px 18px;transition:all .25s;" style-hover="border-color:#14213d;box-shadow:0 12px 26px rgba(20,33,61,.09);">
+              <span style="flex:none;width:42px;height:42px;border-radius:12px;background:#14213d;color:#fff;display:flex;align-items:center;justify-content:center;font:700 14px/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;">{{ ed.mono }}</span>
+              <div style="min-width:0;">
+                <div style="font:600 10px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#1d3a6e;margin-bottom:6px;letter-spacing:.04em;">{{ ed.period }}</div>
+                <div style="font:700 14.5px/1.3 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:#101218;margin-bottom:4px;">{{ ed.title }}</div>
+                <div style="font:600 12px/1.3 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;color:#5a5e69;margin-bottom:6px;">{{ ed.org }}</div>
+                <sc-if value="{{ ed.honors }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:5px;font:700 10.5px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#14213d;background:rgba(20,33,61,.08);padding:5px 9px;border-radius:6px;">★ {{ ed.honors }}</span></sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- languages -->
+      <div class="rv">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;"><span style="font:600 13px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#1d3a6e;">05</span><h2 style="margin:0;font:700 clamp(22px,3vw,30px)/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:-.02em;">{{ ui.sLang }}</h2></div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <sc-for list="{{ languages }}" as="l" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid rgba(16,18,24,.09);border-radius:15px;padding:15px 18px;transition:all .25s;" style-hover="border-color:#14213d;transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,33,61,.09);">
+              <span style="flex:none;width:44px;height:44px;border-radius:50%;background:{{ l.codeBg }};color:{{ l.codeColor }};border:1.5px solid {{ l.codeBorder }};display:flex;align-items:center;justify-content:center;font:700 13px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;">{{ l.code }}</span>
+              <div style="flex:1;min-width:0;">
+                <div style="font:700 16px/1.2 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:#101218;">{{ l.name }}</div>
+                <div style="font:500 11.5px/1.2 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;color:#8a8e98;margin-top:3px;">{{ l.sub }}</div>
+              </div>
+              <span style="flex:none;font:700 11.5px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;letter-spacing:.02em;color:{{ l.pillColor }};background:{{ l.pillBg }};border:1px solid {{ l.pillBorder }};padding:8px 12px;border-radius:999px;white-space:nowrap;">{{ l.level }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- certifications + card -->
+      <div class="rv">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;"><span style="font:600 13px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#1d3a6e;">06</span><h2 style="margin:0;font:700 clamp(22px,3vw,30px)/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:-.02em;">{{ ui.sCert }}</h2></div>
+        <sc-for list="{{ certs }}" as="c" hint-placeholder-count="1">
+          <div style="position:relative;overflow:hidden;background:#0c1322;color:#eef2f9;border-radius:16px;padding:20px 20px 18px;margin-bottom:14px;">
+            <span style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(29,58,110,.5),transparent 70%);pointer-events:none;"></span>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;position:relative;">
+              <span style="flex:none;width:40px;height:40px;border-radius:11px;background:#fff;color:#14213d;display:flex;align-items:center;justify-content:center;font:800 18px/1 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;">✓</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;font:700 9.5px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;letter-spacing:.1em;text-transform:uppercase;color:#7fd1e0;border:1px solid rgba(127,209,224,.35);padding:6px 10px;border-radius:999px;">{{ ui.verified }}</span>
+            </div>
+            <div style="font:700 16px/1.3 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:#fff;margin-bottom:5px;position:relative;">{{ c.title }}</div>
+            <div style="font:600 12px/1.3 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;color:#9aa6c0;margin-bottom:12px;position:relative;">{{ c.org }} · {{ c.date }}</div>
+            <div style="font:500 10.5px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#6f8fd0;border-top:1px solid #1c2740;padding-top:12px;position:relative;">{{ c.id }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <footer id="contact" style="position:relative;margin-top:clamp(30px,4vw,48px);background:#0c1322;color:#eef2f9;padding:clamp(52px,7vw,92px) clamp(20px,5vw,64px) 0;overflow:hidden;">
+    <span style="position:absolute;top:-120px;right:-100px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(29,58,110,.45),transparent 68%);pointer-events:none;"></span>
+    <div style="position:relative;display:flex;flex-wrap:wrap;gap:clamp(32px,5vw,64px);justify-content:space-between;align-items:flex-start;">
+      <div class="rv" style="flex:1 1 380px;min-width:0;max-width:560px;">
+        <div style="display:inline-flex;align-items:center;gap:9px;font:600 12px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;color:#7fd1e0;background:rgba(127,209,224,.08);border:1px solid rgba(127,209,224,.22);padding:8px 14px;border-radius:999px;margin-bottom:22px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#7fd1e0;display:inline-block;animation:pulse 2.4s infinite;"></span>{{ ui.available }}
+        </div>
+        <h2 style="margin:0 0 18px;font:700 clamp(36px,7vw,72px)/.98 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:-.03em;color:#fff;">{{ ui.getInTouch }}</h2>
+        <p style="margin:0 0 30px;font-size:clamp(15px,2vw,18px);line-height:1.6;color:#9aa6c0;max-width:460px;">{{ ui.contactNote }}</p>
+      </div>
+      <div class="rv" style="flex:1 1 300px;min-width:0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;width:100%;">
+        <sc-for list="{{ contacts }}" as="ct" hint-placeholder-count="4">
+          <a href="{{ ct.href }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:#101a2e;border:1px solid #1c2740;border-radius:15px;padding:18px 20px;transition:all .25s;" style-hover="border-color:#1d3a6e;transform:translateY(-4px);background:#13213b;">
+            <span style="width:34px;height:34px;border-radius:10px;background:rgba(127,209,224,.1);color:#7fd1e0;display:flex;align-items:center;justify-content:center;font:700 15px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;">{{ ct.icon }}</span>
+            <span style="font:600 10px/1 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#6f8fd0;text-transform:uppercase;letter-spacing:.12em;">{{ ct.label }}</span>
+            <span style="font:700 14px/1.2 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;color:#fff;word-break:break-all;">{{ ct.value }}</span>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="position:relative;margin-top:clamp(48px,6vw,72px);overflow:hidden;">
+      <div style="font:800 clamp(64px,17vw,220px)/.8 -apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px rgba(127,209,224,.18);white-space:nowrap;user-select:none;pointer-events:none;">AyChEs</div>
+    </div>
+
+    <div style="position:relative;padding:22px 0 30px;border-top:1px solid #1c2740;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font:500 12px/1.4 ui-monospace,'SF Mono',Menlo,Monaco,monospace;color:#5c6b86;">
+      <span>© 2026 {{ name }}</span>
+      <a href="#top" style="text-decoration:none;color:#6f8fd0;display:inline-flex;align-items:center;gap:7px;transition:color .2s;" style-hover="color:#7fd1e0;">↑ {{ ui.backTop }}</a>
+      <span>{{ ui.builtWith }}</span>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { lang: 'es' };
+
+  componentDidMount() {
+    this._onScroll = () => {
+      const el = this.refs && this.refs.barRef;
+      if (!el) return;
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop || document.body.scrollTop) / max * 100 : 0;
+      el.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+
+    this._imgErr = (ev) => {
+      const t = ev.target;
+      if (t && t.tagName === 'IMG' && t.hasAttribute('data-fb')) {
+        t.style.display = 'none';
+        const m = t.parentNode && t.parentNode.querySelector('[data-mono]');
+        if (m) m.style.display = 'flex';
+      }
+    };
+    document.addEventListener('error', this._imgErr, true);
+    this._syncImgs();
+  }
+  componentDidUpdate() {
+    this._syncImgs();
+  }
+  _syncImgs() {
+    const imgs = document.querySelectorAll('#stack img[data-src]');
+    imgs.forEach((im) => {
+      const u = im.getAttribute('data-src');
+      if (u && u !== 'null' && im.getAttribute('src') !== u) im.setAttribute('src', u);
+    });
+  }
+  componentWillUnmount() {
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+    if (this._imgErr) document.removeEventListener('error', this._imgErr, true);
+  }
+
+  data() {
+    const es = this.state.lang === 'es';
+    const tr = (a, b) => (es ? a : b);
+    const DEV = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/';
+    return {
+      es,
+      name: 'Ayman Charoui Essamadi',
+      location: tr('Tarragona, Cataluña · España', 'Tarragona, Catalonia · Spain'),
+      cvHref: '#',
+      marquee: ['Ruby on Rails', 'REST APIs', 'PostgreSQL', 'Laravel', 'Spring Boot', 'React', 'Multi-tenant SaaS', 'i18n', 'CI/CD', 'JWT'],
+      ui: {
+        kicker: tr('Desarrollador Full-Stack', 'Full-Stack Developer'),
+        available: tr('Disponible para nuevas oportunidades', 'Open to new opportunities'),
+        heroA: tr('Del ticket', 'From ticket'),
+        heroB: tr('al', 'to'),
+        heroSub: tr(
+          'Desarrollador backend en Etecnic. Cojo funcionalidades de principio a fin con Ruby on Rails, APIs REST y SaaS multi-tenant.',
+          'Backend developer at Etecnic. I own features end to end with Ruby on Rails, REST APIs and multi-tenant SaaS.'),
+        sStack: 'Stack',
+        sProjects: tr('Proyectos', 'Projects'),
+        sExp: tr('Experiencia', 'Experience'),
+        sEdu: tr('Educación', 'Education'),
+        sCert: tr('Certificaciones', 'Certifications'),
+        sLang: tr('Idiomas', 'Languages'),
+        sContact: tr('Contacto', 'Contact'),
+        concepts: tr('Conceptos', 'Concepts'),
+        inProgress: tr('WIP', 'WIP'),
+        now: tr('Ahora', 'Now'),
+        verified: tr('Verificado', 'Verified'),
+        code: tr('Código', 'Code'),
+        demo: 'Demo',
+        getInTouch: tr('Hablemos', "Let's talk"),
+        cv: tr('Descargar CV', 'Download CV'),
+        backTop: tr('Volver arriba', 'Back to top'),
+        contactNote: tr('Enlaces y CV próximamente — los añado en breve. Mientras tanto, escríbeme por LinkedIn.',
+                        'Links & CV coming soon — adding them shortly. In the meantime, reach me on LinkedIn.'),
+        builtWith: tr('Diseñado y desarrollado con cuidado', 'Designed & built with care')
+      },
+      techGroups: [
+        { num: '01', cat: tr('Lenguajes', 'Languages'), items: [
+          { n: 'Ruby', s: 'ruby/ruby-original.svg' },
+          { n: 'PHP', s: 'php/php-original.svg' },
+          { n: 'Java', s: 'java/java-original.svg' },
+          { n: 'JavaScript', s: 'javascript/javascript-original.svg', m: 'JS' },
+          { n: 'SQL', s: null, m: 'SQL' }
+        ]},
+        { num: '02', cat: 'Frameworks', items: [
+          { n: 'Rails', s: 'rails/rails-plain.svg' },
+          { n: 'Laravel', s: 'laravel/laravel-original.svg' },
+          { n: 'Spring', s: 'spring/spring-original.svg' },
+          { n: 'React', s: 'react/react-original.svg' }
+        ]},
+        { num: '03', cat: tr('Bases de datos', 'Databases'), items: [
+          { n: 'PostgreSQL', s: 'postgresql/postgresql-original.svg', m: 'Pg' },
+          { n: 'MySQL', s: 'mysql/mysql-original.svg' }
+        ]},
+        { num: '04', cat: tr('Herramientas', 'Tools'), items: [
+          { n: 'Git', s: 'git/git-original.svg' },
+          { n: 'Postman', s: 'postman/postman-original.svg' },
+          { n: 'JIRA', s: 'jira/jira-original.svg' },
+          { n: 'RubyMine', s: null, m: 'RM' },
+          { n: 'RSpec', s: null, m: 'RS' },
+          { n: 'CI/CD', s: null, m: 'CI' }
+        ]}
+      ],
+      concepts: [tr('APIs REST', 'REST APIs'), tr('SaaS multi-tenant', 'Multi-tenant SaaS'), 'i18n', tr('JWT & permisos', 'JWT & permissions'), tr('Generación de PDFs', 'PDF generation')],
+      projects: [
+        { title: 'Hotel ERP System', imgId: 'proj-hotel', imgPh: tr('Imagen del proyecto', 'Project image'), tags: ['Java', 'Spring Security', 'React', 'JUnit'], file: 'hotel-erp.java',
+          desc: tr('Plataforma de administración empresarial con seguridad robusta (JWT), control de acceso por roles y dashboards de reporting.',
+                   'Enterprise administration platform with robust security (JWT), role-based access control, and reporting dashboards.'),
+          inProgress: false, hasLinks: true, code: '#', demo: '#' },
+        { title: 'CineFlow Booking Engine', imgId: 'proj-cineflow', imgPh: tr('Imagen del proyecto', 'Project image'), tags: ['PHP · Laravel', 'MySQL', 'Stripe API', 'JS'], file: 'cineflow.php',
+          desc: tr('Sistema completo de reservas de cine con bloqueo de butacas en tiempo real (concurrencia) y lógica de precios dinámicos.',
+                   'Complete cinema reservation system featuring real-time seat locking concurrency and dynamic pricing logic.'),
+          inProgress: false, hasLinks: true, code: '#', demo: '#' },
+        { title: tr('Nuevo proyecto', 'New project'), imgId: 'proj-wip', imgPh: tr('Próximamente', 'Coming soon'), tags: [tr('Por definir', 'TBD')], file: 'wip.rb',
+          desc: tr('En construcción. Pronto añadiré los detalles aquí.', 'Under construction. Details coming soon here.'),
+          inProgress: true, hasLinks: false, code: '#', demo: '#' }
+      ],
+      experience: [
+        { role: tr('Desarrollador Backend', 'Backend Developer'), org: 'Etecnic', mono: 'E', current: true, type: tr('Jornada completa', 'Full-time'),
+          period: tr('mar 2026 — Actualidad', 'Mar 2026 — Present'), place: tr('Tarragona · Presencial', 'Tarragona · On-site'),
+          bullets: [
+            tr('Migré la generación de PDFs de facturas a una pipeline basada en HTML y CSS, adaptada para entornos de integración continua.',
+               'Migrated invoice PDF generation to an HTML/CSS-based pipeline, adapted to run in continuous-integration environments.'),
+            tr('Entregué la internacionalización de facturas en 9 idiomas, con resolución automática del idioma según el cliente.',
+               'Delivered invoice internationalization in 9 languages, resolving the language automatically per client.'),
+            tr('Construí endpoints REST con control de permisos, cubiertos con tests de distintos tipos.',
+               'Built REST endpoints with permission control, covered by several types of tests.'),
+            tr('Contribuí a un sistema de branding por dominio que genera documentos personalizados para cada cliente.',
+               'Contributed to a per-domain branding system generating personalized documents for each client.')
+          ] },
+        { role: tr('Desarrollador Backend · Prácticas', 'Backend Developer · Intern'), org: 'Etecnic', mono: 'E', current: false, type: tr('Prácticas', 'Internship'),
+          period: tr('jul 2025 — mar 2026', 'Jul 2025 — Mar 2026'), place: tr('Tarragona · Presencial', 'Tarragona · On-site'),
+          bullets: [
+            tr('Prácticas en el mismo equipo de backend, compaginadas con los estudios.', 'Internship in the same backend team, combined with my studies.'),
+            tr('Primeros pasos en un entorno de producción real con Ruby on Rails.', 'First steps in a real production environment with Ruby on Rails.')
+          ] },
+        { role: tr('Técnico Informático · Prácticas', 'IT Technician · Intern'), org: 'The British School of Costa Daurada', mono: 'B', current: false, type: tr('Prácticas', 'Internship'),
+          period: tr('ene — may 2024', 'Jan — May 2024'), place: tr('Tarragona · Presencial', 'Tarragona · On-site'),
+          bullets: [
+            tr('Soporte técnico en sistemas operativos y redes.', 'Technical support across operating systems and networks.'),
+            tr('Automatización de tareas y administración de sistemas.', 'Task automation and systems administration.')
+          ] }
+      ],
+      education: [
+        { mono: 'FV', title: tr('Téc. Superior en Desarrollo de Aplicaciones Web (DAW)', 'Higher Diploma in Web Application Development (DAW)'),
+          org: 'Institut Francesc Vidal i Barraquer', period: '2024 — 2026', honors: null,
+          note: '' },
+        { mono: 'FV', title: tr('Téc. en Sistemas Microinformáticos y Redes', 'Diploma in Microcomputer Systems & Networks'),
+          org: 'Institut Francesc Vidal i Barraquer', period: '2022 — 2024', honors: tr('Honores · 8.6/10', 'Honors · 8.6/10'),
+          note: '' }
+      ],
+      certs: [
+        { title: 'Full Stack Web Development', org: 'Amazon', date: tr('jul 2025', 'Jul 2025'), id: 'ID 1SUXINCID97O' }
+      ],
+      languages: [
+        { name: tr('Español', 'Spanish'), code: 'ES', level: tr('Nativo', 'Native'), sub: tr('Lengua materna', 'Mother tongue'), tier: 5 },
+        { name: tr('Catalán', 'Catalan'), code: 'CA', level: tr('Nativo', 'Native'), sub: tr('Bilingüe', 'Bilingual'), tier: 5 },
+        { name: tr('Árabe', 'Arabic'), code: 'AR', level: tr('Profesional', 'Professional'), sub: tr('Competencia profesional', 'Full professional'), tier: 4 },
+        { name: tr('Inglés', 'English'), code: 'EN', level: 'B2', sub: tr('Profesional limitada', 'Limited working'), tier: 3 }
+      ]
+    };
+  }
+
+  renderVals() {
+    const d = this.data();
+    const DEV = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/';
+
+    const techGroups = d.techGroups.map(g => ({
+      ...g,
+      items: g.items.map(s => ({
+        n: s.n,
+        icon: s.s ? DEV + s.s : null,
+        noIcon: !s.s,
+        m: s.m || s.n.slice(0, 2)
+      }))
+    }));
+
+    const experience = d.experience.map(e => ({
+      ...e,
+      badgeBg: e.current ? '#14213d' : '#fff',
+      badgeColor: e.current ? '#fff' : '#14213d',
+      badgeBorder: e.current ? '#14213d' : 'rgba(20,33,61,.22)',
+      badgeAnim: e.current ? 'animation:ring 2.6s infinite;' : ''
+    }));
+
+    const languages = d.languages.map(l => {
+      const strong = l.tier >= 5;
+      return {
+        ...l,
+        codeBg: strong ? '#14213d' : 'rgba(20,33,61,.06)',
+        codeColor: strong ? '#fff' : '#14213d',
+        codeBorder: strong ? '#14213d' : 'rgba(20,33,61,.2)',
+        pillBg: strong ? '#14213d' : 'transparent',
+        pillColor: strong ? '#fff' : '#14213d',
+        pillBorder: strong ? '#14213d' : 'rgba(20,33,61,.28)'
+      };
+    });
+
+    return {
+      ...d,
+      techGroups,
+      experience,
+      languages,
+      esBg: this.state.lang === 'es' ? '#14213d' : 'transparent',
+      esColor: this.state.lang === 'es' ? '#ffffff' : '#5a5e69',
+      enBg: this.state.lang === 'en' ? '#14213d' : 'transparent',
+      enColor: this.state.lang === 'en' ? '#ffffff' : '#5a5e69',
+      setEs: () => this.setState({ lang: 'es' }),
+      setEn: () => this.setState({ lang: 'en' }),
+      contacts: [
+        { label: 'LinkedIn', icon: 'in', value: '/in/ayches', href: 'https://www.linkedin.com/in/ayches' },
+        { label: 'Email', icon: '@', value: this.state.lang === 'es' ? 'añadir' : 'add', href: '#' },
+        { label: 'GitHub', icon: '⌥', value: this.state.lang === 'es' ? 'añadir' : 'add', href: '#' },
+        { label: 'CV (PDF)', icon: '↓', value: this.state.lang === 'es' ? 'añadir' : 'add', href: '#' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
