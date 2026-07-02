@@ -4,13 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AyChEs — Ayman Charoui · Desarrollador Full-Stack</title>
-<meta name="description" content="Portafolio de Ayman Charoui Essamadi (AyChEs), desarrollador full-stack en Etecnic: Ruby on Rails, APIs REST, SaaS multi-tenant, Laravel, Spring y React.">
+<meta name="description" content="Portafolio de Ayman Charoui Essamadi (AyChEs), desarrollador full-stack en Etecnic: Ruby on Rails, APIs REST, SaaS multi-tenant, Laravel, Spring y React. Software útil, hecho con cuidado.">
 <meta name="author" content="Ayman Charoui Essamadi">
 <meta property="og:title" content="AyChEs — Ayman Charoui · Desarrollador Full-Stack">
-<meta property="og:description" content="Del ticket al merge. Desarrollador backend en Etecnic — Ruby on Rails, APIs REST y SaaS multi-tenant.">
+<meta property="og:description" content="Del ticket al merge. Software útil, hecho con cuidado — v2.0, en producción desde 2025.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#fafafa">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('theme');
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+})();
+</script>
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -21,7 +32,11 @@
 <div class="blob blob-b" aria-hidden="true"></div>
 
 <nav class="nav">
-  <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">AE</span>AyChEs</a>
+  <a class="brand" href="#top">
+    <span class="brand-mark" aria-hidden="true">AE</span>
+    <span class="brand-word">AyChEs<span class="brand-cursor" aria-hidden="true">_</span></span>
+    <span class="ver-chip" title="en producción desde 2025">v2</span>
+  </a>
   <div class="nav-right">
     <div class="nav-links">
       <a href="#stack">Stack</a>
@@ -29,6 +44,10 @@
       <a href="#experience" data-en="Experience">Experiencia</a>
       <a href="#contact" data-en="Contact">Contacto</a>
     </div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema / Toggle theme">
+      <svg class="ic-moon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M20.8 13.2A8.5 8.5 0 1 1 10.8 3.2a7 7 0 0 0 10 10z"/></svg>
+      <svg class="ic-sun" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none"/><path d="M12 2.6v2M12 19.4v2M2.6 12h2M19.4 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+    </button>
     <div class="lang-toggle" role="group" aria-label="Idioma / Language">
       <button type="button" data-lang="es" class="active" aria-pressed="true">ES</button>
       <button type="button" data-lang="en" aria-pressed="false">EN</button>
@@ -51,23 +70,30 @@
       </h1>
       <p class="hero-sub hero-in hero-in-4" data-en="Backend developer at Etecnic. I own features end to end with Ruby on Rails, REST APIs and multi-tenant SaaS.">Desarrollador backend en Etecnic. Cojo funcionalidades de principio a fin con Ruby on Rails, APIs REST y SaaS multi-tenant.</p>
       <div class="hero-ctas hero-in hero-in-5">
-        <a class="btn btn-primary" href="#contact"><span data-en="Let's talk">Hablemos</span> <span class="mono" aria-hidden="true">→</span></a>
-        <a class="btn btn-ghost" href="#" data-en="Download CV">Descargar CV</a>
+        <a class="btn btn-primary" href="#contact" data-mag><span data-en="Let's talk">Hablemos</span> <span class="mono" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#" data-mag data-en="Download CV">Descargar CV</a>
+      </div>
+      <div class="hero-stats hero-in hero-in-6">
+        <div class="stat"><span class="stat-n" data-count="9">9</span><span class="stat-l" data-en="languages in invoicing">idiomas en facturación</span></div>
+        <div class="stat"><span class="stat-n" data-count="4">4</span><span class="stat-l" data-en="languages I speak">idiomas hablados</span></div>
+        <div class="stat"><span class="stat-n" data-count="13">13</span><span class="stat-l" data-en="technologies in the stack">tecnologías en el stack</span></div>
       </div>
     </div>
 
-    <div class="hero-card hero-in hero-in-6">
-      <div class="code-card">
-        <div class="code-head">
-          <span class="wd wd-1"></span><span class="wd wd-2"></span><span class="wd wd-3"></span>
-          <span class="code-file">developer.rb</span>
-        </div>
-        <pre class="code-body" aria-label="class Developer — Ayman Charoui, Full-Stack Developer, Rails · REST · SaaS, Etecnic"><span class="tk-kw">class</span> <span class="tk-cl">Developer</span>
+    <div class="hero-card hero-in hero-in-7">
+      <div class="tilt">
+        <div class="code-card">
+          <div class="code-head">
+            <span class="wd wd-1"></span><span class="wd wd-2"></span><span class="wd wd-3"></span>
+            <span class="code-file">developer.rb</span>
+          </div>
+          <pre class="code-body" aria-label="class Developer — Ayman Charoui, Full-Stack Developer, Rails · REST · SaaS, Etecnic"><span class="tk-kw">class</span> <span class="tk-cl">Developer</span>
   <span class="tk-pr">name</span>  = <span class="tk-st">"Ayman Charoui"</span>
   <span class="tk-pr">role</span>  = <span class="tk-st">"Full-Stack Developer"</span>
   <span class="tk-pr">stack</span> = [<span class="tk-st">"Rails"</span>, <span class="tk-st">"REST"</span>, <span class="tk-st">"SaaS"</span>]
   <span class="tk-pr">at</span>    = <span class="tk-st">"Etecnic"</span>
 <span class="tk-kw">end</span><span class="cursor" aria-hidden="true">▌</span></pre>
+        </div>
       </div>
     </div>
   </div>
@@ -84,6 +110,32 @@
     </div>
   </div>
 </header>
+
+<!-- PRINCIPLES (manifiesto de marca) -->
+<section id="principles" class="section">
+  <div class="section-head rv">
+    <span class="sec-num">00</span>
+    <h2 data-en="How I work">Cómo trabajo</h2>
+    <span class="sec-line dl" aria-hidden="true"></span>
+  </div>
+  <div class="prin-grid">
+    <article class="prin-card rvs">
+      <span class="prin-tag" aria-hidden="true">// principio_01</span>
+      <h3 data-en="No smoke">Sin humo</h3>
+      <p data-en="What you see is what I know. No inflated years, no decorative skills: I'm a junior and my code already runs in production.">Lo que ves es lo que sé. Ni años inflados ni skills de adorno: soy junior y mi código ya factura en producción.</p>
+    </article>
+    <article class="prin-card rvs">
+      <span class="prin-tag" aria-hidden="true">// principio_02</span>
+      <h3 data-en="Attentive">Atento</h3>
+      <p data-en="To the detail in the code and to the people on the team. Both — that's what makes work comfortable.">Al detalle del código y a las personas del equipo. Las dos cosas — eso es lo que hace cómodo el trabajo.</p>
+    </article>
+    <article class="prin-card rvs">
+      <span class="prin-tag" aria-hidden="true">// principio_03</span>
+      <h3 data-en="Useful">Útil</h3>
+      <p data-en="I build things to be used. If it doesn't help someone, it doesn't get built.">Construyo para que se use. Si no le sirve a alguien, no se construye.</p>
+    </article>
+  </div>
+</section>
 
 <!-- STACK -->
 <section id="stack" class="section">
@@ -160,8 +212,8 @@
         <p data-en="Enterprise administration platform with robust security (JWT), role-based access control, and reporting dashboards.">Plataforma de administración empresarial con seguridad robusta (JWT), control de acceso por roles y dashboards de reporting.</p>
         <div class="project-tags"><span>Java</span><span>Spring Security</span><span>React</span><span>JUnit</span></div>
         <div class="project-links">
-          <a class="btn-code" href="#">↗ <span data-en="Code">Código</span></a>
-          <a class="btn-demo" href="#">↗ Demo</a>
+          <a class="btn-code" href="#" data-mag>↗ <span data-en="Code">Código</span></a>
+          <a class="btn-demo" href="#" data-mag>↗ Demo</a>
         </div>
       </div>
     </article>
@@ -176,8 +228,8 @@
         <p data-en="Complete cinema reservation system featuring real-time seat locking concurrency and dynamic pricing logic.">Sistema completo de reservas de cine con bloqueo de butacas en tiempo real (concurrencia) y lógica de precios dinámicos.</p>
         <div class="project-tags"><span>PHP · Laravel</span><span>MySQL</span><span>Stripe API</span><span>JS</span></div>
         <div class="project-links">
-          <a class="btn-code" href="#">↗ <span data-en="Code">Código</span></a>
-          <a class="btn-demo" href="#">↗ Demo</a>
+          <a class="btn-code" href="#" data-mag>↗ <span data-en="Code">Código</span></a>
+          <a class="btn-demo" href="#" data-mag>↗ Demo</a>
         </div>
       </div>
     </article>
@@ -208,10 +260,23 @@
   <div class="timeline">
     <span class="timeline-line" aria-hidden="true"></span>
 
+    <div class="tl-entry tl-roadmap rvx">
+      <span class="tl-node roadmap" aria-hidden="true"></span>
+      <article class="tl-card">
+        <div class="tl-meta">
+          <span class="tl-ver">v3.0</span>
+          <span class="tl-period">roadmap</span>
+        </div>
+        <h3 data-en="Next level">Siguiente nivel</h3>
+        <p class="tl-org" data-en="Leading projects end to end · building useful products of my own">Liderar proyectos de principio a fin · construir producto propio útil</p>
+      </article>
+    </div>
+
     <div class="tl-entry rvx">
       <span class="tl-node current" aria-hidden="true"></span>
       <article class="tl-card">
         <div class="tl-meta">
+          <span class="tl-ver">v2.0</span>
           <span class="tl-period" data-en="Mar 2026 — Present">mar 2026 — Actualidad</span>
           <span class="tl-now"><span class="tl-now-dot" aria-hidden="true"></span><span data-en="Now">Ahora</span></span>
         </div>
@@ -230,6 +295,7 @@
       <span class="tl-node" aria-hidden="true"></span>
       <article class="tl-card">
         <div class="tl-meta">
+          <span class="tl-ver">v1.0</span>
           <span class="tl-period" data-en="Jul 2025 — Mar 2026">jul 2025 — mar 2026</span>
         </div>
         <h3 data-en="Backend Developer · Intern">Desarrollador Backend · Prácticas</h3>
@@ -245,6 +311,7 @@
       <span class="tl-node" aria-hidden="true"></span>
       <article class="tl-card">
         <div class="tl-meta">
+          <span class="tl-ver">v0.1</span>
           <span class="tl-period" data-en="Jan — May 2024">ene — may 2024</span>
         </div>
         <h3 data-en="IT Technician · Intern">Técnico Informático · Prácticas</h3>
@@ -378,7 +445,7 @@
   <div class="footer-wordmark" aria-hidden="true">AyChEs</div>
 
   <div class="footer-bar">
-    <span>© 2026 Ayman Charoui Essamadi</span>
+    <span>© 2026 Ayman Charoui Essamadi · <span class="ver-inline" data-en="v2.0 — in production since 2025">v2.0 — en producción desde 2025</span></span>
     <a href="#top">↑ <span data-en="Back to top">Volver arriba</span></a>
     <span data-en="Designed &amp; built with care">Diseñado y desarrollado con cuidado</span>
   </div>
