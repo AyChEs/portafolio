@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="460" viewBox="0 0 800 460">
+  <defs>
+    <radialGradient id="glow" cx="82%" cy="12%" r="70%">
+      <stop offset="0%" stop-color="#1d3a6e" stop-opacity=".55"/>
+      <stop offset="70%" stop-color="#1d3a6e" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1c2740" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="460" fill="#0c1322"/>
+  <rect width="800" height="460" fill="url(#grid)"/>
+  <rect width="800" height="460" fill="url(#glow)"/>
+  <g font-family="ui-monospace,Menlo,Monaco,monospace">
+    <rect x="290" y="160" width="220" height="96" rx="18" fill="#101a2e" stroke="#1c2740"/>
+    <text x="400" y="222" font-size="44" font-weight="700" fill="#7fd1e0" text-anchor="middle">ERP</text>
+    <text x="400" y="300" font-size="17" fill="#6f8fd0" text-anchor="middle">hotel-erp.java</text>
+  </g>
+</svg>

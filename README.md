@@ -1,3 +1,31 @@
+# Portafolio — Ayman Charoui (AyChEs)
+
+Sitio estático de producción (HTML/CSS/JS puro, sin dependencias ni build) que implementa el handoff de diseño descrito más abajo.
+
+## Estructura
+
+- `index.html` — la página completa (ES por defecto, toggle EN en la nav)
+- `css/styles.css` — estilos y animaciones (scroll-driven con `animation-timeline: view()` + fallback IntersectionObserver)
+- `js/main.js` — barra de progreso, reveals, toggle de idioma (persistido en `localStorage`), fallback de logos
+- `assets/logos/` — logos devicon auto-hospedados (MIT, ver `LICENSE-devicon.txt`)
+- `assets/projects/` — imágenes placeholder de proyectos: **sustituir por capturas reales** (mismo nombre de archivo o actualizar `index.html`)
+- `portafolio-source.html` — prototipo de referencia del diseño (no desplegar)
+
+## Desarrollo local
+
+No hay build: `python3 -m http.server 8000` (o cualquier servidor estático) y abrir `http://localhost:8000`.
+
+## Despliegue (GitHub Pages)
+
+Settings → Pages → Source: *Deploy from a branch* → `main` / root. El sitio queda en `https://ayches.github.io/portafolio/`.
+
+## Pendiente
+
+- [ ] Subir el CV en PDF y enlazarlo (botón del hero y tarjeta "CV (PDF)" del footer, ahora `#`)
+- [ ] Sustituir las imágenes placeholder de los 3 proyectos y enlazar Código/Demo reales
+
+---
+
 # Handoff: Portafolio Web Personal — Ayman Charoui (AyChEs)
 
 ## Overview
