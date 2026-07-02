@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="460" viewBox="0 0 800 460">
+  <defs>
+    <radialGradient id="glow" cx="16%" cy="14%" r="70%">
+      <stop offset="0%" stop-color="#1d3a6e" stop-opacity=".55"/>
+      <stop offset="70%" stop-color="#1d3a6e" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1c2740" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="460" fill="#0c1322"/>
+  <rect width="800" height="460" fill="url(#grid)"/>
+  <rect width="800" height="460" fill="url(#glow)"/>
+  <!-- seat map motif -->
+  <g fill="#101a2e" stroke="#1c2740">
+    <rect x="250" y="150" width="44" height="38" rx="9"/><rect x="306" y="150" width="44" height="38" rx="9"/><rect x="362" y="150" width="44" height="38" rx="9"/><rect x="418" y="150" width="44" height="38" rx="9"/><rect x="474" y="150" width="44" height="38" rx="9"/>
+    <rect x="250" y="202" width="44" height="38" rx="9"/><rect x="418" y="202" width="44" height="38" rx="9"/><rect x="474" y="202" width="44" height="38" rx="9"/>
+  </g>
+  <g fill="#1d3a6e" stroke="#7fd1e0" stroke-opacity=".6">
+    <rect x="306" y="202" width="44" height="38" rx="9"/><rect x="362" y="202" width="44" height="38" rx="9"/>
+  </g>
+  <path d="M240 120 Q400 96 560 120" fill="none" stroke="#7fd1e0" stroke-opacity=".5" stroke-width="3"/>
+  <text x="400" y="300" font-family="ui-monospace,Menlo,Monaco,monospace" font-size="17" fill="#6f8fd0" text-anchor="middle">cineflow.php</text>
+</svg>
