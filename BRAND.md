@@ -141,8 +141,13 @@ gana con **precisión de taller** (detalles milimétricos), no con estridencia.
 - **Chip de versión "v2"** junto al wordmark — el elemento de marca que crece contigo.
 
 ### Tipografía
-Sistema dual humano/máquina: SF Pro (sans) para lo humano, **SF Mono para lo "de taller"**
-(versiones, fechas, etiquetas, principios). La dualidad es parte del lenguaje.
+Tres voces:
+- **Display: Bricolage Grotesque** (variable, OFL, autoalojada, ~60 KB) — grotesca con
+  carácter artesanal: la voz del taller. Titulares, wordmark, nombres de proyecto.
+- **Texto: SF Pro / system** — lo humano, invisible y legible.
+- **Mono: SF Mono / ui-monospace** — lo "de taller": versiones, fechas, etiquetas, principios.
+
+La tríada display-con-carácter / texto-neutro / mono-técnico es parte del lenguaje.
 
 ### Motion — el taller en movimiento (mapeado del proyectivo)
 - **imán** → botones magnéticos (atracción sutil al cursor).

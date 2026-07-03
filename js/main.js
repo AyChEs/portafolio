@@ -19,21 +19,92 @@
   if (themeMeta) themeMeta.setAttribute('content', THEME_COLORS[docEl.getAttribute('data-theme')] || THEME_COLORS.light);
 
   document.getElementById('themeToggle').addEventListener('click', function () {
-    applyTheme(docEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    var next = docEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    if (document.startViewTransition && !reduceMotion) {
+      document.startViewTransition(function () { applyTheme(next); });
+    } else {
+      applyTheme(next);
+    }
   });
+
+  /* ------------------------------------------------------------------
+     Boot loader — "$ ayches --version" (once per session)
+     ------------------------------------------------------------------ */
+  var booted = false;
+  try { booted = sessionStorage.getItem('booted') === '1'; } catch (e) { /* ok */ }
+
+  function ready() { docEl.classList.add('ready'); startTypewriter(); }
+
+  if (booted || reduceMotion) {
+    ready();
+  } else {
+    var boot = document.createElement('div');
+    boot.className = 'boot';
+    boot.setAttribute('aria-hidden', 'true');
+    boot.innerHTML = '<div class="boot-inner">' +
+      '<div class="boot-line"><span class="boot-prompt">$ </span><span id="bootCmd"></span><span class="boot-caret"></span></div>' +
+      '<div class="boot-line boot-ver" id="bootOut"></div></div>';
+    document.body.appendChild(boot);
+    try { sessionStorage.setItem('booted', '1'); } catch (e) { /* ok */ }
+
+    var cmd = 'ayches --version';
+    var cmdEl = document.getElementById('bootCmd');
+    var i = 0;
+    (function typeCmd() {
+      if (i <= cmd.length) {
+        cmdEl.textContent = cmd.slice(0, i);
+        i++;
+        setTimeout(typeCmd, 26);
+      } else {
+        setTimeout(function () {
+          document.getElementById('bootOut').textContent = 'v2.0 · shipping desde 2025';
+          setTimeout(function () {
+            boot.classList.add('away');
+            ready();
+            setTimeout(function () { boot.remove(); }, 700);
+          }, 420);
+        }, 160);
+      }
+    })();
+  }
+
+  /* ------------------------------------------------------------------
+     Code card typewriter — the hero code writes itself
+     ------------------------------------------------------------------ */
+  function startTypewriter() {
+    if (reduceMotion) return;
+    var pre = document.querySelector('.code-body');
+    if (!pre) return;
+    var nodes = [];
+    (function walk(n) {
+      n.childNodes.forEach(function (c) {
+        if (c.nodeType === 3) { nodes.push([c, c.nodeValue]); c.nodeValue = ''; }
+        else walk(c);
+      });
+    })(pre);
+    var ni = 0, ci = 0;
+    setTimeout(function tick() {
+      if (ni >= nodes.length) return;
+      var pair = nodes[ni];
+      ci++;
+      pair[0].nodeValue = pair[1].slice(0, ci);
+      if (ci >= pair[1].length) { ni++; ci = 0; }
+      setTimeout(tick, 7);
+    }, 850);
+  }
 
   /* ------------------------------------------------------------------
      Scroll progress bar
      ------------------------------------------------------------------ */
   var bar = document.querySelector('.progress');
-  function onScroll() {
+  function onScrollBar() {
     var h = docEl;
     var max = h.scrollHeight - h.clientHeight;
     var pct = max > 0 ? ((h.scrollTop || document.body.scrollTop) / max) * 100 : 0;
     bar.style.width = pct + '%';
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  window.addEventListener('scroll', onScrollBar, { passive: true });
+  onScrollBar();
 
   /* ------------------------------------------------------------------
      Scroll reveals — IntersectionObserver fallback when the browser
@@ -54,17 +125,46 @@
   }
 
   /* ------------------------------------------------------------------
-     Tech logo fallback — swap to the monogram if an SVG fails to load
+     "Seen" observer — triggers H2 char staggers & media clip reveals
      ------------------------------------------------------------------ */
-  document.querySelectorAll('img[data-fb]').forEach(function (img) {
-    function fallback() {
-      img.hidden = true;
-      var mono = img.parentNode.querySelector('.tech-mono');
-      if (mono) mono.hidden = false;
-    }
-    if (img.complete && img.naturalWidth === 0) fallback();
-    else img.addEventListener('error', fallback);
-  });
+  if ('IntersectionObserver' in window) {
+    var seenIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('seen');
+          seenIO.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.2 });
+    document.querySelectorAll('.section-head, .project-media').forEach(function (el) { seenIO.observe(el); });
+  } else {
+    document.querySelectorAll('.section-head, .project-media').forEach(function (el) { el.classList.add('seen'); });
+  }
+
+  /* ------------------------------------------------------------------
+     Section H2 — split into per-character spans (re-split on lang change)
+     ------------------------------------------------------------------ */
+  function splitH2(h2) {
+    var text = h2.textContent;
+    h2.textContent = '';
+    var idx = 0;
+    text.split(' ').forEach(function (word, w, arr) {
+      var wEl = document.createElement('span');
+      wEl.className = 'word';
+      for (var k = 0; k < word.length; k++) {
+        var c = document.createElement('span');
+        c.className = 'ch';
+        c.style.setProperty('--i', idx++);
+        c.textContent = word[k];
+        wEl.appendChild(c);
+      }
+      h2.appendChild(wEl);
+      if (w < arr.length - 1) h2.appendChild(document.createTextNode(' '));
+    });
+  }
+  function splitAllH2() {
+    document.querySelectorAll('.section-head h2').forEach(splitH2);
+  }
 
   /* ------------------------------------------------------------------
      Language toggle (ES default). Spanish copy lives in the markup;
@@ -76,9 +176,13 @@
   };
   var langButtons = document.querySelectorAll('.lang-toggle button');
 
+  /* Capture Spanish originals up front (scramble & splits mutate text) */
+  document.querySelectorAll('[data-en]').forEach(function (el) {
+    if (!el.hasAttribute('data-es')) el.setAttribute('data-es', el.textContent);
+  });
+
   function setLang(lang) {
     document.querySelectorAll('[data-en]').forEach(function (el) {
-      if (!el.hasAttribute('data-es')) el.setAttribute('data-es', el.textContent);
       el.textContent = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-es');
     });
     docEl.lang = lang;
@@ -89,6 +193,7 @@
       b.setAttribute('aria-pressed', String(active));
     });
     try { localStorage.setItem('lang', lang); } catch (e) { /* storage unavailable */ }
+    splitAllH2();
   }
 
   langButtons.forEach(function (b) {
@@ -98,6 +203,20 @@
   var savedLang = null;
   try { savedLang = localStorage.getItem('lang'); } catch (e) { /* storage unavailable */ }
   if (savedLang === 'en') setLang('en');
+  else splitAllH2();
+
+  /* ------------------------------------------------------------------
+     Tech logo fallback — swap to the monogram if an SVG fails to load
+     ------------------------------------------------------------------ */
+  document.querySelectorAll('img[data-fb]').forEach(function (img) {
+    function fallback() {
+      img.hidden = true;
+      var mono = img.parentNode.querySelector('.tech-mono');
+      if (mono) mono.hidden = false;
+    }
+    if (img.complete && img.naturalWidth === 0) fallback();
+    else img.addEventListener('error', fallback);
+  });
 
   /* ------------------------------------------------------------------
      Hero stats count-up (brand: growth made visible)
@@ -115,13 +234,74 @@
           el.textContent = String(Math.round(target * p));
           if (p < 1) requestAnimationFrame(step);
         });
-      }, 650);
+      }, 1000);
     });
+  }
+
+  /* ------------------------------------------------------------------
+     Marquee — skew with scroll velocity ("el taller en movimiento")
+     ------------------------------------------------------------------ */
+  var marquee = document.querySelector('.marquee');
+  if (marquee && !reduceMotion) {
+    var lastY = window.scrollY, skew = 0, targetSkew = 0;
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      targetSkew = Math.max(-4, Math.min(4, (y - lastY) * 0.22));
+      lastY = y;
+    }, { passive: true });
+    (function skewLoop() {
+      targetSkew *= 0.86;
+      skew += (targetSkew - skew) * 0.12;
+      marquee.style.setProperty('--mskew', skew.toFixed(3) + 'deg');
+      requestAnimationFrame(skewLoop);
+    })();
+  }
+
+  /* ------------------------------------------------------------------
+     Footer wordmark — fills with cyan as it scrolls into view
+     ------------------------------------------------------------------ */
+  var wm = document.querySelector('.footer-wordmark');
+  if (wm && !reduceMotion) {
+    function wmFill() {
+      var r = wm.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var p = (vh - r.top) / (vh * 0.6);
+      p = Math.max(0, Math.min(1, p));
+      wm.style.setProperty('--wm', (p * 100).toFixed(1) + '%');
+    }
+    window.addEventListener('scroll', wmFill, { passive: true });
+    wmFill();
   }
 
   /* The signature interactions below only run on fine pointers
      without reduced motion — touch devices get the plain experience. */
   if (!finePointer || reduceMotion) return;
+
+  /* ------------------------------------------------------------------
+     Scramble/decode hover on nav links & brand ("descifrado")
+     ------------------------------------------------------------------ */
+  var GLYPHS = '<>-_\\/[]{}=+*^?#";:';
+  function scramble(el) {
+    if (el._scr) return;
+    var original = el.textContent;
+    var frame = 0, total = Math.max(10, original.length * 2);
+    el._scr = true;
+    (function step() {
+      frame++;
+      var out = '';
+      for (var k = 0; k < original.length; k++) {
+        if (original[k] === ' ') { out += ' '; continue; }
+        var reveal = (frame / total) * original.length * 1.4;
+        out += k < reveal ? original[k] : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+      }
+      el.textContent = out;
+      if (frame < total) requestAnimationFrame(step);
+      else { el.textContent = original; el._scr = false; }
+    })();
+  }
+  document.querySelectorAll('.nav-links a, .brand-txt').forEach(function (el) {
+    el.addEventListener('mouseenter', function () { scramble(el); });
+  });
 
   /* ------------------------------------------------------------------
      Custom cursor — dot + trailing ring ("cometa")
@@ -145,7 +325,6 @@
   }, { passive: true });
 
   document.addEventListener('mouseleave', function () { dot.classList.add('hidden'); ringEl.classList.add('hidden'); cursorSeen = false; });
-  document.addEventListener('mouseenter', function () { if (cursorSeen) return; });
 
   (function trail() {
     rx += (mx - rx) * 0.16;
@@ -162,11 +341,6 @@
   document.addEventListener('mouseout', function (e) {
     if (e.target.closest(HOVERABLE)) ringEl.classList.remove('hov');
   }, { passive: true });
-
-  /* Note: .cur-dot uses transform for position; CSS translate(-50%,-50%)
-     is replaced by the -3.5px offset above, so drop the CSS one. */
-  dot.style.top = '0'; dot.style.left = '0';
-  ringEl.style.top = '0'; ringEl.style.left = '0';
 
   /* ------------------------------------------------------------------
      Magnetic buttons ("imán") — subtle pull toward the cursor
