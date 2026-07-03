@@ -258,6 +258,62 @@
   }
 
   /* ------------------------------------------------------------------
+     Scroll rail — vertical spine connecting every section. Fill tracks
+     overall scroll progress; nodes light up for the active section
+     (mirrors the Experience timeline's node language, page-wide).
+     ------------------------------------------------------------------ */
+  var rail = document.querySelector('.rail');
+  if (rail) {
+    var railFill = rail.querySelector('.rail-fill');
+    function onRailFill() {
+      var max = docEl.scrollHeight - docEl.clientHeight;
+      var p = max > 0 ? (docEl.scrollTop || document.body.scrollTop) / max : 0;
+      railFill.style.setProperty('--rail-p', Math.max(0, Math.min(1, p)).toFixed(3));
+    }
+    window.addEventListener('scroll', onRailFill, { passive: true });
+    onRailFill();
+
+    var railTargets = { top: document.querySelector('.hero') };
+    ['principles', 'stack', 'projects', 'experience', 'formation', 'contact'].forEach(function (id) {
+      railTargets[id] = document.getElementById(id);
+    });
+    var railDots = {};
+    rail.querySelectorAll('.rail-dots li').forEach(function (li) {
+      railDots[li.getAttribute('data-target')] = li;
+      li.addEventListener('click', function () {
+        var el = railTargets[li.getAttribute('data-target')];
+        if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      });
+    });
+
+    var navSpy = {};
+    document.querySelectorAll('.nav-links a').forEach(function (a) {
+      navSpy[a.getAttribute('href').replace('#', '')] = a;
+    });
+
+    /* Active section = the last one whose top has crossed the reference
+       line. Deterministic (unlike IO, which can fire out of order when
+       several short sections intersect the same narrow band at once). */
+    var order = ['top', 'principles', 'stack', 'projects', 'experience', 'formation', 'contact'].filter(function (k) { return railTargets[k]; });
+    var lastActive = null;
+    function updateActiveSection() {
+      var refY = 170;
+      var current = order[0];
+      for (var i = 0; i < order.length; i++) {
+        if (railTargets[order[i]].getBoundingClientRect().top <= refY) current = order[i];
+      }
+      if (current === lastActive) return;
+      lastActive = current;
+      Object.keys(railDots).forEach(function (k) { railDots[k].classList.toggle('active', k === current); });
+      document.querySelectorAll('.nav-links a').forEach(function (a) { a.classList.remove('active'); });
+      var link = navSpy[current === 'top' ? '' : current];
+      if (link) link.classList.add('active');
+    }
+    window.addEventListener('scroll', updateActiveSection, { passive: true });
+    updateActiveSection();
+  }
+
+  /* ------------------------------------------------------------------
      Footer wordmark — fills with cyan as it scrolls into view
      ------------------------------------------------------------------ */
   var wm = document.querySelector('.footer-wordmark');

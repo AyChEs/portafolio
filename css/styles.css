@@ -337,6 +337,90 @@ html.cc, html.cc * { cursor: none !important; }
 }
 
 /* --------------------------------------------------------------------------
+   Scroll rail — the through-line connecting sections ("el hilo del taller").
+   Fixed spine that fills with the accent as you scroll; each node lights up
+   when its section is active. Desktop only — mirrors .timeline-line's
+   rounded-square nodes so the whole page reads as one connected system.
+   -------------------------------------------------------------------------- */
+.rail {
+  position: fixed;
+  right: clamp(18px, 2.6vw, 34px);
+  top: 50%;
+  transform: translateY(-50%);
+  height: min(58vh, 460px);
+  width: 22px;
+  z-index: 55;
+  display: none;
+}
+.rail-track, .rail-fill {
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+.rail-track { background: var(--hairline); }
+.rail-fill {
+  background: linear-gradient(var(--prog-a), var(--prog-b));
+  transform-origin: top;
+  transform: translateX(-50%) scaleY(var(--rail-p, 0));
+  transition: transform .12s linear;
+}
+.rail-dots {
+  position: relative;
+  height: 100%;
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.rail-dots li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  pointer-events: auto;
+  padding: 8px;
+}
+.rail-node {
+  width: 9px; height: 9px;
+  border-radius: 3px;
+  background: var(--surface);
+  box-shadow: 0 0 0 2px var(--border-strong);
+  transition: background-color .25s ease, box-shadow .25s ease, transform .25s var(--ease-out);
+}
+.rail-num {
+  position: absolute;
+  right: 100%;
+  margin-right: 10px;
+  font: 600 10px/1 var(--font-mono);
+  color: var(--muted-2);
+  opacity: 0;
+  transform: translateX(4px);
+  transition: opacity .2s ease, transform .2s ease, color .2s ease;
+  white-space: nowrap;
+}
+.rail-dots li:hover .rail-num { opacity: 1; transform: translateX(0); }
+.rail-dots li.active .rail-node {
+  background: var(--ring-solid);
+  box-shadow: 0 0 0 2px var(--ring-solid), 0 0 0 5px var(--ring-strong);
+  transform: scale(1.15);
+}
+.rail-dots li.active .rail-num { opacity: 1; transform: translateX(0); color: var(--accent); }
+
+@media (min-width: 1180px) {
+  .rail { display: block; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rail-fill { transition: none; }
+  .rail-node { transition: background-color .25s ease, box-shadow .25s ease; }
+  .rail-dots li.active .rail-node { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
    Nav
    -------------------------------------------------------------------------- */
 .nav {
@@ -389,7 +473,19 @@ html[data-theme="dark"] .brand-mark { border: 1px solid var(--dark-border); }
 .nav-right { display: flex; align-items: center; gap: clamp(12px, 2vw, 22px); }
 
 .nav-links { display: none; gap: 26px; font: 600 13px/1 var(--font-text); }
-.nav-links a { text-decoration: none; color: var(--muted); transition: color .2s ease; }
+.nav-links a { text-decoration: none; color: var(--muted); transition: color .2s ease, opacity .2s ease; position: relative; }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 100%;
+  bottom: -5px;
+  height: 1px;
+  background: var(--accent);
+  transition: right .25s var(--ease-out);
+}
+.nav-links a.active { color: var(--ink); }
+.nav-links a.active::after { right: 0; }
+html[data-theme="dark"] .nav-links a.active::after { background: var(--cyan); }
 @media (min-width: 760px) { .nav-links { display: flex; } }
 
 .theme-toggle {
