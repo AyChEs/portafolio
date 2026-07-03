@@ -4,6 +4,25 @@
    de movimiento (imán, cometa, precisión). Sin dependencias.
    ========================================================================== */
 
+/* Display face — Bricolage Grotesque (variable, self-hosted, OFL).
+   The "taller" voice: artisan grotesque, warm but precise. */
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('../assets/fonts/bricolage-grotesque-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('../assets/fonts/bricolage-grotesque-latin-ext-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root {
   color-scheme: light;
 
@@ -61,7 +80,7 @@
   --dark-code: #cdd7ea;
   --dark-label: #6f8fd0;
 
-  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+  --font-display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
   --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
 
@@ -146,6 +165,74 @@ body {
 
 h1, h2, h3, h4 { font-family: var(--font-display); }
 .mono { font-family: var(--font-mono); }
+
+/* --------------------------------------------------------------------------
+   Boot loader ("$ ayches --version") — session-once, JS-injected
+   -------------------------------------------------------------------------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .6s var(--ease-reveal);
+}
+.boot.away { transform: translateY(-100%); }
+.boot-inner { font: 500 clamp(13px, 2vw, 16px)/1.9 var(--font-mono); color: var(--dark-code); min-width: min(320px, 80vw); }
+.boot-line { min-height: 1.9em; }
+.boot-prompt { color: var(--dark-label); }
+.boot-ver { color: #7fd1e0; }
+.boot-caret { display: inline-block; width: .55em; height: 1.05em; vertical-align: -0.15em; background: #7fd1e0; animation: blink 1s step-end infinite; }
+
+/* Entrance orchestration: with JS, the hero waits for the loader */
+.js .hero-in { opacity: 0; }
+.js.ready .hero-in { animation: heroUp .8s ease both; opacity: 1; }
+html:not(.js) .hero-in { animation: none; }
+
+/* Hero title — line mask reveal (words rise out of a clipped line) */
+.hero-title .line { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.hero-title .line-in { display: block; }
+.js .hero-title .line-in { transform: translateY(112%); }
+.js.ready .hero-title .line-in {
+  animation: lineUp .9s var(--ease-reveal) forwards;
+}
+.js.ready .hero-title .line:nth-child(1) .line-in { animation-delay: .22s; }
+.js.ready .hero-title .line:nth-child(2) .line-in { animation-delay: .34s; }
+@keyframes lineUp { to { transform: translateY(0); } }
+
+/* Section H2 — per-character stagger, triggered by IO adding .seen */
+.section-head h2 .word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .1em; margin-bottom: -.1em; }
+.section-head h2 .ch {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform .65s var(--ease-out);
+  transition-delay: calc(var(--i) * 30ms);
+}
+.section-head.seen h2 .ch { transform: translateY(0); }
+html:not(.js) .section-head h2 .ch { transform: none; }
+
+/* Project media — clip reveal from bottom + settle scale */
+.js .project-media img {
+  clip-path: inset(0 0 100% 0);
+  transform: scale(1.14);
+  transition: clip-path .9s var(--ease-reveal), transform 1.2s var(--ease-reveal);
+}
+.js .project-media.seen img { clip-path: inset(0 0 0% 0); transform: scale(1); }
+
+/* Marquee — skews with scroll velocity (set as --mskew by JS) */
+.marquee { transform: skewX(var(--mskew, 0deg)); }
+
+/* Footer wordmark — stroke text that fills with scroll progress */
+.footer-wordmark { position: relative; }
+.wm-fill {
+  position: absolute;
+  inset: 0;
+  color: rgba(127, 209, 224, .30);
+  -webkit-text-stroke: 0;
+  clip-path: inset(0 calc(100% - var(--wm, 0%)) 0 0);
+}
 
 /* Custom cursor (enabled by JS on fine pointers only) */
 html.cc, html.cc * { cursor: none !important; }
@@ -412,9 +499,10 @@ html[data-theme="dark"] .theme-toggle .ic-sun { opacity: 1; rotate: 0deg; scale:
 
 .hero-title {
   margin: 0 0 clamp(24px, 3.2vw, 34px);
-  font: 700 clamp(46px, 8.6vw, 94px)/.94 var(--font-display);
-  letter-spacing: -.035em;
+  font: 800 clamp(42px, 8vw, 86px)/.98 var(--font-display);
+  letter-spacing: -.03em;
   color: var(--ink);
+  text-wrap: balance;
 }
 .hero-title span { display: block; }
 
@@ -509,6 +597,7 @@ html[data-theme="dark"] .theme-toggle .ic-sun { opacity: 1; rotate: 0deg; scale:
   font: 500 13.5px/1.95 var(--font-mono);
   color: var(--dark-code);
   overflow-x: auto;
+  min-height: calc(6 * 1.95 * 13.5px + 48px); /* reserve typed lines: no layout shift */
 }
 .tk-kw { color: #c792ea; }
 .tk-cl { color: #82aaff; }
@@ -1133,6 +1222,7 @@ html[data-theme="dark"] .footer { border-top: 1px solid var(--dark-border); }
   .tech:hover { transform: translateY(-4px); }
   .tech:hover .tech-box { background: var(--surface); border-color: var(--accent); box-shadow: 0 8px 18px var(--card-shadow); }
   .project-card:hover { transform: translateY(-7px); box-shadow: 0 26px 50px var(--card-shadow-lg); border-color: var(--accent); }
+  .js .project-card:hover .project-media.seen img { transform: scale(1.05); }
   .btn-code:hover { filter: brightness(1.15); }
   .btn-demo:hover { border-color: var(--accent); }
   .tl-card:hover { border-color: var(--accent); box-shadow: 0 16px 34px var(--card-shadow); transform: translateX(3px); }
@@ -1148,8 +1238,13 @@ html[data-theme="dark"] .footer { border-top: 1px solid var(--dark-border); }
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .blob, .code-card, .marquee-track, .dot-pulse, .tl-node.current, .cursor, .brand-cursor { animation: none; }
+  .blob, .code-card, .marquee-track, .dot-pulse, .tl-node.current, .cursor, .brand-cursor, .boot-caret { animation: none; }
   .hero-in { animation-duration: .01ms; animation-delay: 0s; }
+  .js .hero-in, .js .hero-title .line-in { opacity: 1; transform: none; animation: none; }
+  .section-head h2 .ch { transform: none; transition: none; }
+  .js .project-media img { clip-path: none; transform: none; transition: none; }
+  .marquee { transform: none; }
+  .wm-fill { clip-path: none; opacity: .5; }
   .rv, .rvx, .rvs, .dl { animation: none; opacity: 1; transform: none; }
   .io .rv, .io .rvx, .io .rvs { opacity: 1; transform: none; transition: none; }
   .io .dl { transform: scaleX(1); transition: none; }

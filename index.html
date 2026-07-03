@@ -13,6 +13,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <script>
 (function () {
+  document.documentElement.classList.add('js');
   try {
     var t = localStorage.getItem('theme');
     if (t !== 'light' && t !== 'dark') {
@@ -22,6 +23,7 @@
   } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
 })();
 </script>
+<link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/bricolage-grotesque-latin-wght-normal.woff2">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -34,7 +36,7 @@
 <nav class="nav">
   <a class="brand" href="#top">
     <span class="brand-mark" aria-hidden="true">AE</span>
-    <span class="brand-word">AyChEs<span class="brand-cursor" aria-hidden="true">_</span></span>
+    <span class="brand-word"><span class="brand-txt">AyChEs</span><span class="brand-cursor" aria-hidden="true">_</span></span>
     <span class="ver-chip" title="en producción desde 2025">v2</span>
   </a>
   <div class="nav-right">
@@ -64,9 +66,9 @@
         <span data-en="Open to new opportunities">Disponible para nuevas oportunidades</span>
       </div>
       <p class="kicker hero-in hero-in-2" data-en="Full-Stack Developer">Desarrollador Full-Stack</p>
-      <h1 class="hero-title hero-in hero-in-3">
-        <span data-en="From ticket">Del ticket</span>
-        <span data-en="to merge.">al merge.</span>
+      <h1 class="hero-title">
+        <span class="line"><span class="line-in" data-en="From ticket">Del ticket</span></span>
+        <span class="line"><span class="line-in" data-en="to merge.">al merge.</span></span>
       </h1>
       <p class="hero-sub hero-in hero-in-4" data-en="Backend developer at Etecnic. I own features end to end with Ruby on Rails, REST APIs and multi-tenant SaaS.">Desarrollador backend en Etecnic. Cojo funcionalidades de principio a fin con Ruby on Rails, APIs REST y SaaS multi-tenant.</p>
       <div class="hero-ctas hero-in hero-in-5">
@@ -442,7 +444,7 @@
     </div>
   </div>
 
-  <div class="footer-wordmark" aria-hidden="true">AyChEs</div>
+  <div class="footer-wordmark" aria-hidden="true">AyChEs<span class="wm-fill">AyChEs</span></div>
 
   <div class="footer-bar">
     <span>© 2026 Ayman Charoui Essamadi · <span class="ver-inline" data-en="v2.0 — in production since 2025">v2.0 — en producción desde 2025</span></span>
