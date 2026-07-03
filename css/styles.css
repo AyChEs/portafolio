@@ -148,7 +148,6 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-text);
-  overflow-x: hidden;
   transition: background-color .3s ease, color .3s ease;
 }
 
@@ -234,31 +233,45 @@ html:not(.js) .section-head h2 .ch { transform: none; }
   clip-path: inset(0 calc(100% - var(--wm, 0%)) 0 0);
 }
 
-/* Custom cursor (enabled by JS on fine pointers only) */
+/* Custom cursor — a terminal caret (the brand gesture "_").
+   Fine pointers only; disabled entirely under reduced motion. The caret
+   is solid while the pointer moves and blinks when it rests, exactly like
+   a real terminal insertion point. A trailing square "cell" evokes the
+   monospace grid it sits in. */
 html.cc, html.cc * { cursor: none !important; }
-.cur-dot {
+.cur-caret {
   position: fixed;
   top: 0; left: 0;
-  width: 7px; height: 7px;
-  border-radius: 50%;
+  width: 9px; height: 20px;
+  border-radius: 2px;
   background: var(--cursor-dot);
   z-index: 200;
   pointer-events: none;
   transform: translate(-50%, -50%);
+  transition: width .16s var(--ease-out), height .16s var(--ease-out),
+              border-radius .16s var(--ease-out), background-color .18s ease, opacity .2s ease;
 }
-.cur-ring {
+.cur-caret.blink { animation: caretBlink 1.05s step-end infinite; }
+.cur-caret.hov {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  animation: none;
+  background: var(--accent);
+}
+.cur-cell {
   position: fixed;
   top: 0; left: 0;
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  border: 1.5px solid var(--cursor-ring);
-  z-index: 200;
+  width: 30px; height: 30px;
+  border-radius: 5px;
+  border: 1px solid var(--cursor-ring);
+  z-index: 199;
   pointer-events: none;
   transform: translate(-50%, -50%);
   transition: width .18s var(--ease-out), height .18s var(--ease-out), border-color .18s ease, opacity .25s ease;
 }
-.cur-ring.hov { width: 52px; height: 52px; border-color: var(--accent); }
-.cur-dot.hidden, .cur-ring.hidden { opacity: 0; }
+.cur-cell.hov { width: 50px; height: 50px; border-color: var(--accent); border-radius: 9px; }
+.cur-caret.hidden, .cur-cell.hidden { opacity: 0; }
+@keyframes caretBlink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 
 /* --------------------------------------------------------------------------
    Keyframes
@@ -1260,5 +1273,5 @@ html[data-theme="dark"] .footer { border-top: 1px solid var(--dark-border); }
   .io .rv, .io .rvx, .io .rvs { opacity: 1; transform: none; transition: none; }
   .io .dl { transform: scaleX(1); transition: none; }
   .btn, .stack-card, .tech, .project-card, .tl-card, .lang-card, .contact-card { transition-property: border-color, background-color, box-shadow, color; }
-  .cur-dot, .cur-ring { display: none; }
+  .cur-caret, .cur-cell { display: none; }
 }
