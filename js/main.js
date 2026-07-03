@@ -360,42 +360,49 @@
   });
 
   /* ------------------------------------------------------------------
-     Custom cursor — dot + trailing ring ("cometa")
+     Custom cursor — terminal caret + monospace cell (the brand gesture
+     "_": always something being built). Solid while moving, blinks
+     like a real insertion point once the pointer rests.
      ------------------------------------------------------------------ */
-  var dot = document.createElement('div');
-  var ringEl = document.createElement('div');
-  dot.className = 'cur-dot hidden';
-  ringEl.className = 'cur-ring hidden';
-  dot.setAttribute('aria-hidden', 'true');
-  ringEl.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(dot);
-  document.body.appendChild(ringEl);
+  var caret = document.createElement('div');
+  var cell = document.createElement('div');
+  caret.className = 'cur-caret hidden';
+  cell.className = 'cur-cell hidden';
+  caret.setAttribute('aria-hidden', 'true');
+  cell.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(caret);
+  document.body.appendChild(cell);
   docEl.classList.add('cc');
 
-  var mx = -100, my = -100, rx = -100, ry = -100, cursorSeen = false;
+  var mx = -100, my = -100, rx = -100, ry = -100, cursorSeen = false, idleTimer = null;
 
   document.addEventListener('mousemove', function (e) {
     mx = e.clientX; my = e.clientY;
-    if (!cursorSeen) { cursorSeen = true; rx = mx; ry = my; dot.classList.remove('hidden'); ringEl.classList.remove('hidden'); }
-    dot.style.transform = 'translate(' + (mx - 3.5) + 'px,' + (my - 3.5) + 'px)';
+    if (!cursorSeen) { cursorSeen = true; rx = mx; ry = my; caret.classList.remove('hidden'); cell.classList.remove('hidden'); }
+    caret.classList.remove('blink');
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function () { caret.classList.add('blink'); }, 500);
+    caret.style.transform = 'translate(' + (mx - caret.offsetWidth / 2) + 'px,' + (my - caret.offsetHeight / 2) + 'px)';
   }, { passive: true });
 
-  document.addEventListener('mouseleave', function () { dot.classList.add('hidden'); ringEl.classList.add('hidden'); cursorSeen = false; });
+  document.addEventListener('mouseleave', function () {
+    caret.classList.add('hidden'); cell.classList.add('hidden');
+    cursorSeen = false; clearTimeout(idleTimer);
+  });
 
   (function trail() {
     rx += (mx - rx) * 0.16;
     ry += (my - ry) * 0.16;
-    var half = ringEl.offsetWidth / 2;
-    ringEl.style.transform = 'translate(' + (rx - half) + 'px,' + (ry - half) + 'px)';
+    cell.style.transform = 'translate(' + (rx - cell.offsetWidth / 2) + 'px,' + (ry - cell.offsetHeight / 2) + 'px)';
     requestAnimationFrame(trail);
   })();
 
   var HOVERABLE = 'a, button, .tech, .project-card, .lang-toggle';
   document.addEventListener('mouseover', function (e) {
-    if (e.target.closest(HOVERABLE)) ringEl.classList.add('hov');
+    if (e.target.closest(HOVERABLE)) { cell.classList.add('hov'); caret.classList.add('hov'); }
   }, { passive: true });
   document.addEventListener('mouseout', function (e) {
-    if (e.target.closest(HOVERABLE)) ringEl.classList.remove('hov');
+    if (e.target.closest(HOVERABLE)) { cell.classList.remove('hov'); caret.classList.remove('hov'); }
   }, { passive: true });
 
   /* ------------------------------------------------------------------
