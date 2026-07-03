@@ -141,13 +141,19 @@ html[data-theme="dark"] {
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; overflow-x: hidden; }
+/* overflow-x: clip (not hidden) contains the decorative blob/marquee
+   bleed WITHOUT creating a scroll container — so it also works on mobile
+   (where hidden on the root fails to shrink the layout viewport) and
+   keeps position: sticky on the nav intact. */
+html { scroll-behavior: smooth; overflow-x: clip; }
 
 body {
+  position: relative;          /* containing block for the decorative blobs */
   margin: 0;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-text);
+  overflow-x: clip;
   transition: background-color .3s ease, color .3s ease;
 }
 
