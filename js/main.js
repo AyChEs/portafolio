@@ -274,7 +274,7 @@
     onRailFill();
 
     var railTargets = { top: document.querySelector('.hero') };
-    ['principles', 'stack', 'projects', 'experience', 'formation', 'contact'].forEach(function (id) {
+    ['stack', 'projects', 'experience', 'formation', 'contact'].forEach(function (id) {
       railTargets[id] = document.getElementById(id);
     });
     var railDots = {};
@@ -294,7 +294,7 @@
     /* Active section = the last one whose top has crossed the reference
        line. Deterministic (unlike IO, which can fire out of order when
        several short sections intersect the same narrow band at once). */
-    var order = ['top', 'principles', 'stack', 'projects', 'experience', 'formation', 'contact'].filter(function (k) { return railTargets[k]; });
+    var order = ['top', 'stack', 'projects', 'experience', 'formation', 'contact'].filter(function (k) { return railTargets[k]; });
     var lastActive = null;
     function updateActiveSection() {
       var refY = 170;
