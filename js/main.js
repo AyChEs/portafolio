@@ -107,22 +107,49 @@
   onScrollBar();
 
   /* ------------------------------------------------------------------
-     Scroll reveals — IntersectionObserver fallback when the browser
-     lacks CSS scroll-driven animations (animation-timeline: view()).
+     Scroll reveals. Two paths, and the reveal keyframes start invisible,
+     so choosing the WRONG path leaves whole sections stuck at opacity:0.
+
+     - Native CSS scroll timeline (`.sda`) is a desktop-only enhancement:
+       on mobile it's unreliable (URL-bar viewport shifts, sections already
+       past the fold on load) and was hiding Projects/Experience/Formation.
+     - Everywhere else — and on ALL touch/coarse pointers — use the
+       IntersectionObserver path (`.io`), which reveals on entry and is
+       reliable across mobile browsers.
+     - If neither can run (no IO, no native), nothing hides the content:
+       the base state is visible.
      ------------------------------------------------------------------ */
   var nativeSDA = window.CSS && CSS.supports && CSS.supports('animation-timeline: view()');
-  if (!nativeSDA && 'IntersectionObserver' in window) {
+  var hasIO = 'IntersectionObserver' in window;
+  var useNative = nativeSDA && finePointer;   /* trust native only on desktop */
+
+  if (useNative) {
+    docEl.classList.add('sda');
+  } else if (hasIO && finePointer) {
+    /* Desktop without native scroll timeline: IO-driven reveal, opt-in via
+       `.pre` on below-fold elements only. */
     docEl.classList.add('io');
+    var revealEls = [].slice.call(document.querySelectorAll('.rv, .rvx, .rvs, .dl'));
+    var vh = window.innerHeight;
+    revealEls.forEach(function (el) {
+      if (el.getBoundingClientRect().top > vh * 0.9) el.classList.add('pre');
+    });
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
+          entry.target.classList.remove('pre');
           entry.target.classList.add('in');
           io.unobserve(entry.target);
         }
       });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
-    document.querySelectorAll('.rv, .rvx, .rvs').forEach(function (el) { io.observe(el); });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+    revealEls.forEach(function (el) { io.observe(el); });
   }
+  /* else (mobile/touch, or no IO): no class added. Scroll-in reveals are a
+     desktop-only nicety — on touch they risked trapping whole sections at
+     opacity:0 (URL-bar viewport shifts, fast scroll). The CSS base state is
+     fully visible, so mobile simply shows everything with no entry
+     animation. Content is never hidden. */
 
   /* ------------------------------------------------------------------
      "Seen" observer — triggers H2 char staggers & media clip reveals
@@ -360,49 +387,49 @@
   });
 
   /* ------------------------------------------------------------------
-     Custom cursor — terminal caret + monospace cell (the brand gesture
-     "_": always something being built). Solid while moving, blinks
-     like a real insertion point once the pointer rests.
+     Custom cursor — a solid dot pinned to the pointer + a thin ring that
+     chases it with inertia (the "cometa" trail). Ring grows and tints over
+     actionable elements; dips on press. Quiet, no labels.
      ------------------------------------------------------------------ */
-  var caret = document.createElement('div');
-  var cell = document.createElement('div');
-  caret.className = 'cur-caret hidden';
-  cell.className = 'cur-cell hidden';
-  caret.setAttribute('aria-hidden', 'true');
-  cell.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(caret);
-  document.body.appendChild(cell);
+  var dot = document.createElement('div');
+  var ring = document.createElement('div');
+  dot.className = 'cur-dot hidden';
+  ring.className = 'cur-ring hidden';
+  dot.setAttribute('aria-hidden', 'true');
+  ring.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(dot);
+  document.body.appendChild(ring);
   docEl.classList.add('cc');
 
-  var mx = -100, my = -100, rx = -100, ry = -100, cursorSeen = false, idleTimer = null;
+  var mx = -100, my = -100, rx = -100, ry = -100, cursorSeen = false;
 
   document.addEventListener('mousemove', function (e) {
     mx = e.clientX; my = e.clientY;
-    if (!cursorSeen) { cursorSeen = true; rx = mx; ry = my; caret.classList.remove('hidden'); cell.classList.remove('hidden'); }
-    caret.classList.remove('blink');
-    clearTimeout(idleTimer);
-    idleTimer = setTimeout(function () { caret.classList.add('blink'); }, 500);
-    caret.style.transform = 'translate(' + (mx - caret.offsetWidth / 2) + 'px,' + (my - caret.offsetHeight / 2) + 'px)';
+    if (!cursorSeen) { cursorSeen = true; rx = mx; ry = my; dot.classList.remove('hidden'); ring.classList.remove('hidden'); }
+    dot.style.transform = 'translate(' + mx + 'px,' + my + 'px) translate(-50%, -50%)';
   }, { passive: true });
 
   document.addEventListener('mouseleave', function () {
-    caret.classList.add('hidden'); cell.classList.add('hidden');
-    cursorSeen = false; clearTimeout(idleTimer);
+    dot.classList.add('hidden'); ring.classList.add('hidden');
+    cursorSeen = false;
   });
+  document.addEventListener('mousedown', function () { ring.classList.add('press'); }, { passive: true });
+  document.addEventListener('mouseup', function () { ring.classList.remove('press'); }, { passive: true });
 
   (function trail() {
     rx += (mx - rx) * 0.16;
     ry += (my - ry) * 0.16;
-    cell.style.transform = 'translate(' + (rx - cell.offsetWidth / 2) + 'px,' + (ry - cell.offsetHeight / 2) + 'px)';
+    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%, -50%)';
     requestAnimationFrame(trail);
   })();
 
+  /* Grow/tint the ring over actionable targets (and shrink the dot). */
   var HOVERABLE = 'a, button, .tech, .project-card, .lang-toggle';
   document.addEventListener('mouseover', function (e) {
-    if (e.target.closest(HOVERABLE)) { cell.classList.add('hov'); caret.classList.add('hov'); }
+    if (e.target.closest(HOVERABLE)) { ring.classList.add('hov'); dot.classList.add('hov'); }
   }, { passive: true });
   document.addEventListener('mouseout', function (e) {
-    if (e.target.closest(HOVERABLE)) { cell.classList.remove('hov'); caret.classList.remove('hov'); }
+    if (e.target.closest(HOVERABLE)) { ring.classList.remove('hov'); dot.classList.remove('hov'); }
   }, { passive: true });
 
   /* ------------------------------------------------------------------

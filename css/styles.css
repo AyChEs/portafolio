@@ -70,6 +70,7 @@
   --card-shadow-lg: rgba(20, 33, 61, .15);
   --cursor-dot: #14213d;
   --cursor-ring: rgba(20, 33, 61, .45);
+  --cursor-fill: rgba(29, 58, 110, .10);
   --contact-hover-bg: #13213b;
   --contact-hover-border: #1d3a6e;
 
@@ -139,17 +140,27 @@ html[data-theme="dark"] {
   --card-shadow-lg: rgba(0, 0, 0, .5);
   --cursor-dot: #7fd1e0;
   --cursor-ring: rgba(127, 209, 224, .5);
+  --cursor-fill: rgba(127, 209, 224, .10);
 }
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* Horizontal-overflow guard on BOTH html and body. `overflow-x: clip` on
+   body (with position:relative) constrains the decorative blobs without
+   breaking the sticky nav; adding `clip` on html too covers Safari/iOS,
+   where clip on body alone can leak and allow a sideways drag. max-width
+   is the belt-and-suspenders that no engine ignores. */
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+  max-width: 100%;
+}
 
 body {
   margin: 0;
   position: relative;
-  overflow-x: clip;              /* clips decorative blobs without shrinking
-                                    the layout viewport or breaking sticky nav */
+  overflow-x: clip;
+  max-width: 100%;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-text);
@@ -252,45 +263,52 @@ html:not(.js) .section-head h2 .ch { transform: none; }
   clip-path: inset(0 calc(100% - var(--wm, 0%)) 0 0);
 }
 
-/* Custom cursor — a terminal caret (the brand gesture "_").
-   Fine pointers only; disabled entirely under reduced motion. The caret
-   is solid while the pointer moves and blinks when it rests, exactly like
-   a real terminal insertion point. A trailing square "cell" evokes the
-   monospace grid it sits in. */
+/* Custom cursor — the clean Awwwards pattern: a small solid dot pinned to
+   the pointer, and a thin ring that chases it with inertia. Over an
+   actionable element the ring grows and fills softly; on press it dips for
+   feedback. No labels — quiet and precise (Riesgo 27). Fine pointers only;
+   off under reduced motion. */
 html.cc, html.cc * { cursor: none !important; }
-.cur-caret {
+
+/* The dot — pinned exactly at the pointer. Its size is driven by a scale
+   token so JS can own the position transform without clobbering the hover
+   shrink. */
+.cur-dot {
   position: fixed;
   top: 0; left: 0;
-  width: 9px; height: 20px;
-  border-radius: 2px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
   background: var(--cursor-dot);
   z-index: 200;
   pointer-events: none;
+  --dot-scale: 1;
   transform: translate(-50%, -50%);
-  transition: width .16s var(--ease-out), height .16s var(--ease-out),
-              border-radius .16s var(--ease-out), background-color .18s ease, opacity .2s ease;
+  transition: opacity .2s ease, background-color .18s ease, scale .16s var(--ease-out);
+  scale: var(--dot-scale);
 }
-.cur-caret.blink { animation: caretBlink 1.05s step-end infinite; }
-.cur-caret.hov {
-  width: 12px; height: 12px;
-  border-radius: 3px;
-  animation: none;
-  background: var(--accent);
-}
-.cur-cell {
+.cur-dot.hov { --dot-scale: .45; }
+
+/* The ring — chases with inertia; grows and tints over actionable targets. */
+.cur-ring {
   position: fixed;
   top: 0; left: 0;
-  width: 30px; height: 30px;
-  border-radius: 5px;
-  border: 1px solid var(--cursor-ring);
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--cursor-ring);
+  background: transparent;
   z-index: 199;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  transition: width .18s var(--ease-out), height .18s var(--ease-out), border-color .18s ease, opacity .25s ease;
+  transition: width .22s var(--ease-out), height .22s var(--ease-out),
+              border-color .18s ease, background-color .2s ease, opacity .25s ease;
 }
-.cur-cell.hov { width: 50px; height: 50px; border-color: var(--accent); border-radius: 9px; }
-.cur-caret.hidden, .cur-cell.hidden { opacity: 0; }
-@keyframes caretBlink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+.cur-ring.hov {
+  width: 46px; height: 46px;
+  border-color: var(--accent);
+  background: var(--cursor-fill);
+}
+.cur-ring.press { width: 30px; height: 30px; }
+.cur-dot.hidden, .cur-ring.hidden { opacity: 0; }
 
 /* --------------------------------------------------------------------------
    Keyframes
@@ -317,24 +335,38 @@ html.cc, html.cc * { cursor: none !important; }
 
 /* --------------------------------------------------------------------------
    Scroll reveals — native scroll-driven where supported, IO fallback (js/main.js)
+
+   SAFETY: the reveal keyframes start at opacity:0. A scroll-driven timeline
+   that never advances (common on mobile: sections already past the fold on
+   load, URL-bar viewport shifts, partial browser support) would otherwise
+   trap the element at 0% — invisible forever. So we only opt in to the
+   scroll timeline when BOTH `animation-timeline: view()` is supported AND JS
+   has confirmed it works, by gating on the `.sda` class the script adds.
+   Without that class the element is plain visible (no reveal, but never
+   hidden). js/main.js is the source of truth for which path runs.
    -------------------------------------------------------------------------- */
 @supports (animation-timeline: view()) {
-  .rv  { animation: reveal .62s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
-  .rvx { animation: revealX .62s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
-  .rvs { animation: revealScale .66s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 32%; }
-  .dl  { transform-origin: left; animation: drawline .7s .08s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
+  .sda .rv  { animation: reveal .62s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
+  .sda .rvx { animation: revealX .62s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
+  .sda .rvs { animation: revealScale .66s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 32%; }
+  .sda .dl  { transform-origin: left; animation: drawline .7s .08s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
 }
 
-.io .rv  { opacity: 0; transform: translateY(34px); }
-.io .rvx { opacity: 0; transform: translateX(-30px); }
-.io .rvs { opacity: 0; transform: scale(.94); }
-.io .dl  { transform: scaleX(0); transform-origin: left; }
+/* IO fallback. Only elements the observer has actively marked `.pre` start
+   hidden; the observer then swaps `.pre` for `.in` to play the reveal. This
+   inverts the old logic (which hid everything by default and revealed on
+   entry) so a missed observation can NEVER leave a section blank — the
+   base, un-marked state is fully visible. */
+.io .pre.rv  { opacity: 0; transform: translateY(28px); }
+.io .pre.rvx { opacity: 0; transform: translateX(-24px); }
+.io .pre.rvs { opacity: 0; transform: scale(.96); }
+.io .pre.dl  { transform: scaleX(0); transform-origin: left; }
 .io .rv, .io .rvx, .io .rvs {
   transition: opacity .62s var(--ease-reveal), transform .62s var(--ease-reveal);
 }
 .io .dl { transition: transform .7s var(--ease-reveal) .08s; }
 .io .in.rv, .io .in.rvx, .io .in.rvs { opacity: 1; transform: none; }
-.io .in .dl, .io .dl.in { transform: scaleX(1); }
+.io .in.dl { transform: scaleX(1); }
 
 /* --------------------------------------------------------------------------
    Progress bar & background blobs
@@ -492,6 +524,23 @@ html.cc, html.cc * { cursor: none !important; }
 }
 html[data-theme="dark"] .brand-mark { border: 1px solid var(--dark-border); }
 .brand-cursor { color: var(--accent); animation: blink 1.1s step-end infinite; }
+
+/* Version chip — the brand element that "grows with you" (v0.1 → v2.0).
+   Semver made visible, in the cyan of "now / in production". */
+.brand-ver {
+  font: 700 10px/1 var(--font-mono);
+  letter-spacing: .02em;
+  color: var(--chip-ink);
+  background: var(--chip-bg);
+  border: 1px solid var(--border);
+  padding: 3px 6px;
+  border-radius: 6px;
+  margin-left: 2px;
+  transform: translateY(-6px);   /* rides high, like a superscript version */
+  transition: color .2s ease, border-color .2s ease, background-color .2s ease;
+}
+html[data-theme="dark"] .brand-ver { color: var(--cyan); border-color: rgba(127, 209, 224, .22); }
+@media (max-width: 400px) { .brand-ver { display: none; } }
 
 .nav-right { display: flex; align-items: center; gap: clamp(12px, 2vw, 22px); }
 
@@ -1266,7 +1315,6 @@ html[data-theme="dark"] .footer { border-top: 1px solid var(--dark-border); }
   gap: 7px;
   transition: color .2s ease;
 }
-.ver-inline { color: var(--cyan); }
 
 /* --------------------------------------------------------------------------
    Hover states — gated to real pointers so taps don't stick on touch devices
@@ -1307,5 +1355,5 @@ html[data-theme="dark"] .footer { border-top: 1px solid var(--dark-border); }
   .io .rv, .io .rvx, .io .rvs { opacity: 1; transform: none; transition: none; }
   .io .dl { transform: scaleX(1); transition: none; }
   .btn, .stack-card, .tech, .project-card, .tl-card, .lang-card, .contact-card { transition-property: border-color, background-color, box-shadow, color; }
-  .cur-caret, .cur-cell { display: none; }
+  .cur-dot, .cur-ring { display: none; }
 }
