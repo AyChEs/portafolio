@@ -370,6 +370,9 @@
   cell.className = 'cur-cell hidden';
   caret.setAttribute('aria-hidden', 'true');
   cell.setAttribute('aria-hidden', 'true');
+  var cellLabel = document.createElement('span');
+  cellLabel.className = 'cur-label';
+  cell.appendChild(cellLabel);
   document.body.appendChild(caret);
   document.body.appendChild(cell);
   docEl.classList.add('cc');
@@ -391,18 +394,69 @@
   });
 
   (function trail() {
-    rx += (mx - rx) * 0.16;
-    ry += (my - ry) * 0.16;
+    /* Inertia while free (the "cometa" trail); snappier when it carries a
+       label so the chip stays glued to the pointer like a real cursor. */
+    var k = cell.classList.contains('labelled') ? 0.4 : 0.16;
+    rx += (mx - rx) * k;
+    ry += (my - ry) * k;
     cell.style.transform = 'translate(' + (rx - cell.offsetWidth / 2) + 'px,' + (ry - cell.offsetHeight / 2) + 'px)';
     requestAnimationFrame(trail);
   })();
 
   var HOVERABLE = 'a, button, .tech, .project-card, .lang-toggle';
+
+  /* Read a contextual label for the hovered element: an explicit
+     data-cursor wins; otherwise infer from what the element does. Keeps
+     the caret feeling like an IDE that knows what's under it. */
+  function labelFor(el) {
+    var explicit = el.closest('[data-cursor]');
+    if (explicit) return explicit.getAttribute('data-cursor');
+
+    var link = el.closest('a');
+    if (link) {
+      var href = link.getAttribute('href') || '';
+      if (href === '#top') return '↑ top';
+      if (link.classList.contains('btn-code') || link.classList.contains('btn-demo')) return '↗ open';
+      if (/^https?:|^mailto:/.test(href)) return '↗ open';
+      if (href.charAt(0) === '#') return 'goto';
+      return 'open';
+    }
+    if (el.closest('.lang-toggle')) return 'ES / EN';
+    if (el.closest('#themeToggle')) return 'theme';
+    if (el.closest('button')) return 'go';
+    if (el.closest('.project-card')) return 'view';
+    if (el.closest('.tech')) return null; /* tiles: shape hover, no label */
+    return null;
+  }
+
+  var curEl = null;
+  function enter(el) {
+    curEl = el;
+    cell.classList.add('hov');
+    caret.classList.add('hov');
+    var label = labelFor(el);
+    if (label) {
+      cellLabel.textContent = label;
+      cell.classList.add('labelled');
+      caret.classList.add('labelled');
+    } else {
+      cell.classList.remove('labelled');
+      caret.classList.remove('labelled');
+    }
+  }
+  function leave() {
+    curEl = null;
+    cell.classList.remove('hov', 'labelled');
+    caret.classList.remove('hov', 'labelled');
+  }
   document.addEventListener('mouseover', function (e) {
-    if (e.target.closest(HOVERABLE)) { cell.classList.add('hov'); caret.classList.add('hov'); }
+    var target = e.target.closest(HOVERABLE);
+    if (target && target !== curEl) enter(target);
   }, { passive: true });
   document.addEventListener('mouseout', function (e) {
-    if (e.target.closest(HOVERABLE)) { cell.classList.remove('hov'); caret.classList.remove('hov'); }
+    var target = e.target.closest(HOVERABLE);
+    if (target && !e.relatedTarget) { leave(); return; }
+    if (target && e.relatedTarget && !e.relatedTarget.closest(HOVERABLE)) leave();
   }, { passive: true });
 
   /* ------------------------------------------------------------------
