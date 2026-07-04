@@ -145,13 +145,22 @@ html[data-theme="dark"] {
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* Horizontal-overflow guard on BOTH html and body. `overflow-x: clip` on
+   body (with position:relative) constrains the decorative blobs without
+   breaking the sticky nav; adding `clip` on html too covers Safari/iOS,
+   where clip on body alone can leak and allow a sideways drag. max-width
+   is the belt-and-suspenders that no engine ignores. */
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+  max-width: 100%;
+}
 
 body {
   margin: 0;
   position: relative;
-  overflow-x: clip;              /* clips decorative blobs without shrinking
-                                    the layout viewport or breaking sticky nav */
+  overflow-x: clip;
+  max-width: 100%;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-text);
