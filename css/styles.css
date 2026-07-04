@@ -252,42 +252,54 @@ html:not(.js) .section-head h2 .ch { transform: none; }
   clip-path: inset(0 calc(100% - var(--wm, 0%)) 0 0);
 }
 
-/* Custom cursor — a terminal caret (the brand gesture "_") that reads the
-   interface like an IDE. The caret is solid while the pointer moves and
-   blinks when it rests, exactly like a real insertion point. A trailing
-   "cell" follows with inertia; over an actionable element it morphs into a
-   labelled mono chip (open · ↗ · copy · ↑ · ES/EN) — the caret becoming a
-   command the way a terminal would. Fine pointers only; off under reduced
-   motion. */
+/* Custom cursor — a shell prompt that reads the interface like a terminal.
+   Free: a chevron "›" (the prompt) followed by a small insertion dot that
+   blinks when the pointer rests. A thin ring chases with inertia (the
+   "cometa" trail). Over an actionable element the prompt lights up and the
+   ring becomes a mono command chip carrying a contextual label
+   (open · ↗ · ES/EN · ↑). Fine pointers only; off under reduced motion. */
 html.cc, html.cc * { cursor: none !important; }
+
+/* The prompt: "›" glyph + insertion dot, drawn as a tiny flex row so the
+   two pieces stay locked together and scale as one. */
 .cur-caret {
   position: fixed;
   top: 0; left: 0;
-  width: 9px; height: 20px;
-  border-radius: 2px;
-  background: var(--cursor-dot);
   z-index: 200;
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 3px;
   transform: translate(-50%, -50%);
-  transition: width .16s var(--ease-out), height .16s var(--ease-out),
-              border-radius .16s var(--ease-out), background-color .18s ease, opacity .2s ease;
+  color: var(--cursor-dot);
+  transition: color .18s ease, opacity .2s ease, gap .16s var(--ease-out);
 }
-.cur-caret.blink { animation: caretBlink 1.05s step-end infinite; }
-.cur-caret.hov {
-  width: 12px; height: 12px;
-  border-radius: 3px;
-  animation: none;
-  background: var(--accent);
+.cur-caret .cur-chevron {
+  font: 800 16px/1 var(--font-mono);
+  transform: translateY(-.5px);
+  transition: transform .16s var(--ease-out);
 }
-/* When the cell carries a label the caret hides — the chip is the cursor. */
+.cur-caret .cur-ins {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  transition: transform .16s var(--ease-out), opacity .2s ease;
+}
+.cur-caret.blink .cur-ins { animation: caretBlink 1.05s step-end infinite; }
+.cur-caret.hov { color: var(--accent); gap: 4px; }
+.cur-caret.hov .cur-chevron { transform: translateY(-.5px) translateX(1px); }
+.cur-caret.hov .cur-ins { transform: scale(1.25); }
+/* When the ring carries a label the prompt tucks in behind the chip. */
 .cur-caret.labelled { opacity: 0; }
+
+/* The chasing ring — inertia trail; morphs into a labelled command chip. */
 .cur-cell {
   position: fixed;
   top: 0; left: 0;
-  min-width: 30px; height: 30px;
+  min-width: 34px; height: 34px;
   padding: 0;
-  border-radius: 6px;
-  border: 1px solid var(--cursor-ring);
+  border-radius: 50%;
+  border: 1.5px solid var(--cursor-ring);
   background: transparent;
   color: var(--fill-ink);
   display: flex;
@@ -305,15 +317,24 @@ html.cc, html.cc * { cursor: none !important; }
               background-color .18s ease, border-radius .18s var(--ease-out),
               opacity .25s ease;
 }
-.cur-cell.hov { min-width: 50px; height: 50px; border-color: var(--accent); border-radius: 9px; }
-/* Labelled state: the cell becomes a filled navy/cyan command chip. */
+.cur-cell.hov { min-width: 52px; height: 52px; border-color: var(--accent); }
+/* Labelled: the ring flattens into a command pill. Fixed dark navy with
+   light text so it stays legible over any surface (including cyan buttons
+   in dark mode) — not theme-tinted. */
 .cur-cell.labelled {
   height: 26px;
+  min-width: 0;
   padding: 0 11px;
   border-radius: 999px;
-  background: var(--fill);
-  border-color: var(--fill);
-  box-shadow: 0 6px 18px var(--card-shadow);
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #eef2f9;
+  box-shadow: 0 6px 18px rgba(12, 19, 34, .45);
+}
+html[data-theme="dark"] .cur-cell.labelled {
+  background: #0c1322;
+  border-color: var(--cyan);
+  color: var(--cyan);
 }
 .cur-cell .cur-label { opacity: 0; max-width: 0; overflow: hidden; transition: opacity .18s ease, max-width .2s var(--ease-out); }
 .cur-cell.labelled .cur-label { opacity: 1; max-width: 120px; }
@@ -1311,7 +1332,6 @@ html[data-theme="dark"] .footer { border-top: 1px solid var(--dark-border); }
   gap: 7px;
   transition: color .2s ease;
 }
-.ver-inline { color: var(--cyan); }
 
 /* --------------------------------------------------------------------------
    Hover states — gated to real pointers so taps don't stick on touch devices
