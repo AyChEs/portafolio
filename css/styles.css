@@ -326,24 +326,38 @@ html.cc, html.cc * { cursor: none !important; }
 
 /* --------------------------------------------------------------------------
    Scroll reveals — native scroll-driven where supported, IO fallback (js/main.js)
+
+   SAFETY: the reveal keyframes start at opacity:0. A scroll-driven timeline
+   that never advances (common on mobile: sections already past the fold on
+   load, URL-bar viewport shifts, partial browser support) would otherwise
+   trap the element at 0% — invisible forever. So we only opt in to the
+   scroll timeline when BOTH `animation-timeline: view()` is supported AND JS
+   has confirmed it works, by gating on the `.sda` class the script adds.
+   Without that class the element is plain visible (no reveal, but never
+   hidden). js/main.js is the source of truth for which path runs.
    -------------------------------------------------------------------------- */
 @supports (animation-timeline: view()) {
-  .rv  { animation: reveal .62s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
-  .rvx { animation: revealX .62s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
-  .rvs { animation: revealScale .66s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 32%; }
-  .dl  { transform-origin: left; animation: drawline .7s .08s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
+  .sda .rv  { animation: reveal .62s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
+  .sda .rvx { animation: revealX .62s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
+  .sda .rvs { animation: revealScale .66s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 32%; }
+  .sda .dl  { transform-origin: left; animation: drawline .7s .08s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
 }
 
-.io .rv  { opacity: 0; transform: translateY(34px); }
-.io .rvx { opacity: 0; transform: translateX(-30px); }
-.io .rvs { opacity: 0; transform: scale(.94); }
-.io .dl  { transform: scaleX(0); transform-origin: left; }
+/* IO fallback. Only elements the observer has actively marked `.pre` start
+   hidden; the observer then swaps `.pre` for `.in` to play the reveal. This
+   inverts the old logic (which hid everything by default and revealed on
+   entry) so a missed observation can NEVER leave a section blank — the
+   base, un-marked state is fully visible. */
+.io .pre.rv  { opacity: 0; transform: translateY(28px); }
+.io .pre.rvx { opacity: 0; transform: translateX(-24px); }
+.io .pre.rvs { opacity: 0; transform: scale(.96); }
+.io .pre.dl  { transform: scaleX(0); transform-origin: left; }
 .io .rv, .io .rvx, .io .rvs {
   transition: opacity .62s var(--ease-reveal), transform .62s var(--ease-reveal);
 }
 .io .dl { transition: transform .7s var(--ease-reveal) .08s; }
 .io .in.rv, .io .in.rvx, .io .in.rvs { opacity: 1; transform: none; }
-.io .in .dl, .io .dl.in { transform: scaleX(1); }
+.io .in.dl { transform: scaleX(1); }
 
 /* --------------------------------------------------------------------------
    Progress bar & background blobs
