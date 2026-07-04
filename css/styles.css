@@ -70,6 +70,8 @@
   --card-shadow-lg: rgba(20, 33, 61, .15);
   --cursor-dot: #14213d;
   --cursor-ring: rgba(20, 33, 61, .45);
+  --contact-hover-bg: #13213b;
+  --contact-hover-border: #1d3a6e;
 
   /* dark panels — same in both themes (code card, footer, cert) */
   --dark: #0c1322;
@@ -141,10 +143,13 @@ html[data-theme="dark"] {
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; overflow-x: hidden; }
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
+  position: relative;
+  overflow-x: clip;              /* clips decorative blobs without shrinking
+                                    the layout viewport or breaking sticky nav */
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-text);
@@ -152,6 +157,20 @@ body {
 }
 
 ::selection { background: var(--sel-bg); color: var(--sel-ink); }
+
+/* Keyboard focus — a precise, brand-tinted ring (a detail of craft for
+   recruiters who navigate by keyboard). Mouse/touch users never see it. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.btn:focus-visible, .contact-card:focus-visible, .lang-toggle button:focus-visible,
+.theme-toggle:focus-visible, .project-links a:focus-visible {
+  outline-offset: 4px;
+}
+/* On the dark footer, the navy accent has no contrast — use cyan there. */
+.footer :focus-visible, .cert-card :focus-visible { outline-color: var(--cyan); }
 
 ::-webkit-scrollbar { width: 11px; height: 11px; }
 ::-webkit-scrollbar-track { background: var(--scroll-track); }
@@ -300,10 +319,10 @@ html.cc, html.cc * { cursor: none !important; }
    Scroll reveals — native scroll-driven where supported, IO fallback (js/main.js)
    -------------------------------------------------------------------------- */
 @supports (animation-timeline: view()) {
-  .rv  { animation: reveal .85s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 32%; }
-  .rvx { animation: revealX .85s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
-  .rvs { animation: revealScale .9s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 36%; }
-  .dl  { transform-origin: left; animation: drawline .9s .12s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
+  .rv  { animation: reveal .62s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
+  .rvx { animation: revealX .62s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
+  .rvs { animation: revealScale .66s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 32%; }
+  .dl  { transform-origin: left; animation: drawline .7s .08s var(--ease-reveal) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
 }
 
 .io .rv  { opacity: 0; transform: translateY(34px); }
@@ -311,9 +330,9 @@ html.cc, html.cc * { cursor: none !important; }
 .io .rvs { opacity: 0; transform: scale(.94); }
 .io .dl  { transform: scaleX(0); transform-origin: left; }
 .io .rv, .io .rvx, .io .rvs {
-  transition: opacity .85s var(--ease-reveal), transform .85s var(--ease-reveal);
+  transition: opacity .62s var(--ease-reveal), transform .62s var(--ease-reveal);
 }
-.io .dl { transition: transform .9s var(--ease-reveal) .12s; }
+.io .dl { transition: transform .7s var(--ease-reveal) .08s; }
 .io .in.rv, .io .in.rvx, .io .in.rvs { opacity: 1; transform: none; }
 .io .in .dl, .io .dl.in { transform: scaleX(1); }
 
@@ -481,16 +500,30 @@ html[data-theme="dark"] .brand-mark { border: 1px solid var(--dark-border); }
 .nav-links a::after {
   content: '';
   position: absolute;
-  left: 0; right: 100%;
+  left: 0; right: 0;
   bottom: -5px;
   height: 1px;
   background: var(--accent);
-  transition: right .25s var(--ease-out);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s var(--ease-out);
 }
 .nav-links a.active { color: var(--ink); }
-.nav-links a.active::after { right: 0; }
+.nav-links a.active::after { transform: scaleX(1); }
 html[data-theme="dark"] .nav-links a.active::after { background: var(--cyan); }
 @media (min-width: 760px) { .nav-links { display: flex; } }
+
+/* Very small phones (≤380px): tighten the nav so brand + toggles never
+   overflow the viewport. */
+@media (max-width: 400px) {
+  .nav { padding-left: 14px; padding-right: 14px; gap: 8px; }
+  .nav-right { gap: 8px; }
+  .brand { gap: 8px; font-size: 15px; }
+  .brand-mark { width: 27px; height: 27px; }
+  .lang-toggle { padding: 3px; gap: 2px; }
+  .lang-toggle button { padding: 7px 9px; }
+  .theme-toggle { width: 33px; height: 33px; }
+}
 
 .theme-toggle {
   position: relative;
@@ -1240,6 +1273,7 @@ html[data-theme="dark"] .footer { border-top: 1px solid var(--dark-border); }
    -------------------------------------------------------------------------- */
 @media (hover: hover) and (pointer: fine) {
   .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { transform: scaleX(1); }
   .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
   .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 30px var(--btn-shadow-hover); }
   .btn-ghost:hover { border-color: var(--accent); transform: translateY(-3px); }
@@ -1253,7 +1287,7 @@ html[data-theme="dark"] .footer { border-top: 1px solid var(--dark-border); }
   .tl-card:hover { border-color: var(--accent); box-shadow: 0 16px 34px var(--card-shadow); transform: translateX(3px); }
   .edu-card:hover { border-color: var(--accent); box-shadow: 0 12px 26px var(--card-shadow); }
   .lang-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 12px 26px var(--card-shadow); }
-  .contact-card:hover { border-color: #1d3a6e; transform: translateY(-4px); background: #13213b; }
+  .contact-card:hover { border-color: var(--contact-hover-border); transform: translateY(-4px); background: var(--contact-hover-bg); }
   .footer-bar a:hover { color: var(--cyan); }
 }
 
