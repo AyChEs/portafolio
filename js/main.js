@@ -107,22 +107,49 @@
   onScrollBar();
 
   /* ------------------------------------------------------------------
-     Scroll reveals — IntersectionObserver fallback when the browser
-     lacks CSS scroll-driven animations (animation-timeline: view()).
+     Scroll reveals. Two paths, and the reveal keyframes start invisible,
+     so choosing the WRONG path leaves whole sections stuck at opacity:0.
+
+     - Native CSS scroll timeline (`.sda`) is a desktop-only enhancement:
+       on mobile it's unreliable (URL-bar viewport shifts, sections already
+       past the fold on load) and was hiding Projects/Experience/Formation.
+     - Everywhere else — and on ALL touch/coarse pointers — use the
+       IntersectionObserver path (`.io`), which reveals on entry and is
+       reliable across mobile browsers.
+     - If neither can run (no IO, no native), nothing hides the content:
+       the base state is visible.
      ------------------------------------------------------------------ */
   var nativeSDA = window.CSS && CSS.supports && CSS.supports('animation-timeline: view()');
-  if (!nativeSDA && 'IntersectionObserver' in window) {
+  var hasIO = 'IntersectionObserver' in window;
+  var useNative = nativeSDA && finePointer;   /* trust native only on desktop */
+
+  if (useNative) {
+    docEl.classList.add('sda');
+  } else if (hasIO && finePointer) {
+    /* Desktop without native scroll timeline: IO-driven reveal, opt-in via
+       `.pre` on below-fold elements only. */
     docEl.classList.add('io');
+    var revealEls = [].slice.call(document.querySelectorAll('.rv, .rvx, .rvs, .dl'));
+    var vh = window.innerHeight;
+    revealEls.forEach(function (el) {
+      if (el.getBoundingClientRect().top > vh * 0.9) el.classList.add('pre');
+    });
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
+          entry.target.classList.remove('pre');
           entry.target.classList.add('in');
           io.unobserve(entry.target);
         }
       });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
-    document.querySelectorAll('.rv, .rvx, .rvs').forEach(function (el) { io.observe(el); });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+    revealEls.forEach(function (el) { io.observe(el); });
   }
+  /* else (mobile/touch, or no IO): no class added. Scroll-in reveals are a
+     desktop-only nicety — on touch they risked trapping whole sections at
+     opacity:0 (URL-bar viewport shifts, fast scroll). The CSS base state is
+     fully visible, so mobile simply shows everything with no entry
+     animation. Content is never hidden. */
 
   /* ------------------------------------------------------------------
      "Seen" observer — triggers H2 char staggers & media clip reveals
