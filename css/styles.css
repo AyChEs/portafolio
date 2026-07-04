@@ -70,6 +70,7 @@
   --card-shadow-lg: rgba(20, 33, 61, .15);
   --cursor-dot: #14213d;
   --cursor-ring: rgba(20, 33, 61, .45);
+  --cursor-fill: rgba(29, 58, 110, .10);
   --contact-hover-bg: #13213b;
   --contact-hover-border: #1d3a6e;
 
@@ -139,6 +140,7 @@ html[data-theme="dark"] {
   --card-shadow-lg: rgba(0, 0, 0, .5);
   --cursor-dot: #7fd1e0;
   --cursor-ring: rgba(127, 209, 224, .5);
+  --cursor-fill: rgba(127, 209, 224, .10);
 }
 
 * { box-sizing: border-box; }
@@ -252,94 +254,52 @@ html:not(.js) .section-head h2 .ch { transform: none; }
   clip-path: inset(0 calc(100% - var(--wm, 0%)) 0 0);
 }
 
-/* Custom cursor — a shell prompt that reads the interface like a terminal.
-   Free: a chevron "›" (the prompt) followed by a small insertion dot that
-   blinks when the pointer rests. A thin ring chases with inertia (the
-   "cometa" trail). Over an actionable element the prompt lights up and the
-   ring becomes a mono command chip carrying a contextual label
-   (open · ↗ · ES/EN · ↑). Fine pointers only; off under reduced motion. */
+/* Custom cursor — the clean Awwwards pattern: a small solid dot pinned to
+   the pointer, and a thin ring that chases it with inertia. Over an
+   actionable element the ring grows and fills softly; on press it dips for
+   feedback. No labels — quiet and precise (Riesgo 27). Fine pointers only;
+   off under reduced motion. */
 html.cc, html.cc * { cursor: none !important; }
 
-/* The prompt: "›" glyph + insertion dot, drawn as a tiny flex row so the
-   two pieces stay locked together and scale as one. */
-.cur-caret {
+/* The dot — pinned exactly at the pointer. Its size is driven by a scale
+   token so JS can own the position transform without clobbering the hover
+   shrink. */
+.cur-dot {
   position: fixed;
   top: 0; left: 0;
-  z-index: 200;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  transform: translate(-50%, -50%);
-  color: var(--cursor-dot);
-  transition: color .18s ease, opacity .2s ease, gap .16s var(--ease-out);
-}
-.cur-caret .cur-chevron {
-  font: 800 16px/1 var(--font-mono);
-  transform: translateY(-.5px);
-  transition: transform .16s var(--ease-out);
-}
-.cur-caret .cur-ins {
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: currentColor;
-  transition: transform .16s var(--ease-out), opacity .2s ease;
+  background: var(--cursor-dot);
+  z-index: 200;
+  pointer-events: none;
+  --dot-scale: 1;
+  transform: translate(-50%, -50%);
+  transition: opacity .2s ease, background-color .18s ease, scale .16s var(--ease-out);
+  scale: var(--dot-scale);
 }
-.cur-caret.blink .cur-ins { animation: caretBlink 1.05s step-end infinite; }
-.cur-caret.hov { color: var(--accent); gap: 4px; }
-.cur-caret.hov .cur-chevron { transform: translateY(-.5px) translateX(1px); }
-.cur-caret.hov .cur-ins { transform: scale(1.25); }
-/* When the ring carries a label the prompt tucks in behind the chip. */
-.cur-caret.labelled { opacity: 0; }
+.cur-dot.hov { --dot-scale: .45; }
 
-/* The chasing ring — inertia trail; morphs into a labelled command chip. */
-.cur-cell {
+/* The ring — chases with inertia; grows and tints over actionable targets. */
+.cur-ring {
   position: fixed;
   top: 0; left: 0;
-  min-width: 34px; height: 34px;
-  padding: 0;
+  width: 34px; height: 34px;
   border-radius: 50%;
   border: 1.5px solid var(--cursor-ring);
   background: transparent;
-  color: var(--fill-ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font: 700 11px/1 var(--font-mono);
-  letter-spacing: .04em;
-  white-space: nowrap;
   z-index: 199;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  transition: min-width .2s var(--ease-out), height .2s var(--ease-out),
-              padding .2s var(--ease-out), border-color .18s ease,
-              background-color .18s ease, border-radius .18s var(--ease-out),
-              opacity .25s ease;
+  transition: width .22s var(--ease-out), height .22s var(--ease-out),
+              border-color .18s ease, background-color .2s ease, opacity .25s ease;
 }
-.cur-cell.hov { min-width: 52px; height: 52px; border-color: var(--accent); }
-/* Labelled: the ring flattens into a command pill. Fixed dark navy with
-   light text so it stays legible over any surface (including cyan buttons
-   in dark mode) — not theme-tinted. */
-.cur-cell.labelled {
-  height: 26px;
-  min-width: 0;
-  padding: 0 11px;
-  border-radius: 999px;
-  background: var(--navy);
-  border-color: var(--navy);
-  color: #eef2f9;
-  box-shadow: 0 6px 18px rgba(12, 19, 34, .45);
+.cur-ring.hov {
+  width: 46px; height: 46px;
+  border-color: var(--accent);
+  background: var(--cursor-fill);
 }
-html[data-theme="dark"] .cur-cell.labelled {
-  background: #0c1322;
-  border-color: var(--cyan);
-  color: var(--cyan);
-}
-.cur-cell .cur-label { opacity: 0; max-width: 0; overflow: hidden; transition: opacity .18s ease, max-width .2s var(--ease-out); }
-.cur-cell.labelled .cur-label { opacity: 1; max-width: 120px; }
-.cur-caret.hidden, .cur-cell.hidden { opacity: 0; }
-@keyframes caretBlink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+.cur-ring.press { width: 30px; height: 30px; }
+.cur-dot.hidden, .cur-ring.hidden { opacity: 0; }
 
 /* --------------------------------------------------------------------------
    Keyframes
@@ -1372,5 +1332,5 @@ html[data-theme="dark"] .footer { border-top: 1px solid var(--dark-border); }
   .io .rv, .io .rvx, .io .rvs { opacity: 1; transform: none; transition: none; }
   .io .dl { transform: scaleX(1); transition: none; }
   .btn, .stack-card, .tech, .project-card, .tl-card, .lang-card, .contact-card { transition-property: border-color, background-color, box-shadow, color; }
-  .cur-caret, .cur-cell { display: none; }
+  .cur-dot, .cur-ring { display: none; }
 }

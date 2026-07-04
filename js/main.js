@@ -360,110 +360,49 @@
   });
 
   /* ------------------------------------------------------------------
-     Custom cursor — terminal caret + monospace cell (the brand gesture
-     "_": always something being built). Solid while moving, blinks
-     like a real insertion point once the pointer rests.
+     Custom cursor — a solid dot pinned to the pointer + a thin ring that
+     chases it with inertia (the "cometa" trail). Ring grows and tints over
+     actionable elements; dips on press. Quiet, no labels.
      ------------------------------------------------------------------ */
-  var caret = document.createElement('div');
-  var cell = document.createElement('div');
-  caret.className = 'cur-caret hidden';
-  cell.className = 'cur-cell hidden';
-  caret.setAttribute('aria-hidden', 'true');
-  cell.setAttribute('aria-hidden', 'true');
-  /* Prompt = "›" chevron + insertion dot */
-  caret.innerHTML = '<span class="cur-chevron">›</span><span class="cur-ins"></span>';
-  var cellLabel = document.createElement('span');
-  cellLabel.className = 'cur-label';
-  cell.appendChild(cellLabel);
-  document.body.appendChild(caret);
-  document.body.appendChild(cell);
+  var dot = document.createElement('div');
+  var ring = document.createElement('div');
+  dot.className = 'cur-dot hidden';
+  ring.className = 'cur-ring hidden';
+  dot.setAttribute('aria-hidden', 'true');
+  ring.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(dot);
+  document.body.appendChild(ring);
   docEl.classList.add('cc');
 
-  var mx = -100, my = -100, rx = -100, ry = -100, cursorSeen = false, idleTimer = null;
+  var mx = -100, my = -100, rx = -100, ry = -100, cursorSeen = false;
 
   document.addEventListener('mousemove', function (e) {
     mx = e.clientX; my = e.clientY;
-    if (!cursorSeen) { cursorSeen = true; rx = mx; ry = my; caret.classList.remove('hidden'); cell.classList.remove('hidden'); }
-    caret.classList.remove('blink');
-    clearTimeout(idleTimer);
-    idleTimer = setTimeout(function () { caret.classList.add('blink'); }, 500);
-    /* Anchor the insertion dot (right end of the prompt) at the pointer, so
-       the "›" chevron trails to its left like a real shell prompt. */
-    caret.style.transform = 'translate(' + (mx - caret.offsetWidth + 3) + 'px,' + (my - caret.offsetHeight / 2) + 'px)';
+    if (!cursorSeen) { cursorSeen = true; rx = mx; ry = my; dot.classList.remove('hidden'); ring.classList.remove('hidden'); }
+    dot.style.transform = 'translate(' + mx + 'px,' + my + 'px) translate(-50%, -50%)';
   }, { passive: true });
 
   document.addEventListener('mouseleave', function () {
-    caret.classList.add('hidden'); cell.classList.add('hidden');
-    cursorSeen = false; clearTimeout(idleTimer);
+    dot.classList.add('hidden'); ring.classList.add('hidden');
+    cursorSeen = false;
   });
+  document.addEventListener('mousedown', function () { ring.classList.add('press'); }, { passive: true });
+  document.addEventListener('mouseup', function () { ring.classList.remove('press'); }, { passive: true });
 
   (function trail() {
-    /* Inertia while free (the "cometa" trail); snappier when it carries a
-       label so the chip stays glued to the pointer like a real cursor. */
-    var k = cell.classList.contains('labelled') ? 0.4 : 0.16;
-    rx += (mx - rx) * k;
-    ry += (my - ry) * k;
-    cell.style.transform = 'translate(' + (rx - cell.offsetWidth / 2) + 'px,' + (ry - cell.offsetHeight / 2) + 'px)';
+    rx += (mx - rx) * 0.16;
+    ry += (my - ry) * 0.16;
+    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%, -50%)';
     requestAnimationFrame(trail);
   })();
 
+  /* Grow/tint the ring over actionable targets (and shrink the dot). */
   var HOVERABLE = 'a, button, .tech, .project-card, .lang-toggle';
-
-  /* Read a contextual label for the hovered element: an explicit
-     data-cursor wins; otherwise infer from what the element does. Keeps
-     the caret feeling like an IDE that knows what's under it. */
-  function labelFor(el) {
-    var explicit = el.closest('[data-cursor]');
-    if (explicit) return explicit.getAttribute('data-cursor');
-
-    var link = el.closest('a');
-    if (link) {
-      var href = link.getAttribute('href') || '';
-      if (href === '#top') return '↑ top';
-      if (href === '#contact') return '↳ talk';
-      if (link.classList.contains('btn-code') || link.classList.contains('btn-demo')) return '↗ open';
-      if (link.classList.contains('btn-ghost')) return '↓ cv';
-      if (link.classList.contains('contact-card')) return '↗ open';
-      if (/^https?:|^mailto:/.test(href)) return '↗ open';
-      if (href.charAt(0) === '#') return 'goto';
-      return 'open';
-    }
-    if (el.closest('.lang-toggle')) return 'ES / EN';
-    if (el.closest('#themeToggle')) return 'theme';
-    if (el.closest('button')) return 'go';
-    if (el.closest('.project-card')) return 'view';
-    if (el.closest('.tech')) return null; /* tiles: shape hover, no label */
-    return null;
-  }
-
-  var curEl = null;
-  function enter(el) {
-    curEl = el;
-    cell.classList.add('hov');
-    caret.classList.add('hov');
-    var label = labelFor(el);
-    if (label) {
-      cellLabel.textContent = label;
-      cell.classList.add('labelled');
-      caret.classList.add('labelled');
-    } else {
-      cell.classList.remove('labelled');
-      caret.classList.remove('labelled');
-    }
-  }
-  function leave() {
-    curEl = null;
-    cell.classList.remove('hov', 'labelled');
-    caret.classList.remove('hov', 'labelled');
-  }
   document.addEventListener('mouseover', function (e) {
-    var target = e.target.closest(HOVERABLE);
-    if (target && target !== curEl) enter(target);
+    if (e.target.closest(HOVERABLE)) { ring.classList.add('hov'); dot.classList.add('hov'); }
   }, { passive: true });
   document.addEventListener('mouseout', function (e) {
-    var target = e.target.closest(HOVERABLE);
-    if (target && !e.relatedTarget) { leave(); return; }
-    if (target && e.relatedTarget && !e.relatedTarget.closest(HOVERABLE)) leave();
+    if (e.target.closest(HOVERABLE)) { ring.classList.remove('hov'); dot.classList.remove('hov'); }
   }, { passive: true });
 
   /* ------------------------------------------------------------------
