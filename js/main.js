@@ -370,6 +370,8 @@
   cell.className = 'cur-cell hidden';
   caret.setAttribute('aria-hidden', 'true');
   cell.setAttribute('aria-hidden', 'true');
+  /* Prompt = "›" chevron + insertion dot */
+  caret.innerHTML = '<span class="cur-chevron">›</span><span class="cur-ins"></span>';
   var cellLabel = document.createElement('span');
   cellLabel.className = 'cur-label';
   cell.appendChild(cellLabel);
@@ -385,7 +387,9 @@
     caret.classList.remove('blink');
     clearTimeout(idleTimer);
     idleTimer = setTimeout(function () { caret.classList.add('blink'); }, 500);
-    caret.style.transform = 'translate(' + (mx - caret.offsetWidth / 2) + 'px,' + (my - caret.offsetHeight / 2) + 'px)';
+    /* Anchor the insertion dot (right end of the prompt) at the pointer, so
+       the "›" chevron trails to its left like a real shell prompt. */
+    caret.style.transform = 'translate(' + (mx - caret.offsetWidth + 3) + 'px,' + (my - caret.offsetHeight / 2) + 'px)';
   }, { passive: true });
 
   document.addEventListener('mouseleave', function () {
@@ -416,7 +420,10 @@
     if (link) {
       var href = link.getAttribute('href') || '';
       if (href === '#top') return '↑ top';
+      if (href === '#contact') return '↳ talk';
       if (link.classList.contains('btn-code') || link.classList.contains('btn-demo')) return '↗ open';
+      if (link.classList.contains('btn-ghost')) return '↓ cv';
+      if (link.classList.contains('contact-card')) return '↗ open';
       if (/^https?:|^mailto:/.test(href)) return '↗ open';
       if (href.charAt(0) === '#') return 'goto';
       return 'open';
