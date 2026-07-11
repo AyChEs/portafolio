@@ -6,31 +6,64 @@
   var finePointer = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   /* ------------------------------------------------------------------
-     Theme toggle (initial theme set inline in <head> to avoid FOUC)
+     i18n — auto-detect the visitor's language and apply the matching
+     copy. The markup ships in Spanish (the page's primary language);
+     each translatable element carries an English alternate in
+     `data-en`. The Spanish original is captured from the live text on
+     first run, so it survives subsequent swaps.
+
+     Decision rule: any navigator.language starting with "es" or "ca"
+     gets the Spanish version; everything else gets English. Catalan
+     is treated as Spanish because we don't ship a Catalan version
+     and a CA-ES user is fully bilingual in ES.
      ------------------------------------------------------------------ */
-  var THEME_COLORS = { light: '#fafafa', dark: '#080d16' };
-  var themeMeta = document.querySelector('meta[name="theme-color"]');
+  var detected = (navigator.languages && navigator.languages[0]) || navigator.language || 'es';
+  var lang = /^(es|ca)\b/i.test(detected) ? 'es' : 'en';
 
-  function applyTheme(theme) {
-    docEl.setAttribute('data-theme', theme);
-    if (themeMeta) themeMeta.setAttribute('content', THEME_COLORS[theme]);
-    try { localStorage.setItem('theme', theme); } catch (e) { /* storage unavailable */ }
+  var TITLES = {
+    es: 'AyChEs — Ayman Charoui · Desarrollador Full-Stack',
+    en: 'AyChEs — Ayman Charoui · Full-Stack Developer'
+  };
+
+  function setLang(target) {
+    document.querySelectorAll('[data-en]').forEach(function (el) {
+      if (!el.hasAttribute('data-es')) el.setAttribute('data-es', el.textContent);
+      el.textContent = target === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-es');
+    });
+    docEl.lang = target;
+    document.title = TITLES[target];
   }
-  if (themeMeta) themeMeta.setAttribute('content', THEME_COLORS[docEl.getAttribute('data-theme')] || THEME_COLORS.light);
 
-  document.getElementById('themeToggle').addEventListener('click', function () {
-    var next = docEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    if (document.startViewTransition && !reduceMotion) {
-      document.startViewTransition(function () { applyTheme(next); });
-    } else {
-      applyTheme(next);
-    }
-  });
+  docEl.lang = lang;
+  if (lang === 'en') setLang('en');
 
   /* ------------------------------------------------------------------
      Mark page ready immediately — the hero animation is driven by CSS.
      ------------------------------------------------------------------ */
   docEl.classList.add('ready');
+
+  /* ------------------------------------------------------------------
+     Section H2 — split into per-word spans (after language is set,
+     so the splits work on the active copy). One span per word, each
+     animates as a block — gentler than the per-character stagger of
+     the previous build.
+     ------------------------------------------------------------------ */
+  function splitH2(h2) {
+    var text = h2.textContent;
+    h2.textContent = '';
+    var idx = 0;
+    text.split(' ').forEach(function (word, w, arr) {
+      var wEl = document.createElement('span');
+      wEl.className = 'word';
+      var inner = document.createElement('span');
+      inner.style.setProperty('--i', idx++);
+      inner.textContent = word;
+      wEl.appendChild(inner);
+      h2.appendChild(wEl);
+      if (w < arr.length - 1) h2.appendChild(document.createTextNode(' '));
+    });
+  }
+  document.querySelectorAll('.section-head h2').forEach(splitH2);
 
   /* ------------------------------------------------------------------
      Scroll progress bar
@@ -98,68 +131,6 @@
   }
 
   /* ------------------------------------------------------------------
-     Section H2 — split into per-word spans (re-split on lang change).
-     One span per word, each animates as a block — gentler than the
-     per-character stagger of the previous build.
-     ------------------------------------------------------------------ */
-  function splitH2(h2) {
-    var text = h2.textContent;
-    h2.textContent = '';
-    var idx = 0;
-    text.split(' ').forEach(function (word, w, arr) {
-      var wEl = document.createElement('span');
-      wEl.className = 'word';
-      var inner = document.createElement('span');
-      inner.style.setProperty('--i', idx++);
-      inner.textContent = word;
-      wEl.appendChild(inner);
-      h2.appendChild(wEl);
-      if (w < arr.length - 1) h2.appendChild(document.createTextNode(' '));
-    });
-  }
-  function splitAllH2() {
-    document.querySelectorAll('.section-head h2').forEach(splitH2);
-  }
-
-  /* ------------------------------------------------------------------
-     Language toggle (ES default). Spanish copy lives in the markup;
-     English lives in data-en attributes. Persisted in localStorage.
-     ------------------------------------------------------------------ */
-  var TITLES = {
-    es: 'AyChEs — Ayman Charoui · Desarrollador Full-Stack',
-    en: 'AyChEs — Ayman Charoui · Full-Stack Developer'
-  };
-  var langButtons = document.querySelectorAll('.lang-toggle button');
-
-  document.querySelectorAll('[data-en]').forEach(function (el) {
-    if (!el.hasAttribute('data-es')) el.setAttribute('data-es', el.textContent);
-  });
-
-  function setLang(lang) {
-    document.querySelectorAll('[data-en]').forEach(function (el) {
-      el.textContent = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-es');
-    });
-    docEl.lang = lang;
-    document.title = TITLES[lang];
-    langButtons.forEach(function (b) {
-      var active = b.getAttribute('data-lang') === lang;
-      b.classList.toggle('active', active);
-      b.setAttribute('aria-pressed', String(active));
-    });
-    try { localStorage.setItem('lang', lang); } catch (e) { /* storage unavailable */ }
-    splitAllH2();
-  }
-
-  langButtons.forEach(function (b) {
-    b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); });
-  });
-
-  var savedLang = null;
-  try { savedLang = localStorage.getItem('lang'); } catch (e) { /* storage unavailable */ }
-  if (savedLang === 'en') setLang('en');
-  else splitAllH2();
-
-  /* ------------------------------------------------------------------
      Tech logo fallback — swap to the monogram if an SVG fails to load
      ------------------------------------------------------------------ */
   document.querySelectorAll('img[data-fb]').forEach(function (img) {
@@ -171,10 +142,6 @@
     if (img.complete && img.naturalWidth === 0) fallback();
     else img.addEventListener('error', fallback);
   });
-
-  /* ------------------------------------------------------------------
-     Marquee — kept simple, no scroll-velocity skew.
-     ------------------------------------------------------------------ */
 
   /* ------------------------------------------------------------------
      Scroll rail — vertical spine connecting every section. Fill tracks
