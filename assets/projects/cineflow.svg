@@ -1,24 +1,58 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="460" viewBox="0 0 800 460">
   <defs>
-    <radialGradient id="glow" cx="16%" cy="14%" r="70%">
-      <stop offset="0%" stop-color="#1d3a6e" stop-opacity=".55"/>
-      <stop offset="70%" stop-color="#1d3a6e" stop-opacity="0"/>
-    </radialGradient>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M40 0H0V40" fill="none" stroke="#1c2740" stroke-width="1"/>
+    <pattern id="hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="14" stroke="#1c2740" stroke-width="1"/>
     </pattern>
   </defs>
   <rect width="800" height="460" fill="#0c1322"/>
-  <rect width="800" height="460" fill="url(#grid)"/>
-  <rect width="800" height="460" fill="url(#glow)"/>
-  <!-- seat map motif -->
-  <g fill="#101a2e" stroke="#1c2740">
-    <rect x="250" y="150" width="44" height="38" rx="9"/><rect x="306" y="150" width="44" height="38" rx="9"/><rect x="362" y="150" width="44" height="38" rx="9"/><rect x="418" y="150" width="44" height="38" rx="9"/><rect x="474" y="150" width="44" height="38" rx="9"/>
-    <rect x="250" y="202" width="44" height="38" rx="9"/><rect x="418" y="202" width="44" height="38" rx="9"/><rect x="474" y="202" width="44" height="38" rx="9"/>
+  <rect width="800" height="460" fill="url(#hatch)"/>
+
+  <!-- film strip: 5 frames across -->
+  <g transform="translate(60, 130)">
+    <!-- strip body -->
+    <rect width="680" height="200" fill="#101a2e" stroke="#1c2740" stroke-width="2" rx="6"/>
+    <!-- top perforations -->
+    <g fill="#0c1322">
+      <rect x="22"  y="-14" width="28" height="14" rx="3"/>
+      <rect x="82"  y="-14" width="28" height="14" rx="3"/>
+      <rect x="142" y="-14" width="28" height="14" rx="3"/>
+      <rect x="202" y="-14" width="28" height="14" rx="3"/>
+      <rect x="262" y="-14" width="28" height="14" rx="3"/>
+      <rect x="322" y="-14" width="28" height="14" rx="3"/>
+      <rect x="382" y="-14" width="28" height="14" rx="3"/>
+      <rect x="442" y="-14" width="28" height="14" rx="3"/>
+      <rect x="502" y="-14" width="28" height="14" rx="3"/>
+      <rect x="562" y="-14" width="28" height="14" rx="3"/>
+      <rect x="622" y="-14" width="28" height="14" rx="3"/>
+    </g>
+    <!-- bottom perforations -->
+    <g fill="#0c1322">
+      <rect x="22"  y="200" width="28" height="14" rx="3"/>
+      <rect x="82"  y="200" width="28" height="14" rx="3"/>
+      <rect x="142" y="200" width="28" height="14" rx="3"/>
+      <rect x="202" y="200" width="28" height="14" rx="3"/>
+      <rect x="262" y="200" width="28" height="14" rx="3"/>
+      <rect x="322" y="200" width="28" height="14" rx="3"/>
+      <rect x="382" y="200" width="28" height="14" rx="3"/>
+      <rect x="442" y="200" width="28" height="14" rx="3"/>
+      <rect x="502" y="200" width="28" height="14" rx="3"/>
+      <rect x="562" y="200" width="28" height="14" rx="3"/>
+      <rect x="622" y="200" width="28" height="14" rx="3"/>
+    </g>
+
+    <!-- 5 frames -->
+    <g>
+      <rect x="20"  y="22" width="118" height="156" fill="#1d3a6e" fill-opacity=".18" stroke="#1c2740"/>
+      <rect x="150" y="22" width="118" height="156" fill="#1d3a6e" fill-opacity=".18" stroke="#1c2740"/>
+      <rect x="280" y="22" width="118" height="156" fill="#1d3a6e" fill-opacity=".30" stroke="#7fd1e0" stroke-opacity=".7" stroke-width="2"/>
+      <rect x="410" y="22" width="118" height="156" fill="#1d3a6e" fill-opacity=".18" stroke="#1c2740"/>
+      <rect x="540" y="22" width="120" height="156" fill="#1d3a6e" fill-opacity=".18" stroke="#1c2740"/>
+    </g>
+
+    <!-- play triangle on the highlighted (middle) frame -->
+    <polygon points="320,68 320,132 372,100" fill="#7fd1e0"/>
   </g>
-  <g fill="#1d3a6e" stroke="#7fd1e0" stroke-opacity=".6">
-    <rect x="306" y="202" width="44" height="38" rx="9"/><rect x="362" y="202" width="44" height="38" rx="9"/>
-  </g>
-  <path d="M240 120 Q400 96 560 120" fill="none" stroke="#7fd1e0" stroke-opacity=".5" stroke-width="3"/>
-  <text x="400" y="300" font-family="ui-monospace,Menlo,Monaco,monospace" font-size="17" fill="#6f8fd0" text-anchor="middle">cineflow.php</text>
+
+  <!-- caption -->
+  <text x="400" y="386" font-family="ui-monospace,Menlo,Monaco,monospace" font-size="17" fill="#6f8fd0" text-anchor="middle">cineflow.php</text>
 </svg>
