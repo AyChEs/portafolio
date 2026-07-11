@@ -11,18 +11,7 @@
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#fafafa">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<script>
-(function () {
-  document.documentElement.classList.add('js');
-  try {
-    var t = localStorage.getItem('theme');
-    if (t !== 'light' && t !== 'dark') {
-      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', t);
-  } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
-})();
-</script>
+<script>document.documentElement.classList.add('js');</script>
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/bricolage-grotesque-latin-wght-normal.woff2">
 <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -55,14 +44,6 @@
       <a href="#experience" data-en="Experience">Experiencia</a>
       <a href="#contact" data-en="Contact">Contacto</a>
     </div>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema / Toggle theme">
-      <svg class="ic-moon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M20.8 13.2A8.5 8.5 0 1 1 10.8 3.2a7 7 0 0 0 10 10z"/></svg>
-      <svg class="ic-sun" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none"/><path d="M12 2.6v2M12 19.4v2M2.6 12h2M19.4 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
-    </button>
-    <div class="lang-toggle" role="group" aria-label="Idioma / Language">
-      <button type="button" data-lang="es" class="active" aria-pressed="true">ES</button>
-      <button type="button" data-lang="en" aria-pressed="false">EN</button>
-    </div>
   </div>
 </nav>
 
@@ -89,7 +70,15 @@
             <span class="wd wd-1"></span><span class="wd wd-2"></span><span class="wd wd-3"></span>
             <span class="code-file">~/ayman.yml</span>
           </div>
-          <pre class="code-body" aria-label="Configuración de Ayman — backend en Etecnic, Rails, REST, SaaS multi-tenant"><span class="tk-pr">name</span>:    <span class="tk-st">Ayman Charoui</span>
+          <pre class="code-body" aria-label="Configuración de Ayman — backend en Etecnic, Rails, REST, SaaS multi-tenant" data-en="name:    Ayman Charoui
+handle:  AyChEs
+role:    Backend Developer
+at:      Etecnic · Tarragona
+stack:
+  - Ruby on Rails
+  - REST APIs
+  - PostgreSQL
+langs:   ES · CA · AR · EN"><span class="tk-pr">name</span>:    <span class="tk-st">Ayman Charoui</span>
 <span class="tk-pr">handle</span>:  <span class="tk-st">AyChEs</span>
 <span class="tk-pr">role</span>:    <span class="tk-st">Backend Developer</span>
 <span class="tk-pr">at</span>:      <span class="tk-st">Etecnic</span> · <span class="tk-st">Tarragona</span>
@@ -97,7 +86,7 @@
   - <span class="tk-st">Ruby on Rails</span>
   - <span class="tk-st">REST APIs</span>
   - <span class="tk-st">PostgreSQL</span>
-<span class="tk-pr">shipping</span>: <span class="tk-cl">true</span>  <span class="tk-cm"># desde jul 2025</span></pre>
+<span class="tk-pr">idiomas</span>: <span class="tk-st">ES · CA · AR · EN</span></pre>
         </div>
       </div>
     </div>
