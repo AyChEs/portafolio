@@ -28,70 +28,9 @@
   });
 
   /* ------------------------------------------------------------------
-     Boot loader — "$ ayches --version" (once per session)
+     Mark page ready immediately — the hero animation is driven by CSS.
      ------------------------------------------------------------------ */
-  var booted = false;
-  try { booted = sessionStorage.getItem('booted') === '1'; } catch (e) { /* ok */ }
-
-  function ready() { docEl.classList.add('ready'); startTypewriter(); }
-
-  if (booted || reduceMotion) {
-    ready();
-  } else {
-    var boot = document.createElement('div');
-    boot.className = 'boot';
-    boot.setAttribute('aria-hidden', 'true');
-    boot.innerHTML = '<div class="boot-inner">' +
-      '<div class="boot-line"><span class="boot-prompt">$ </span><span id="bootCmd"></span><span class="boot-caret"></span></div>' +
-      '<div class="boot-line boot-ver" id="bootOut"></div></div>';
-    document.body.appendChild(boot);
-    try { sessionStorage.setItem('booted', '1'); } catch (e) { /* ok */ }
-
-    var cmd = 'ayches --version';
-    var cmdEl = document.getElementById('bootCmd');
-    var i = 0;
-    (function typeCmd() {
-      if (i <= cmd.length) {
-        cmdEl.textContent = cmd.slice(0, i);
-        i++;
-        setTimeout(typeCmd, 26);
-      } else {
-        setTimeout(function () {
-          document.getElementById('bootOut').textContent = 'v2.0 · shipping desde 2025';
-          setTimeout(function () {
-            boot.classList.add('away');
-            ready();
-            setTimeout(function () { boot.remove(); }, 700);
-          }, 420);
-        }, 160);
-      }
-    })();
-  }
-
-  /* ------------------------------------------------------------------
-     Code card typewriter — the hero code writes itself
-     ------------------------------------------------------------------ */
-  function startTypewriter() {
-    if (reduceMotion) return;
-    var pre = document.querySelector('.code-body');
-    if (!pre) return;
-    var nodes = [];
-    (function walk(n) {
-      n.childNodes.forEach(function (c) {
-        if (c.nodeType === 3) { nodes.push([c, c.nodeValue]); c.nodeValue = ''; }
-        else walk(c);
-      });
-    })(pre);
-    var ni = 0, ci = 0;
-    setTimeout(function tick() {
-      if (ni >= nodes.length) return;
-      var pair = nodes[ni];
-      ci++;
-      pair[0].nodeValue = pair[1].slice(0, ci);
-      if (ci >= pair[1].length) { ni++; ci = 0; }
-      setTimeout(tick, 7);
-    }, 850);
-  }
+  docEl.classList.add('ready');
 
   /* ------------------------------------------------------------------
      Scroll progress bar
@@ -107,27 +46,22 @@
   onScrollBar();
 
   /* ------------------------------------------------------------------
-     Scroll reveals. Two paths, and the reveal keyframes start invisible,
-     so choosing the WRONG path leaves whole sections stuck at opacity:0.
+     Scroll reveals. Two paths; the CSS keyframes start invisible, so
+     a wrong path could trap content at opacity:0. Both are gated to
+     desktop/fine pointers — on touch/mobile we just show everything.
 
-     - Native CSS scroll timeline (`.sda`) is a desktop-only enhancement:
-       on mobile it's unreliable (URL-bar viewport shifts, sections already
-       past the fold on load) and was hiding Projects/Experience/Formation.
-     - Everywhere else — and on ALL touch/coarse pointers — use the
-       IntersectionObserver path (`.io`), which reveals on entry and is
-       reliable across mobile browsers.
-     - If neither can run (no IO, no native), nothing hides the content:
-       the base state is visible.
+     - Native CSS scroll timeline (`.sda`) when supported and on fine
+       pointers.
+     - IntersectionObserver (`.io`) as fallback.
+     - If neither: no class added, content stays visible.
      ------------------------------------------------------------------ */
   var nativeSDA = window.CSS && CSS.supports && CSS.supports('animation-timeline: view()');
   var hasIO = 'IntersectionObserver' in window;
-  var useNative = nativeSDA && finePointer;   /* trust native only on desktop */
+  var useNative = nativeSDA && finePointer;
 
   if (useNative) {
     docEl.classList.add('sda');
   } else if (hasIO && finePointer) {
-    /* Desktop without native scroll timeline: IO-driven reveal, opt-in via
-       `.pre` on below-fold elements only. */
     docEl.classList.add('io');
     var revealEls = [].slice.call(document.querySelectorAll('.rv, .rvx, .rvs, .dl'));
     var vh = window.innerHeight;
@@ -145,14 +79,9 @@
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
     revealEls.forEach(function (el) { io.observe(el); });
   }
-  /* else (mobile/touch, or no IO): no class added. Scroll-in reveals are a
-     desktop-only nicety — on touch they risked trapping whole sections at
-     opacity:0 (URL-bar viewport shifts, fast scroll). The CSS base state is
-     fully visible, so mobile simply shows everything with no entry
-     animation. Content is never hidden. */
 
   /* ------------------------------------------------------------------
-     "Seen" observer — triggers H2 char staggers & media clip reveals
+     "Seen" observer — H2 word reveal & media clip reveal
      ------------------------------------------------------------------ */
   if ('IntersectionObserver' in window) {
     var seenIO = new IntersectionObserver(function (entries) {
@@ -169,7 +98,9 @@
   }
 
   /* ------------------------------------------------------------------
-     Section H2 — split into per-character spans (re-split on lang change)
+     Section H2 — split into per-word spans (re-split on lang change).
+     One span per word, each animates as a block — gentler than the
+     per-character stagger of the previous build.
      ------------------------------------------------------------------ */
   function splitH2(h2) {
     var text = h2.textContent;
@@ -178,13 +109,10 @@
     text.split(' ').forEach(function (word, w, arr) {
       var wEl = document.createElement('span');
       wEl.className = 'word';
-      for (var k = 0; k < word.length; k++) {
-        var c = document.createElement('span');
-        c.className = 'ch';
-        c.style.setProperty('--i', idx++);
-        c.textContent = word[k];
-        wEl.appendChild(c);
-      }
+      var inner = document.createElement('span');
+      inner.style.setProperty('--i', idx++);
+      inner.textContent = word;
+      wEl.appendChild(inner);
       h2.appendChild(wEl);
       if (w < arr.length - 1) h2.appendChild(document.createTextNode(' '));
     });
@@ -203,7 +131,6 @@
   };
   var langButtons = document.querySelectorAll('.lang-toggle button');
 
-  /* Capture Spanish originals up front (scramble & splits mutate text) */
   document.querySelectorAll('[data-en]').forEach(function (el) {
     if (!el.hasAttribute('data-es')) el.setAttribute('data-es', el.textContent);
   });
@@ -246,48 +173,12 @@
   });
 
   /* ------------------------------------------------------------------
-     Hero stats count-up (brand: growth made visible)
+     Marquee — kept simple, no scroll-velocity skew.
      ------------------------------------------------------------------ */
-  if (!reduceMotion) {
-    document.querySelectorAll('.stat-n[data-count]').forEach(function (el) {
-      var target = parseInt(el.getAttribute('data-count'), 10);
-      var start = null, dur = 1100;
-      el.textContent = '0';
-      setTimeout(function () {
-        requestAnimationFrame(function step(t) {
-          if (start === null) start = t;
-          var p = Math.min(1, (t - start) / dur);
-          p = 1 - Math.pow(1 - p, 3);
-          el.textContent = String(Math.round(target * p));
-          if (p < 1) requestAnimationFrame(step);
-        });
-      }, 1000);
-    });
-  }
-
-  /* ------------------------------------------------------------------
-     Marquee — skew with scroll velocity ("el taller en movimiento")
-     ------------------------------------------------------------------ */
-  var marquee = document.querySelector('.marquee');
-  if (marquee && !reduceMotion) {
-    var lastY = window.scrollY, skew = 0, targetSkew = 0;
-    window.addEventListener('scroll', function () {
-      var y = window.scrollY;
-      targetSkew = Math.max(-4, Math.min(4, (y - lastY) * 0.22));
-      lastY = y;
-    }, { passive: true });
-    (function skewLoop() {
-      targetSkew *= 0.86;
-      skew += (targetSkew - skew) * 0.12;
-      marquee.style.setProperty('--mskew', skew.toFixed(3) + 'deg');
-      requestAnimationFrame(skewLoop);
-    })();
-  }
 
   /* ------------------------------------------------------------------
      Scroll rail — vertical spine connecting every section. Fill tracks
-     overall scroll progress; nodes light up for the active section
-     (mirrors the Experience timeline's node language, page-wide).
+     overall scroll progress; nodes light up for the active section.
      ------------------------------------------------------------------ */
   var rail = document.querySelector('.rail');
   if (rail) {
@@ -318,9 +209,6 @@
       navSpy[a.getAttribute('href').replace('#', '')] = a;
     });
 
-    /* Active section = the last one whose top has crossed the reference
-       line. Deterministic (unlike IO, which can fire out of order when
-       several short sections intersect the same narrow band at once). */
     var order = ['top', 'stack', 'projects', 'experience', 'formation', 'contact'].filter(function (k) { return railTargets[k]; });
     var lastActive = null;
     function updateActiveSection() {
@@ -354,121 +242,5 @@
     }
     window.addEventListener('scroll', wmFill, { passive: true });
     wmFill();
-  }
-
-  /* The signature interactions below only run on fine pointers
-     without reduced motion — touch devices get the plain experience. */
-  if (!finePointer || reduceMotion) return;
-
-  /* ------------------------------------------------------------------
-     Scramble/decode hover on nav links & brand ("descifrado")
-     ------------------------------------------------------------------ */
-  var GLYPHS = '<>-_\\/[]{}=+*^?#";:';
-  function scramble(el) {
-    if (el._scr) return;
-    var original = el.textContent;
-    var frame = 0, total = Math.max(10, original.length * 2);
-    el._scr = true;
-    (function step() {
-      frame++;
-      var out = '';
-      for (var k = 0; k < original.length; k++) {
-        if (original[k] === ' ') { out += ' '; continue; }
-        var reveal = (frame / total) * original.length * 1.4;
-        out += k < reveal ? original[k] : GLYPHS[(Math.random() * GLYPHS.length) | 0];
-      }
-      el.textContent = out;
-      if (frame < total) requestAnimationFrame(step);
-      else { el.textContent = original; el._scr = false; }
-    })();
-  }
-  document.querySelectorAll('.nav-links a, .brand-txt').forEach(function (el) {
-    el.addEventListener('mouseenter', function () { scramble(el); });
-  });
-
-  /* ------------------------------------------------------------------
-     Custom cursor — a solid dot pinned to the pointer + a thin ring that
-     chases it with inertia (the "cometa" trail). Ring grows and tints over
-     actionable elements; dips on press. Quiet, no labels.
-     ------------------------------------------------------------------ */
-  var dot = document.createElement('div');
-  var ring = document.createElement('div');
-  dot.className = 'cur-dot hidden';
-  ring.className = 'cur-ring hidden';
-  dot.setAttribute('aria-hidden', 'true');
-  ring.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(dot);
-  document.body.appendChild(ring);
-  docEl.classList.add('cc');
-
-  var mx = -100, my = -100, rx = -100, ry = -100, cursorSeen = false;
-
-  document.addEventListener('mousemove', function (e) {
-    mx = e.clientX; my = e.clientY;
-    if (!cursorSeen) { cursorSeen = true; rx = mx; ry = my; dot.classList.remove('hidden'); ring.classList.remove('hidden'); }
-    dot.style.transform = 'translate(' + mx + 'px,' + my + 'px) translate(-50%, -50%)';
-  }, { passive: true });
-
-  document.addEventListener('mouseleave', function () {
-    dot.classList.add('hidden'); ring.classList.add('hidden');
-    cursorSeen = false;
-  });
-  document.addEventListener('mousedown', function () { ring.classList.add('press'); }, { passive: true });
-  document.addEventListener('mouseup', function () { ring.classList.remove('press'); }, { passive: true });
-
-  (function trail() {
-    rx += (mx - rx) * 0.16;
-    ry += (my - ry) * 0.16;
-    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%, -50%)';
-    requestAnimationFrame(trail);
-  })();
-
-  /* Grow/tint the ring over actionable targets (and shrink the dot). */
-  var HOVERABLE = 'a, button, .tech, .project-card, .lang-toggle';
-  document.addEventListener('mouseover', function (e) {
-    if (e.target.closest(HOVERABLE)) { ring.classList.add('hov'); dot.classList.add('hov'); }
-  }, { passive: true });
-  document.addEventListener('mouseout', function (e) {
-    if (e.target.closest(HOVERABLE)) { ring.classList.remove('hov'); dot.classList.remove('hov'); }
-  }, { passive: true });
-
-  /* ------------------------------------------------------------------
-     Magnetic buttons ("imán") — subtle pull toward the cursor
-     ------------------------------------------------------------------ */
-  document.querySelectorAll('[data-mag], .theme-toggle').forEach(function (el) {
-    var strength = 0.22, max = 6;
-    el.addEventListener('mousemove', function (e) {
-      var r = el.getBoundingClientRect();
-      var dx = (e.clientX - (r.left + r.width / 2)) * strength;
-      var dy = (e.clientY - (r.top + r.height / 2)) * strength;
-      dx = Math.max(-max, Math.min(max, dx));
-      dy = Math.max(-max, Math.min(max, dy));
-      el.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
-      el.style.transition = 'transform .08s linear, box-shadow .22s cubic-bezier(.23,1,.32,1), border-color .22s ease, background-color .2s ease, color .2s ease';
-    });
-    el.addEventListener('mouseleave', function () {
-      el.style.transition = 'transform .35s cubic-bezier(.23,1,.32,1), box-shadow .22s cubic-bezier(.23,1,.32,1), border-color .22s ease, background-color .2s ease, color .2s ease';
-      el.style.transform = '';
-    });
-  });
-
-  /* ------------------------------------------------------------------
-     3D tilt on the hero code card — precise, contained
-     ------------------------------------------------------------------ */
-  var heroCard = document.querySelector('.hero-card');
-  var tiltEl = document.querySelector('.tilt');
-  if (heroCard && tiltEl) {
-    var MAXDEG = 5;
-    heroCard.addEventListener('mousemove', function (e) {
-      var r = tiltEl.getBoundingClientRect();
-      var px = (e.clientX - r.left) / r.width - 0.5;
-      var py = (e.clientY - r.top) / r.height - 0.5;
-      tiltEl.style.transition = 'transform .12s linear';
-      tiltEl.style.transform = 'rotateY(' + (px * MAXDEG * 2) + 'deg) rotateX(' + (-py * MAXDEG * 2) + 'deg)';
-    });
-    heroCard.addEventListener('mouseleave', function () {
-      tiltEl.style.transition = 'transform .5s cubic-bezier(.23,1,.32,1)';
-      tiltEl.style.transform = '';
-    });
   }
 })();
