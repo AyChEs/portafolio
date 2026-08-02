@@ -1,4 +1,6 @@
-import { Cpu, Code2, BrainCircuit, Plane, BookOpen, Dumbbell, Clapperboard } from 'lucide-react';
+import {
+  Cpu, Code2, BrainCircuit, Plane, BookOpen, Dumbbell, Clapperboard, ArrowRight,
+} from 'lucide-react';
 import { useApp } from '../lib/app-context.jsx';
 import Reveal from './Reveal.jsx';
 import Globe from './Globe.jsx';
@@ -34,6 +36,14 @@ export default function About() {
           <p className="intro-lead">{ui.aboutLead}</p>
           <p>{ui.aboutBio}</p>
           <p>{ui.aboutBio2}</p>
+          <dl className="intro-facts">
+            {ui.quickFacts.map((f) => (
+              <div className="fact-row" key={f.k}>
+                <dt>{f.k}</dt>
+                <dd>{f.v}</dd>
+              </div>
+            ))}
+          </dl>
           <div className="intro-foot">
             <span className="intro-sign">{ui.signature}</span>
             <div className="trait-row">
@@ -44,7 +54,7 @@ export default function About() {
           </div>
         </Reveal>
 
-        {/* Location globe — Spain */}
+        {/* Location globe — real map + pin on Tarragona */}
         <Reveal variant="scale" delay={0.05} className="card b-globe">
           <div className="b-globe-head">
             <span className="eyebrow">{ui.locLabel}</span>
@@ -53,46 +63,58 @@ export default function About() {
           <Globe />
         </Reveal>
 
-        {/* Focus areas */}
-        <Reveal variant="scale" delay={0.1} className="card b-focus">
-          <span className="eyebrow">{ui.focusTitle}</span>
-          <div className="focus-items">
-            {content.focus.map((f) => {
-              const Ico = FOCUS_ICONS[f.icon] || Code2;
-              return (
-                <div className="focus-item" key={f.icon}>
-                  <span className="focus-ico" aria-hidden="true"><Ico size={20} /></span>
-                  <div className="focus-txt">
-                    <div className="focus-t">{f.title}</div>
-                    <div className="focus-s">{f.sub}</div>
-                  </div>
-                </div>
-              );
-            })}
+        {/* Availability CTA */}
+        <Reveal variant="scale" delay={0.1} className="b-cta">
+          <span className="glow" aria-hidden="true" />
+          <div className="avail">
+            <span className="dot" aria-hidden="true" />
+            <span>{ui.availShort}</span>
           </div>
-        </Reveal>
-
-        {/* Interests */}
-        <Reveal variant="scale" delay={0.15} className="card b-interests">
-          <span className="eyebrow">{ui.interestsTitle}</span>
-          <div className="interest-grid">
-            {content.interests.map((it) => {
-              const Ico = INTEREST_ICONS[it.icon] || BookOpen;
-              return (
-                <div className="interest-cell" key={it.icon}>
-                  <span className="interest-ico" aria-hidden="true"><Ico size={22} /></span>
-                  <span className="interest-l">{it.label}</span>
-                </div>
-              );
-            })}
-          </div>
+          <p className="big">
+            <span className="a">{ui.ctaA}</span>
+            <span className="b">{ui.ctaB}</span>
+          </p>
+          <a className="chip-link" href="#contact">
+            {ui.getInTouch} <ArrowRight size={15} aria-hidden="true" />
+          </a>
         </Reveal>
 
         {/* Quote */}
-        <Reveal variant="scale" delay={0.1} className="card b-quote">
+        <Reveal variant="scale" delay={0.12} className="card b-quote">
           <span className="mark" aria-hidden="true">”</span>
           <p>{content.quote.text}</p>
           <div className="by">{content.quote.author}</div>
+        </Reveal>
+
+        {/* Interests band — pro areas + off-the-clock, combined */}
+        <Reveal variant="up" delay={0.05} className="card b-interests">
+          <div className="int-group">
+            <span className="eyebrow">{ui.focusTitle}</span>
+            <div className="int-chips">
+              {content.focus.map((f) => {
+                const Ico = FOCUS_ICONS[f.icon] || Code2;
+                return (
+                  <span className="int-chip accent" key={f.icon}>
+                    <Ico size={16} aria-hidden="true" />{f.title}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+          <span className="int-sep" aria-hidden="true" />
+          <div className="int-group">
+            <span className="eyebrow">{ui.interestsTitle}</span>
+            <div className="int-chips">
+              {content.interests.map((it) => {
+                const Ico = INTEREST_ICONS[it.icon] || BookOpen;
+                return (
+                  <span className="int-chip" key={it.icon}>
+                    <Ico size={16} aria-hidden="true" />{it.label}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
         </Reveal>
       </div>
 

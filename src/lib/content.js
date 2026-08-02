@@ -21,7 +21,6 @@ export function getContent(lang) {
         'Full-stack developer focused on backend — Ruby on Rails, REST APIs and multi-tenant SaaS at Etecnic.'
       ),
       available: tr('Disponible para nuevas oportunidades', 'Open to new opportunities'),
-      availShort: tr('Disponible', 'Available'),
       seeWork: tr('Ver proyectos', 'See projects'),
       getInTouch: tr('Hablemos', "Let's talk"),
       reachOut: tr('Escríbeme', 'Reach out'),
@@ -42,6 +41,18 @@ export function getContent(lang) {
         'I like code that is simple, honest and well cared for — I prefer a clear solution to an inflated list of achievements.'
       ),
       signature: tr('Del ticket al merge.', 'From ticket to merge.'),
+      quickFacts: tr(
+        [
+          { k: 'Ahora', v: 'Backend @ Etecnic' },
+          { k: 'Base', v: 'Ruby on Rails · PostgreSQL' },
+          { k: 'Lugar', v: 'Tarragona · España' },
+        ],
+        [
+          { k: 'Now', v: 'Backend @ Etecnic' },
+          { k: 'Core', v: 'Ruby on Rails · PostgreSQL' },
+          { k: 'Place', v: 'Tarragona · Spain' },
+        ]
+      ),
       traits: tr(
         ['Detalle en el código', 'Buen ambiente', 'Curioso'],
         ['Detail in the code', 'Good vibes', 'Curious']
@@ -49,8 +60,11 @@ export function getContent(lang) {
       locLabel: tr('Basado en', 'Based in'),
       locTitle: tr('Tarragona,', 'Tarragona,'),
       locSub: tr('España', 'Spain'),
-      focusTitle: tr('En qué trabajo', 'What I work on'),
+      focusTitle: tr('Me interesa', "What I'm into"),
       interestsTitle: tr('Fuera del código', 'Off the clock'),
+      availShort: tr('Disponible para proyectos', 'Available for work'),
+      ctaA: tr('¿Tienes una idea?', 'Have an idea?'),
+      ctaB: tr('Construyámosla', "Let's build it"),
       now: tr('Ahora', 'Now'),
       verified: tr('Verificado', 'Verified'),
       code: tr('Código', 'Code'),
