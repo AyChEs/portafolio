@@ -1,0 +1,23 @@
+{
+  "name": "ayches-portfolio",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Portafolio de Ayman Charoui Essamadi (AyChEs) — React + Vite",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "cmdk": "^1.1.1",
+    "framer-motion": "^12.23.12",
+    "lucide-react": "^0.544.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.4",
+    "vite": "^7.1.9"
+  }
+}
