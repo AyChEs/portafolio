@@ -7,6 +7,7 @@ export default function Hero() {
   const ui = content.ui;
   const reduce = useReducedMotion();
   const letters = content.firstName.split('');
+  const linkedin = content.contacts.find((c) => c.key === 'linkedin')?.href || '#contact';
 
   const up = (delay) => reduce
     ? {}
@@ -92,7 +93,7 @@ export default function Hero() {
         <a className="btn btn-primary" href="#projects">
           {ui.seeWork} <span className="m" aria-hidden="true">→</span>
         </a>
-        <a className="btn btn-ghost" href="#contact">
+        <a className="btn btn-ghost" href={linkedin} target="_blank" rel="noopener noreferrer">
           {ui.getInTouch} <ArrowRight size={16} aria-hidden="true" />
         </a>
       </motion.div>

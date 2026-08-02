@@ -40,7 +40,6 @@ export default function Nav() {
       <nav className="nav" aria-label={content.ui.sHome}>
         <span className="nav-beam" aria-hidden="true" />
         <a className="brand" href="#top" aria-label="Ayman Charoui — AyChEs">
-          <span className="brand-mark" aria-hidden="true">{content.initials}</span>
           <span className="brand-word">Ay<span className="brand-accent">Ch</span>Es</span>
         </a>
         <div className="nav-links">

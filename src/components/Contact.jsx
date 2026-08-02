@@ -22,19 +22,19 @@ export default function Contact() {
           <h2>{ui.getInTouch}</h2>
           <p>{ui.contactNote}</p>
         </Reveal>
-        <Reveal delay={0.05} className="contact-grid">
+        <Reveal delay={0.05} className="contact-icons">
           {content.contacts.map((c) => {
             const Ico = ICONS[c.key] || Mail;
             return (
               <a
                 key={c.key}
-                className="contact-card"
+                className="contact-ico"
                 href={c.href}
+                aria-label={c.label}
+                title={c.label}
                 {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
-                <span className="ico" aria-hidden="true"><Ico size={17} /></span>
-                <span className="lb">{c.label}</span>
-                <span className="vl">{c.value}</span>
+                <Ico size={22} aria-hidden="true" />
               </a>
             );
           })}

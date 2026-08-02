@@ -113,10 +113,22 @@ export function getContent(lang) {
       { icon: 'cinema', label: tr('Cine', 'Cinema') },
     ],
 
+    // Etiquetas para la esfera 3D de intereses (accent = interés técnico).
+    sphereTags: [
+      { label: tr('Embebida', 'Embedded'), accent: true },
+      { label: tr('Software', 'Software'), accent: true },
+      { label: tr('IA', 'AI'), accent: true },
+      { label: 'Backend', accent: true },
+      { label: 'APIs', accent: true },
+      { label: tr('Viajar', 'Travel'), accent: false },
+      { label: tr('Leer', 'Reading'), accent: false },
+      { label: tr('Gimnasio', 'Gym'), accent: false },
+      { label: tr('Cine', 'Cinema'), accent: false },
+    ],
+
     stats: [
       { n: 3, suffix: '', label: tr('Proyectos', 'Projects') },
       { n: 1, suffix: '+', label: tr('Año de experiencia', 'Year of experience') },
-      { n: 15, suffix: '', label: tr('Tecnologías', 'Technologies') },
       { n: 4, suffix: '', label: tr('Idiomas', 'Languages') },
     ],
 
@@ -184,9 +196,6 @@ export function getContent(lang) {
       { type: 'study', period: '2024 — 2026', title: tr('Téc. Superior en Desarrollo de Aplicaciones Web (DAW)', 'Higher Diploma in Web Application Development (DAW)'),
         org: 'Institut Francesc Vidal i Barraquer',
         note: tr('El salto al desarrollo: full-stack, bases de datos y despliegue.', 'The jump into development: full-stack, databases and deployment.') },
-      { type: 'cert', period: tr('jul 2025', 'Jul 2025'), title: 'Full Stack Web Development',
-        org: 'Amazon', tag: 'ID 1SUXINCID97O',
-        note: tr('Certificación de desarrollo web full-stack.', 'Full-stack web development certification.') },
       { type: 'work', period: tr('jul 2025 — mar 2026', 'Jul 2025 — Mar 2026'), title: tr('Desarrollador Backend · Prácticas', 'Backend Developer · Intern'),
         org: 'Etecnic', place: 'Tarragona',
         note: tr('Primeros pasos en producción real con Ruby on Rails, compaginando estudios.', 'First steps in real production with Ruby on Rails, alongside my studies.') },
