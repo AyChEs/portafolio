@@ -3,7 +3,6 @@ import { useApp } from '../lib/app-context.jsx';
 import Reveal from './Reveal.jsx';
 import Globe from './Globe.jsx';
 import TagSphere from './TagSphere.jsx';
-import Stats from './Stats.jsx';
 
 export default function About() {
   const { content } = useApp();
@@ -89,8 +88,6 @@ export default function About() {
           <div className="by">{content.quote.author}</div>
         </Reveal>
       </div>
-
-      <Stats />
     </section>
   );
 }

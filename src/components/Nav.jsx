@@ -65,8 +65,6 @@ export default function Nav() {
           <span className="cmd-label">{content.ui.palTap}</span>
         </button>
       </nav>
-
-      <button className="cmd-fab" onClick={openPalette} aria-label={content.ui.palTap}>⌘</button>
     </>
   );
 }

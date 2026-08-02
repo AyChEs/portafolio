@@ -49,15 +49,16 @@ export default function Hero() {
               </linearGradient>
             </defs>
             <g fill="none" stroke="url(#fiber)" strokeLinecap="round">
-              <path d="M-40 190 C 260 150 520 120 640 158 S 980 210 1240 150" strokeWidth="1" strokeOpacity=".35" />
-              <path d="M-40 168 C 240 128 520 100 660 140 S 980 190 1240 128" strokeWidth="1.5" strokeOpacity=".5" />
-              <path d="M-40 152 C 240 116 520 86 660 128 S 1000 176 1240 112" strokeWidth="2.4" strokeOpacity=".7" />
-              <path d="M-40 138 C 240 104 520 74 660 118 S 1000 162 1240 98" strokeWidth="1.4" strokeOpacity=".5" />
-              <path d="M-40 122 C 240 92 520 62 660 106 S 1000 148 1240 84" strokeWidth="1" strokeOpacity=".32" />
-              <path d="M-40 208 C 260 168 520 138 640 176 S 980 226 1240 168" strokeWidth="1" strokeOpacity=".28" />
-              <path d="M-40 226 C 260 186 520 156 640 192 S 980 240 1240 186" strokeWidth="1" strokeOpacity=".2" />
+              <path d="M-40 190 C 260 150 520 120 640 158 S 980 210 1240 150" strokeWidth="2" strokeOpacity=".5" />
+              <path d="M-40 168 C 240 128 520 100 660 140 S 980 190 1240 128" strokeWidth="3" strokeOpacity=".72" />
+              <path d="M-40 152 C 240 116 520 86 660 128 S 1000 176 1240 112" strokeWidth="4" strokeOpacity=".92" />
+              <path d="M-40 138 C 240 104 520 74 660 118 S 1000 162 1240 98" strokeWidth="2.6" strokeOpacity=".68" />
+              <path d="M-40 122 C 240 92 520 62 660 106 S 1000 148 1240 84" strokeWidth="2" strokeOpacity=".46" />
+              <path d="M-40 208 C 260 168 520 138 640 176 S 980 226 1240 168" strokeWidth="2" strokeOpacity=".42" />
+              <path d="M-40 226 C 260 186 520 156 640 192 S 980 240 1240 186" strokeWidth="1.6" strokeOpacity=".3" />
+              <path d="M-40 108 C 240 80 520 50 660 94 S 1000 134 1240 70" strokeWidth="1.4" strokeOpacity=".24" />
             </g>
-            <g fill="none" stroke="url(#fiberSpark)" strokeLinecap="round" strokeWidth="2.4" strokeDasharray="150 1900">
+            <g fill="none" stroke="url(#fiberSpark)" strokeLinecap="round" strokeWidth="3.4" strokeDasharray="170 1700">
               <path d="M-40 168 C 240 128 520 100 660 140 S 980 190 1240 128" style={{ animation: 'beamRun 6s linear infinite' }} />
               <path d="M-40 152 C 240 116 520 86 660 128 S 1000 176 1240 112" style={{ animation: 'beamRun 7.5s 1.2s linear infinite' }} />
               <path d="M-40 190 C 260 150 520 120 640 158 S 980 210 1240 150" style={{ animation: 'beamRun 9s 2.8s linear infinite' }} />

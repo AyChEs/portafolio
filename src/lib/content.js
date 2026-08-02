@@ -17,8 +17,8 @@ export function getContent(lang) {
       hi: tr('Hola, soy', "Hi, I'm"),
       kicker: tr('Desarrollador Full-Stack', 'Full-Stack Developer'),
       tagline: tr(
-        'Desarrollador full-stack centrado en backend — Ruby on Rails, APIs REST y SaaS multi-tenant en Etecnic.',
-        'Full-stack developer focused on backend — Ruby on Rails, REST APIs and multi-tenant SaaS at Etecnic.'
+        'Desarrollador full-stack centrado en backend — Ruby on Rails, APIs REST y SaaS multi-tenant.',
+        'Full-stack developer focused on backend — Ruby on Rails, REST APIs and multi-tenant SaaS.'
       ),
       available: tr('Disponible para nuevas oportunidades', 'Open to new opportunities'),
       seeWork: tr('Ver proyectos', 'See projects'),
@@ -33,8 +33,8 @@ export function getContent(lang) {
       sHome: tr('Inicio', 'Home'),
       aboutLead: tr('Full-stack, más cómodo en el backend.', 'Full-stack, most at home in the backend.'),
       aboutBio: tr(
-        'En Etecnic construyo con Ruby on Rails y cojo las funcionalidades de principio a fin: APIs REST, permisos, i18n y generación de documentos para un SaaS multi-tenant.',
-        'At Etecnic I build with Ruby on Rails and own features end to end: REST APIs, permissions, i18n and document generation for a multi-tenant SaaS.'
+        'Cojo las funcionalidades de principio a fin con Ruby on Rails: APIs REST, control de permisos, i18n y generación de documentos para SaaS multi-tenant.',
+        'I own features end to end with Ruby on Rails: REST APIs, permission control, i18n and document generation for multi-tenant SaaS.'
       ),
       aboutBio2: tr(
         'Me gusta el código simple, honesto y bien cuidado — prefiero una solución clara a una lista de logros inflada.',
@@ -43,12 +43,12 @@ export function getContent(lang) {
       signature: tr('Del ticket al merge.', 'From ticket to merge.'),
       quickFacts: tr(
         [
-          { k: 'Ahora', v: 'Backend @ Etecnic' },
+          { k: 'Rol', v: 'Backend & Full-stack' },
           { k: 'Base', v: 'Ruby on Rails · PostgreSQL' },
           { k: 'Lugar', v: 'Tarragona · España' },
         ],
         [
-          { k: 'Now', v: 'Backend @ Etecnic' },
+          { k: 'Role', v: 'Backend & Full-stack' },
           { k: 'Core', v: 'Ruby on Rails · PostgreSQL' },
           { k: 'Place', v: 'Tarragona · Spain' },
         ]
@@ -178,11 +178,6 @@ export function getContent(lang) {
           'Complete cinema reservation system featuring real-time seat locking concurrency and dynamic pricing logic.'
         ),
         inProgress: false, hasLinks: true, code: '#', demo: '#' },
-      { title: tr('Nuevo proyecto', 'New project'), num: '03', kind: tr('Por definir', 'TBD'), when: '2026',
-        img: null, file: 'wip.rb', url: 'coming-soon',
-        tags: [tr('Por definir', 'TBD')],
-        desc: tr('En construcción. Pronto añadiré los detalles aquí.', 'Under construction. Details coming soon here.'),
-        inProgress: true, hasLinks: false, code: '#', demo: '#' },
     ],
 
     // Trayectoria unificada (estudios + trabajo + certificación), ascendente.
