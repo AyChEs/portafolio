@@ -1,4 +1,5 @@
 import { Github, Linkedin, Mail, FileText, ArrowUp } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useApp } from '../lib/app-context.jsx';
 import Reveal from './Reveal.jsx';
 
@@ -41,7 +42,16 @@ export default function Contact() {
       </div>
 
       <div className="wordmark" aria-hidden="true">
-        <div className="w">{content.firstName}</div>
+        <div className="w w-outline">{content.handle}</div>
+        <motion.div
+          className="w-fill"
+          initial={{ width: '0%' }}
+          whileInView={{ width: '100%' }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 1.4, ease: [0.2, 0.75, 0.25, 1] }}
+        >
+          <span className="w">{content.handle}</span>
+        </motion.div>
       </div>
 
       <div className="footer-bar">

@@ -1,4 +1,5 @@
-import { motion, useScroll } from 'framer-motion';
+import { ReactLenis } from 'lenis/react';
+import { motion, useScroll, useReducedMotion } from 'framer-motion';
 import Ambient from './components/Ambient.jsx';
 import Nav from './components/Nav.jsx';
 import CommandPalette from './components/CommandPalette.jsx';
@@ -7,8 +8,8 @@ import Ribbons from './components/Ribbons.jsx';
 import About from './components/About.jsx';
 import Stack from './components/Stack.jsx';
 import Projects from './components/Projects.jsx';
-import Experience from './components/Experience.jsx';
-import Formation from './components/Formation.jsx';
+import Journey from './components/Journey.jsx';
+import Languages from './components/Languages.jsx';
 import Contact from './components/Contact.jsx';
 
 function Connector({ delay = 0 }) {
@@ -21,8 +22,9 @@ function Connector({ delay = 0 }) {
 
 export default function App() {
   const { scrollYProgress } = useScroll();
+  const reduce = useReducedMotion();
 
-  return (
+  const content = (
     <>
       <motion.div className="progress" style={{ scaleX: scrollYProgress }} />
       <Ambient />
@@ -38,12 +40,20 @@ export default function App() {
         <Connector delay={0.6} />
         <Projects />
         <Connector delay={1.2} />
-        <Experience />
+        <Journey />
         <Connector delay={1.8} />
-        <Formation />
+        <Languages />
       </main>
 
       <Contact />
     </>
+  );
+
+  // Lenis smooth scroll (disabled when the user prefers reduced motion).
+  if (reduce) return content;
+  return (
+    <ReactLenis root options={{ lerp: 0.1, smoothWheel: true }}>
+      {content}
+    </ReactLenis>
   );
 }

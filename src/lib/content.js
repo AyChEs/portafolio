@@ -10,6 +10,7 @@ export function getContent(lang) {
     es,
     name: 'Ayman Charoui Essamadi',
     firstName: 'Ayman',
+    handle: 'AyChEs',
     initials: 'AC',
 
     ui: {
@@ -27,16 +28,11 @@ export function getContent(lang) {
       sAbout: tr('Sobre mí', 'About me'),
       sStack: 'Stack',
       sProjects: tr('Proyectos', 'Projects'),
-      sExp: tr('Experiencia', 'Experience'),
-      sEdu: tr('Educación', 'Education'),
+      sJourney: tr('Trayectoria', 'Journey'),
       sLang: tr('Idiomas', 'Languages'),
-      sCert: tr('Certificaciones', 'Certifications'),
       sContact: tr('Contacto', 'Contact'),
       sHome: tr('Inicio', 'Home'),
-      aboutLead: tr(
-        'Full-stack, más cómodo en el backend.',
-        'Full-stack, most at home in the backend.'
-      ),
+      aboutLead: tr('Full-stack, más cómodo en el backend.', 'Full-stack, most at home in the backend.'),
       aboutBio: tr(
         'En Etecnic construyo con Ruby on Rails y cojo las funcionalidades de principio a fin: APIs REST, permisos, i18n y generación de documentos para un SaaS multi-tenant.',
         'At Etecnic I build with Ruby on Rails and own features end to end: REST APIs, permissions, i18n and document generation for a multi-tenant SaaS.'
@@ -45,28 +41,16 @@ export function getContent(lang) {
         'Me gusta el código simple, honesto y bien cuidado — prefiero una solución clara a una lista de logros inflada.',
         'I like code that is simple, honest and well cared for — I prefer a clear solution to an inflated list of achievements.'
       ),
+      signature: tr('Del ticket al merge.', 'From ticket to merge.'),
       traits: tr(
-        ['Del ticket al merge', 'Detalle en el código', 'Buen ambiente'],
-        ['Ticket to merge', 'Detail in the code', 'Good vibes']
+        ['Detalle en el código', 'Buen ambiente', 'Curioso'],
+        ['Detail in the code', 'Good vibes', 'Curious']
       ),
-      focus: tr(
-        [
-          { k: 'Ahora', v: 'Etecnic · Tarragona' },
-          { k: 'Enfoque', v: 'Backend · APIs REST · SaaS' },
-          { k: 'Base', v: 'Ruby on Rails · PostgreSQL' },
-        ],
-        [
-          { k: 'Now', v: 'Etecnic · Tarragona' },
-          { k: 'Focus', v: 'Backend · REST APIs · SaaS' },
-          { k: 'Core', v: 'Ruby on Rails · PostgreSQL' },
-        ]
-      ),
-      locLabel: tr('Flexible con horarios', 'Flexible with timezones'),
-      locTitle: tr('En Tarragona,', 'Based in Tarragona,'),
-      locSub: tr('disponible en remoto', 'available remotely'),
-      clockLabel: tr('Hora local', 'Local time'),
-      ctaA: tr('¿Tienes una idea?', 'Have an idea?'),
-      ctaB: tr('Construyámosla', "Let's build it"),
+      locLabel: tr('Basado en', 'Based in'),
+      locTitle: tr('Tarragona,', 'Tarragona,'),
+      locSub: tr('España', 'Spain'),
+      focusTitle: tr('En qué trabajo', 'What I work on'),
+      interestsTitle: tr('Fuera del código', 'Off the clock'),
       now: tr('Ahora', 'Now'),
       verified: tr('Verificado', 'Verified'),
       code: tr('Código', 'Code'),
@@ -87,7 +71,6 @@ export function getContent(lang) {
       palLang: tr('Cambiar idioma', 'Change language'),
       palTheme: tr('Cambiar tema', 'Toggle theme'),
       palTap: tr('Explorar', 'Explore'),
-      resume: 'CV (PDF)',
       privacy: tr('Privacidad', 'Privacy'),
     },
 
@@ -101,13 +84,29 @@ export function getContent(lang) {
       author: 'Edsger W. Dijkstra',
     },
 
+    // Áreas profesionales que me representan.
+    focus: [
+      { icon: 'cpu', title: tr('Ingeniería embebida', 'Embedded engineering'), sub: tr('Hardware que piensa', 'Hardware that thinks') },
+      { icon: 'code', title: tr('Desarrollo de software', 'Software development'), sub: tr('Del backend al producto', 'From backend to product') },
+      { icon: 'ai', title: tr('Inteligencia artificial', 'Artificial intelligence'), sub: tr('Aprendiendo y aplicando', 'Learning & applying') },
+    ],
+
+    // Intereses personales.
+    interests: [
+      { icon: 'travel', label: tr('Viajar', 'Travel') },
+      { icon: 'reading', label: tr('Leer', 'Reading') },
+      { icon: 'gym', label: tr('Gimnasio', 'Gym') },
+      { icon: 'cinema', label: tr('Cine', 'Cinema') },
+    ],
+
     stats: [
       { n: 3, suffix: '', label: tr('Proyectos', 'Projects') },
-      { n: 2, suffix: '+', label: tr('Años de experiencia', 'Years of experience') },
+      { n: 1, suffix: '+', label: tr('Año de experiencia', 'Year of experience') },
       { n: 15, suffix: '', label: tr('Tecnologías', 'Technologies') },
       { n: 4, suffix: '', label: tr('Idiomas', 'Languages') },
     ],
 
+    // Stack por categorías (layout en filas, no en cajas).
     techGroups: [
       { num: '01', cat: tr('Lenguajes', 'Languages'), items: [
         { n: 'Ruby', icon: L + 'ruby.svg' },
@@ -138,7 +137,7 @@ export function getContent(lang) {
 
     projects: [
       { title: 'Hotel ERP System', num: '01', kind: tr('Plataforma web', 'Web platform'), when: '2025',
-        img: '/assets/projects/hotel-erp.jpg', file: 'hotel-erp.java',
+        img: '/assets/projects/hotel-erp.jpg', file: 'hotel-erp.java', url: 'hotel-erp.vercel.app',
         tags: ['Java', 'Spring Boot', 'React', 'PostgreSQL'],
         desc: tr(
           'Plataforma de administración empresarial con seguridad robusta (JWT), control de acceso por roles y dashboards de reporting.',
@@ -146,7 +145,7 @@ export function getContent(lang) {
         ),
         inProgress: false, hasLinks: true, code: 'https://github.com/AyChEs/hotel-erp', demo: 'https://hotel-erp-rho.vercel.app' },
       { title: 'CineFlow Booking Engine', num: '02', kind: tr('App web', 'Web app'), when: '2025',
-        img: '/assets/projects/cineflow.svg', file: 'cineflow.php',
+        img: '/assets/projects/cineflow.svg', file: 'cineflow.php', url: 'cineflow.app',
         tags: ['PHP · Laravel', 'MySQL', 'Stripe API', 'JS'],
         desc: tr(
           'Sistema completo de reservas de cine con bloqueo de butacas en tiempo real (concurrencia) y lógica de precios dinámicos.',
@@ -154,50 +153,33 @@ export function getContent(lang) {
         ),
         inProgress: false, hasLinks: true, code: '#', demo: '#' },
       { title: tr('Nuevo proyecto', 'New project'), num: '03', kind: tr('Por definir', 'TBD'), when: '2026',
-        img: null, file: 'wip.rb', tags: [tr('Por definir', 'TBD')],
+        img: null, file: 'wip.rb', url: 'coming-soon',
+        tags: [tr('Por definir', 'TBD')],
         desc: tr('En construcción. Pronto añadiré los detalles aquí.', 'Under construction. Details coming soon here.'),
         inProgress: true, hasLinks: false, code: '#', demo: '#' },
     ],
 
-    experience: [
-      { role: tr('Desarrollador Backend', 'Backend Developer'), org: 'Etecnic', current: true,
-        type: tr('Jornada completa', 'Full-time'), period: tr('mar 2026 — Actualidad', 'Mar 2026 — Present'),
-        place: tr('Tarragona · Presencial', 'Tarragona · On-site'),
-        bullets: [
-          tr('Migré la generación de PDFs de facturas a una pipeline basada en HTML y CSS, adaptada para entornos de integración continua.',
-             'Migrated invoice PDF generation to an HTML/CSS-based pipeline, adapted to run in continuous-integration environments.'),
-          tr('Entregué la internacionalización de facturas en 9 idiomas, con resolución automática del idioma según el cliente.',
-             'Delivered invoice internationalization in 9 languages, resolving the language automatically per client.'),
-          tr('Construí endpoints REST con control de permisos, cubiertos con tests de distintos tipos.',
-             'Built REST endpoints with permission control, covered by several types of tests.'),
-          tr('Contribuí a un sistema de branding por dominio que genera documentos personalizados para cada cliente.',
-             'Contributed to a per-domain branding system generating personalized documents for each client.'),
-        ] },
-      { role: tr('Desarrollador Backend · Prácticas', 'Backend Developer · Intern'), org: 'Etecnic', current: false,
-        type: tr('Prácticas', 'Internship'), period: tr('jul 2025 — mar 2026', 'Jul 2025 — Mar 2026'),
-        place: tr('Tarragona · Presencial', 'Tarragona · On-site'),
-        bullets: [
-          tr('Prácticas en el mismo equipo de backend, compaginadas con los estudios.', 'Internship in the same backend team, combined with my studies.'),
-          tr('Primeros pasos en un entorno de producción real con Ruby on Rails.', 'First steps in a real production environment with Ruby on Rails.'),
-        ] },
-      { role: tr('Técnico Informático · Prácticas', 'IT Technician · Intern'), org: 'The British School of Costa Daurada', current: false,
-        type: tr('Prácticas', 'Internship'), period: tr('ene — may 2024', 'Jan — May 2024'),
-        place: tr('Tarragona · Presencial', 'Tarragona · On-site'),
-        bullets: [
-          tr('Soporte técnico en sistemas operativos y redes.', 'Technical support across operating systems and networks.'),
-          tr('Automatización de tareas y administración de sistemas.', 'Task automation and systems administration.'),
-        ] },
-    ],
-
-    education: [
-      { mono: 'FV', title: tr('Téc. Superior en Desarrollo de Aplicaciones Web (DAW)', 'Higher Diploma in Web Application Development (DAW)'),
-        org: 'Institut Francesc Vidal i Barraquer', period: '2024 — 2026', honors: null },
-      { mono: 'FV', title: tr('Téc. en Sistemas Microinformáticos y Redes', 'Diploma in Microcomputer Systems & Networks'),
-        org: 'Institut Francesc Vidal i Barraquer', period: '2022 — 2024', honors: tr('Honores · 8.6/10', 'Honors · 8.6/10') },
-    ],
-
-    certs: [
-      { title: 'Full Stack Web Development', org: 'Amazon', date: tr('jul 2025', 'Jul 2025'), id: 'ID 1SUXINCID97O' },
+    // Trayectoria unificada (estudios + trabajo + certificación), ascendente.
+    journey: [
+      { type: 'study', period: '2022 — 2024', title: tr('Téc. en Sistemas Microinformáticos y Redes', 'Diploma in Microcomputer Systems & Networks'),
+        org: 'Institut Francesc Vidal i Barraquer', tag: tr('Honores · 8.6/10', 'Honors · 8.6/10'),
+        note: tr('Primer contacto serio con sistemas, redes y hardware.', 'First serious contact with systems, networks and hardware.') },
+      { type: 'work', period: tr('ene — may 2024', 'Jan — May 2024'), title: tr('Técnico Informático · Prácticas', 'IT Technician · Intern'),
+        org: 'The British School of Costa Daurada', place: 'Tarragona',
+        note: tr('Soporte técnico, redes y automatización de tareas.', 'Technical support, networks and task automation.') },
+      { type: 'study', period: '2024 — 2026', title: tr('Téc. Superior en Desarrollo de Aplicaciones Web (DAW)', 'Higher Diploma in Web Application Development (DAW)'),
+        org: 'Institut Francesc Vidal i Barraquer',
+        note: tr('El salto al desarrollo: full-stack, bases de datos y despliegue.', 'The jump into development: full-stack, databases and deployment.') },
+      { type: 'cert', period: tr('jul 2025', 'Jul 2025'), title: 'Full Stack Web Development',
+        org: 'Amazon', tag: 'ID 1SUXINCID97O',
+        note: tr('Certificación de desarrollo web full-stack.', 'Full-stack web development certification.') },
+      { type: 'work', period: tr('jul 2025 — mar 2026', 'Jul 2025 — Mar 2026'), title: tr('Desarrollador Backend · Prácticas', 'Backend Developer · Intern'),
+        org: 'Etecnic', place: 'Tarragona',
+        note: tr('Primeros pasos en producción real con Ruby on Rails, compaginando estudios.', 'First steps in real production with Ruby on Rails, alongside my studies.') },
+      { type: 'work', period: tr('mar 2026 — Actualidad', 'Mar 2026 — Present'), title: tr('Desarrollador Backend', 'Backend Developer'),
+        org: 'Etecnic', place: 'Tarragona', current: true,
+        note: tr('Funcionalidades de principio a fin: APIs REST con permisos, i18n de facturas en 9 idiomas, pipeline de PDFs y branding por dominio.',
+                 'Features end to end: REST APIs with permissions, invoice i18n in 9 languages, a PDF pipeline and per-domain branding.') },
     ],
 
     languages: [
@@ -219,7 +201,7 @@ export function getContent(lang) {
       { label: tr('Sobre mí', 'About'), href: '#about', key: 'about' },
       { label: 'Stack', href: '#stack', key: 'stack' },
       { label: tr('Proyectos', 'Projects'), href: '#projects', key: 'projects' },
-      { label: tr('Experiencia', 'Experience'), href: '#experience', key: 'experience' },
+      { label: tr('Trayectoria', 'Journey'), href: '#journey', key: 'journey' },
       { label: tr('Contacto', 'Contact'), href: '#contact', key: 'contact' },
     ],
   };
