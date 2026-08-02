@@ -1,28 +1,49 @@
 # Portafolio — Ayman Charoui (AyChEs)
 
-Sitio estático de producción (HTML/CSS/JS puro, sin dependencias ni build) que implementa el handoff de diseño descrito más abajo.
+Portafolio personal de una sola página construido con **React + Vite**. Diseño
+bento con *command palette* (⌘K), tema claro/oscuro, bilingüe (ES/EN) y globo de
+puntos animado. Inspiración de referencia: [awrs.me](https://awrs.me/en).
+
+## Stack
+
+- **React 19** + **Vite 7** (build a estáticos en `dist/`)
+- **framer-motion** — animaciones de entrada, reveals al hacer scroll, barra de progreso
+- **cmdk** — command palette (secciones Páginas / Contacto / Legal, con búsqueda y navegación por teclado)
+- **lucide-react** — iconografía
+- Globo de puntos en **canvas 2D** propio (sin WebGL, theme-aware) y reloj analógico en vivo (Europe/Madrid)
 
 ## Estructura
 
-- `index.html` — la página completa (ES por defecto, toggle EN en la nav)
-- `css/styles.css` — estilos y animaciones (scroll-driven con `animation-timeline: view()` + fallback IntersectionObserver)
-- `js/main.js` — barra de progreso, reveals, toggle de idioma (persistido en `localStorage`), fallback de logos
-- `assets/logos/` — logos devicon auto-hospedados (MIT, ver `LICENSE-devicon.txt`)
-- `assets/projects/` — imágenes placeholder de proyectos: **sustituir por capturas reales** (mismo nombre de archivo o actualizar `index.html`)
-- `portafolio-source.html` — prototipo de referencia del diseño (no desplegar)
+- `index.html` — entrada de Vite (script inline que fija el tema antes del primer render)
+- `src/main.jsx` — bootstrap de React con los providers (tema/idioma + command palette)
+- `src/App.jsx` — composición de la página
+- `src/index.css` — sistema de diseño (tokens, tipografía, keyframes, clases de componentes)
+- `src/lib/content.js` — todo el contenido bilingüe (ES/EN) en un solo lugar
+- `src/lib/app-context.jsx` — estado de tema e idioma (persistido en `localStorage`)
+- `src/lib/palette-context.jsx` — estado del command palette (atajo ⌘K / Ctrl+K)
+- `src/components/*` — Nav, CommandPalette, Hero, Ribbons, About (+ Globe, Clock, Stats), Stack, Projects, Experience, Formation, Contact, Ambient, Reveal
+- `public/assets/logos/` — logos devicon auto-hospedados (MIT, ver `LICENSE-devicon.txt`)
+- `public/assets/projects/` — imágenes placeholder de proyectos: **sustituir por capturas reales**
 
 ## Desarrollo local
 
-No hay build: `python3 -m http.server 8000` (o cualquier servidor estático) y abrir `http://localhost:8000`.
+```bash
+npm install
+npm run dev      # servidor de desarrollo (http://localhost:5173)
+npm run build    # build de producción a dist/
+npm run preview  # sirve el build de dist/
+```
 
-## Despliegue (GitHub Pages)
+## Despliegue (Vercel)
 
-Settings → Pages → Source: *Deploy from a branch* → `main` / root. El sitio queda en `https://ayches.github.io/portafolio/`.
+El proyecto se detecta como Vite automáticamente: *Build command* `vite build`,
+*Output directory* `dist`. El dominio (is-a-dev) apunta a Vercel vía CNAME
+(`is-a-dev/ayches.json`).
 
 ## Pendiente
 
-- [ ] Subir el CV en PDF y enlazarlo (botón del hero y tarjeta "CV (PDF)" del footer, ahora `#`)
-- [ ] Sustituir las imágenes placeholder de los 3 proyectos y enlazar Código/Demo reales
+- [ ] Subir el CV en PDF y enlazarlo (tarjeta "CV (PDF)" del footer y del palette, ahora `#`)
+- [ ] Sustituir las imágenes placeholder de los proyectos y enlazar Código/Demo reales
 
 ---
 

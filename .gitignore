@@ -1,3 +1,9 @@
+# Node / Vite build
+node_modules/
+dist/
+*.local
+.vite/
+
 # Local AI tooling (Claude / opencode / etc.) — never commit this
 .agents/
 .claude/
