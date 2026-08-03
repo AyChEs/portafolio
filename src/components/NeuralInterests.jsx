@@ -2,73 +2,115 @@ import { useEffect, useRef } from 'react';
 import { Server, Cpu, Code2, BrainCircuit, Webhook, Plane, BookOpen, Dumbbell, Clapperboard } from 'lucide-react';
 import { useApp } from '../lib/app-context.jsx';
 
-// Interests as a living node-graph — icon nodes connected like a neural
-// network / vector database, with signals travelling along the edges.
+// Interests as a rotating 3D node-graph — icon nodes on a sphere connected
+// like a neural network, with depth (perspective scale + fade) and signals
+// travelling along the edges. Reacts to the pointer.
 export default function NeuralInterests() {
   const { content } = useApp();
   const es = content.es;
   const wrapRef = useRef(null);
-  const svgRef = useRef(null);
   const nodeRefs = useRef([]);
   const edgeRefs = useRef([]);
 
-  const polar = (r, deg) => {
-    const a = (deg * Math.PI) / 180;
-    return { x: 50 + r * Math.cos(a), y: 50 - r * Math.sin(a) };
-  };
-
-  const nodes = [
-    { key: 'backend', Icon: Server, label: 'Backend', accent: true, size: 58, ...polar(0, 0), amp: 0.6 },
-    { key: 'embedded', Icon: Cpu, label: es ? 'Embebida' : 'Embedded', accent: true, size: 48, ...polar(23, 135), amp: 1.4 },
-    { key: 'software', Icon: Code2, label: es ? 'Software' : 'Software', accent: true, size: 48, ...polar(23, 45), amp: 1.4 },
-    { key: 'ai', Icon: BrainCircuit, label: es ? 'IA' : 'AI', accent: true, size: 48, ...polar(23, 315), amp: 1.4 },
-    { key: 'apis', Icon: Webhook, label: 'APIs', accent: true, size: 48, ...polar(23, 225), amp: 1.4 },
-    { key: 'travel', Icon: Plane, label: es ? 'Viajar' : 'Travel', accent: false, size: 44, ...polar(39, 90), amp: 2.0 },
-    { key: 'reading', Icon: BookOpen, label: es ? 'Leer' : 'Reading', accent: false, size: 44, ...polar(39, 0), amp: 2.0 },
-    { key: 'gym', Icon: Dumbbell, label: es ? 'Gimnasio' : 'Gym', accent: false, size: 44, ...polar(39, 270), amp: 2.0 },
-    { key: 'cinema', Icon: Clapperboard, label: es ? 'Cine' : 'Cinema', accent: false, size: 44, ...polar(39, 180), amp: 2.0 },
+  const meta = [
+    { Icon: Server, label: 'Backend', accent: true, size: 56 },
+    { Icon: Cpu, label: es ? 'Embebida' : 'Embedded', accent: true, size: 48 },
+    { Icon: Code2, label: es ? 'Software' : 'Software', accent: true, size: 48 },
+    { Icon: BrainCircuit, label: es ? 'IA' : 'AI', accent: true, size: 48 },
+    { Icon: Webhook, label: 'APIs', accent: true, size: 46 },
+    { Icon: Plane, label: es ? 'Viajar' : 'Travel', accent: false, size: 46 },
+    { Icon: BookOpen, label: es ? 'Leer' : 'Reading', accent: false, size: 46 },
+    { Icon: Dumbbell, label: es ? 'Gimnasio' : 'Gym', accent: false, size: 46 },
+    { Icon: Clapperboard, label: es ? 'Cine' : 'Cinema', accent: false, size: 46 },
   ];
+  const N = meta.length;
 
-  const edges = [
-    [0, 1], [0, 2], [0, 3], [0, 4],
-    [1, 2], [2, 3], [3, 4], [4, 1],
-    [5, 2], [5, 1], [6, 2], [6, 3], [7, 3], [7, 4], [8, 1], [8, 4],
-  ];
+  // Fibonacci sphere positions
+  const base = [];
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < N; i++) {
+    const y = 1 - (i / (N - 1)) * 2;
+    const r = Math.sqrt(Math.max(0, 1 - y * y));
+    const th = golden * i;
+    base.push({ x: Math.cos(th) * r, y, z: Math.sin(th) * r });
+  }
+  // edges: each node to its 2 nearest neighbours (deduped)
+  const edgeSet = new Set();
+  const edges = [];
+  for (let i = 0; i < N; i++) {
+    const d = base.map((p, j) => ({ j, d: (p.x - base[i].x) ** 2 + (p.y - base[i].y) ** 2 + (p.z - base[i].z) ** 2 }))
+      .filter((o) => o.j !== i).sort((a, b) => a.d - b.d);
+    for (let k = 0; k < 3; k++) {
+      const j = d[k].j; const key = i < j ? `${i}-${j}` : `${j}-${i}`;
+      if (!edgeSet.has(key)) { edgeSet.add(key); edges.push([i, j]); }
+    }
+  }
 
   useEffect(() => {
     const wrap = wrapRef.current;
     if (!wrap) return;
-    let W = wrap.offsetWidth || 360;
-    let H = wrap.offsetHeight || 360;
+    let W = wrap.offsetWidth || 360, H = wrap.offsetHeight || 360;
     const ro = new ResizeObserver(() => { W = wrap.offsetWidth || W; H = wrap.offsetHeight || H; });
     ro.observe(wrap);
 
     const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const seed = nodes.map((_, i) => ({ sp: 0.0004 + (i % 5) * 0.00007, ph: i * 1.7 }));
-    const pos = nodes.map((n) => ({ x: n.x, y: n.y }));
+    let ay = 0.4, ax = -0.5;
+    let vy = 0.0032, vx = 0;
+    let tvy = 0.0032, tvx = 0;
+
+    const onMove = (e) => {
+      const rect = wrap.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      tvy = px * 0.06; tvx = -py * 0.05;
+    };
+    const onLeave = () => { tvy = 0.0032; tvx = 0; };
+    wrap.addEventListener('pointermove', onMove);
+    wrap.addEventListener('pointerleave', onLeave);
+
     const start = performance.now();
+    const proj = new Array(N);
     let raf;
 
     const frame = (t) => {
       const dt = t - start;
-      for (let i = 0; i < nodes.length; i++) {
-        const s = seed[i];
-        const ox = reduce ? 0 : nodes[i].amp * Math.sin(dt * s.sp + s.ph);
-        const oy = reduce ? 0 : nodes[i].amp * Math.cos(dt * s.sp * 1.15 + s.ph);
-        pos[i].x = nodes[i].x + ox;
-        pos[i].y = nodes[i].y + oy;
+      vy += (tvy - vy) * 0.05; vx += (tvx - vx) * 0.05;
+      if (!reduce) { ay += vy; ax += vx; }
+      const R = Math.min(W, H) * 0.33, cx = W / 2, cy = H / 2, focal = 2.6;
+      const cosY = Math.cos(ay), sinY = Math.sin(ay), cosX = Math.cos(ax), sinX = Math.sin(ax);
+
+      for (let i = 0; i < N; i++) {
+        const p = base[i];
+        let x = p.x * cosY + p.z * sinY;
+        let z = -p.x * sinY + p.z * cosY;
+        let y = p.y * cosX - z * sinX;
+        z = p.y * sinX + z * cosX;
+        const scale = focal / (focal - z); // z in [-1,1]
+        const sx = cx + x * R * scale;
+        const sy = cy + y * R * scale;
+        const depth = (z + 1) / 2; // 0 back .. 1 front
+        proj[i] = { sx, sy, z, scale, depth };
         const el = nodeRefs.current[i];
-        if (el) el.style.transform = `translate(${(pos[i].x / 100) * W}px, ${(pos[i].y / 100) * H}px) translate(-50%, -50%)`;
+        if (el) {
+          el.style.transform = `translate(${sx}px, ${sy}px) translate(-50%,-50%) scale(${0.66 + scale * 0.34})`;
+          el.style.opacity = (0.5 + depth * 0.5).toFixed(3);
+          el.style.zIndex = String(Math.round(depth * 100));
+        }
       }
       for (let e = 0; e < edges.length; e++) {
         const [a, b] = edges[e];
         const r = edgeRefs.current[e];
-        if (!r) continue;
-        r.line.setAttribute('x1', pos[a].x); r.line.setAttribute('y1', pos[a].y);
-        r.line.setAttribute('x2', pos[b].x); r.line.setAttribute('y2', pos[b].y);
-        const frac = reduce ? 0.5 : ((dt * 0.00013 + e * 0.16) % 1);
-        r.pulse.setAttribute('cx', pos[a].x + (pos[b].x - pos[a].x) * frac);
-        r.pulse.setAttribute('cy', pos[a].y + (pos[b].y - pos[a].y) * frac);
+        if (!r || !proj[a] || !proj[b]) continue;
+        const ax2 = (proj[a].sx / W) * 100, ay2 = (proj[a].sy / H) * 100;
+        const bx2 = (proj[b].sx / W) * 100, by2 = (proj[b].sy / H) * 100;
+        r.line.setAttribute('x1', ax2); r.line.setAttribute('y1', ay2);
+        r.line.setAttribute('x2', bx2); r.line.setAttribute('y2', by2);
+        const dep = (proj[a].depth + proj[b].depth) / 2;
+        r.line.setAttribute('stroke-opacity', (0.08 + dep * 0.32).toFixed(3));
+        const frac = reduce ? 0.5 : ((dt * 0.00012 + e * 0.17) % 1);
+        r.pulse.setAttribute('cx', ax2 + (bx2 - ax2) * frac);
+        r.pulse.setAttribute('cy', ay2 + (by2 - ay2) * frac);
+        r.pulse.setAttribute('opacity', (0.2 + dep * 0.8).toFixed(3));
       }
       if (!reduce) raf = requestAnimationFrame(frame);
     };
@@ -76,33 +118,22 @@ export default function NeuralInterests() {
     if (reduce) frame(start);
     requestAnimationFrame(() => { if (wrap) wrap.style.opacity = '1'; });
 
-    return () => { if (raf) cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => { if (raf) cancelAnimationFrame(raf); ro.disconnect(); wrap.removeEventListener('pointermove', onMove); wrap.removeEventListener('pointerleave', onLeave); };
   }, [es]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="neural" ref={wrapRef} style={{ opacity: 0, transition: 'opacity .8s ease' }}>
-      <svg className="neural-net" ref={svgRef} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <span className="neural-glow" aria-hidden="true" />
+      <svg className="neural-net" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         {edges.map((_, e) => (
           <g key={e}>
-            <line
-              ref={(el) => { edgeRefs.current[e] = { ...(edgeRefs.current[e] || {}), line: el }; }}
-              className="neural-edge" x1="50" y1="50" x2="50" y2="50"
-            />
-            <circle
-              ref={(el) => { edgeRefs.current[e] = { ...(edgeRefs.current[e] || {}), pulse: el }; }}
-              className="neural-pulse" cx="50" cy="50" r="0.7"
-            />
+            <line ref={(el) => { edgeRefs.current[e] = { ...(edgeRefs.current[e] || {}), line: el }; }} className="neural-edge" x1="50" y1="50" x2="50" y2="50" />
+            <circle ref={(el) => { edgeRefs.current[e] = { ...(edgeRefs.current[e] || {}), pulse: el }; }} className="neural-pulse" cx="50" cy="50" r="0.7" />
           </g>
         ))}
       </svg>
-      {nodes.map((n, i) => (
-        <div
-          key={n.key}
-          ref={(el) => { nodeRefs.current[i] = el; }}
-          className="neural-node"
-          style={{ width: n.size, height: n.size }}
-          title={n.label}
-        >
+      {meta.map((n, i) => (
+        <div key={i} ref={(el) => { nodeRefs.current[i] = el; }} className="neural-node" style={{ width: n.size, height: n.size }} title={n.label}>
           <span className={`nn-inner${n.accent ? ' accent' : ''}`}>
             <n.Icon size={Math.round(n.size * 0.42)} aria-hidden="true" />
           </span>
