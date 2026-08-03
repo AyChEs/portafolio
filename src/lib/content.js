@@ -93,11 +93,6 @@ export function getContent(lang) {
       ? ['Backend a producción', 'APIs limpias', 'Del ticket al merge', 'SaaS multi-tenant', 'Tests que importan', 'Detalle en el código']
       : ['Backend that ships', 'Clean APIs', 'Ticket to merge', 'Multi-tenant SaaS', 'Tests that matter', 'Detail in the code'],
 
-    quote: {
-      text: tr('La simplicidad es requisito de la fiabilidad.', 'Simplicity is prerequisite for reliability.'),
-      author: 'Edsger W. Dijkstra',
-    },
-
     // Áreas profesionales que me representan.
     focus: [
       { icon: 'cpu', title: tr('Ingeniería embebida', 'Embedded engineering'), sub: tr('Hardware que piensa', 'Hardware that thinks') },
@@ -111,25 +106,6 @@ export function getContent(lang) {
       { icon: 'reading', label: tr('Leer', 'Reading') },
       { icon: 'gym', label: tr('Gimnasio', 'Gym') },
       { icon: 'cinema', label: tr('Cine', 'Cinema') },
-    ],
-
-    // Etiquetas para la esfera 3D de intereses (accent = interés técnico).
-    sphereTags: [
-      { label: tr('Embebida', 'Embedded'), accent: true },
-      { label: tr('Software', 'Software'), accent: true },
-      { label: tr('IA', 'AI'), accent: true },
-      { label: 'Backend', accent: true },
-      { label: 'APIs', accent: true },
-      { label: tr('Viajar', 'Travel'), accent: false },
-      { label: tr('Leer', 'Reading'), accent: false },
-      { label: tr('Gimnasio', 'Gym'), accent: false },
-      { label: tr('Cine', 'Cinema'), accent: false },
-    ],
-
-    stats: [
-      { n: 3, suffix: '', label: tr('Proyectos', 'Projects') },
-      { n: 1, suffix: '+', label: tr('Año de experiencia', 'Year of experience') },
-      { n: 4, suffix: '', label: tr('Idiomas', 'Languages') },
     ],
 
     // Stack por categorías (layout en filas, no en cajas).

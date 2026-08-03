@@ -2,7 +2,7 @@ import { ArrowRight } from 'lucide-react';
 import { useApp } from '../lib/app-context.jsx';
 import Reveal from './Reveal.jsx';
 import Globe from './Globe.jsx';
-import TagSphere from './TagSphere.jsx';
+import NeuralInterests from './NeuralInterests.jsx';
 
 export default function About() {
   const { content } = useApp();
@@ -56,13 +56,13 @@ export default function About() {
           <Globe />
         </Reveal>
 
-        {/* Interests sphere */}
-        <Reveal variant="scale" delay={0.1} className="card b-sphere">
-          <div className="b-sphere-head">
+        {/* Interests — icon node graph */}
+        <Reveal variant="scale" delay={0.1} className="card b-neural">
+          <div className="b-neural-head">
             <span className="eyebrow">{ui.interestsTitle}</span>
             <h3>{ui.focusTitle} <span>&amp; {content.es ? 'aficiones' : 'hobbies'}</span></h3>
           </div>
-          <TagSphere items={content.sphereTags} />
+          <NeuralInterests />
         </Reveal>
 
         {/* CTA -> LinkedIn */}
@@ -79,13 +79,6 @@ export default function About() {
           <a className="chip-link" href={linkedin} target="_blank" rel="noopener noreferrer">
             {ui.getInTouch} <ArrowRight size={15} aria-hidden="true" />
           </a>
-        </Reveal>
-
-        {/* Quote */}
-        <Reveal variant="scale" delay={0.14} className="card b-quote">
-          <span className="mark" aria-hidden="true">”</span>
-          <p>{content.quote.text}</p>
-          <div className="by">{content.quote.author}</div>
         </Reveal>
       </div>
     </section>

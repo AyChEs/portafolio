@@ -201,29 +201,35 @@ html[data-theme=light] .hero-beam-core { background: radial-gradient(60% 100% at
 
 /* ============================================================ ABOUT — bento ============================================================ */
 .bento { display: grid; grid-template-columns: 1fr; gap: clamp(14px,1.8vw,20px);
-  grid-template-areas: "intro" "globe" "sphere" "cta" "quote"; }
+  grid-template-areas: "intro" "globe" "neural" "cta"; }
 .bento > .card, .bento > .b-cta { padding: clamp(22px,2.6vw,30px); }
-.b-globe,.b-sphere,.b-cta,.b-quote { display: flex; flex-direction: column; }
+.b-globe,.b-neural,.b-cta { display: flex; flex-direction: column; }
 .b-cta { background: linear-gradient(150deg,var(--accSoft),var(--card2)); border: 1px solid var(--bd2); border-radius: 20px; position: relative; overflow: hidden; }
 @media (min-width: 640px) {
   .bento { grid-template-columns: repeat(2,1fr); grid-auto-rows: minmax(0,auto);
-    grid-template-areas: "intro intro" "globe globe" "sphere sphere" "cta quote"; }
+    grid-template-areas: "intro intro" "globe globe" "neural neural" "cta cta"; }
 }
 @media (min-width: 1000px) {
   .bento { grid-template-columns: repeat(4,1fr); grid-auto-rows: minmax(150px,auto);
     grid-template-areas:
       "intro  intro  intro  intro"
-      "globe  globe  sphere sphere"
-      "globe  globe  sphere sphere"
-      "cta    cta    quote  quote"; }
+      "globe  globe  neural neural"
+      "globe  globe  neural neural"
+      "cta    cta    cta    cta"; }
 }
 .b-intro { grid-area: intro; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 22px; }
 .b-globe { grid-area: globe; position: relative; overflow: hidden; min-height: 320px; }
-.b-sphere { grid-area: sphere; position: relative; overflow: hidden; min-height: 320px; }
+.b-neural { grid-area: neural; position: relative; overflow: hidden; min-height: 340px; }
 .b-cta { grid-area: cta; }
-.b-quote { grid-area: quote; justify-content: center; position: relative; overflow: hidden; }
 @media (min-width: 760px) {
   .b-intro { flex-direction: row; gap: clamp(26px,3.4vw,52px); align-items: flex-start; }
+}
+@media (min-width: 1000px) {
+  .b-cta { flex-direction: row; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .b-cta .big { margin: 0; flex: 1 1 auto; }
+  .b-cta .avail { position: absolute; top: clamp(22px,2.6vw,30px); left: clamp(22px,2.6vw,30px); margin: 0; }
+  .b-cta { padding-top: clamp(48px,5vw,64px) !important; }
+  .b-cta .chip-link { margin-top: 0; }
 }
 
 /* Intro — compact identity + body */
@@ -246,15 +252,23 @@ html[data-theme=light] .hero-beam-core { background: radial-gradient(60% 100% at
 .trait { display: inline-flex; align-items: center; gap: 7px; font-weight: 500; font-size: 12px; color: var(--txt); background: var(--card); border: 1px solid var(--bd); border-radius: 999px; padding: 7px 13px; }
 .trait .d { width: 6px; height: 6px; border-radius: 50%; background: var(--acc3); }
 
-/* Globe + Sphere shared head */
-.b-globe-head, .b-sphere-head { position: relative; z-index: 1; }
-.b-globe h3, .b-sphere h3 { margin: 0; font-weight: 700; font-size: clamp(17px,2.1vw,21px); line-height: 1.35; color: var(--ink); letter-spacing: -.02em; }
-.b-globe h3 span, .b-sphere h3 span { color: var(--acc3); }
-.b-globe .eyebrow, .b-sphere .eyebrow { display: block; margin-bottom: 11px; }
+/* Globe + Neural shared head */
+.b-globe-head, .b-neural-head { position: relative; z-index: 2; }
+.b-globe h3, .b-neural h3 { margin: 0; font-weight: 700; font-size: clamp(17px,2.1vw,21px); line-height: 1.35; color: var(--ink); letter-spacing: -.02em; }
+.b-globe h3 span, .b-neural h3 span { color: var(--acc3); }
+.b-globe .eyebrow, .b-neural .eyebrow { display: block; margin-bottom: 11px; }
 .b-globe .globe-wrap { flex: 1; display: flex; align-items: center; justify-content: center; width: min(100%,360px); margin: 6px auto 0; }
 .b-globe canvas { width: 100%; height: auto; aspect-ratio: 1; display: block; }
-.b-sphere .sphere-wrap { flex: 1; display: flex; align-items: center; justify-content: center; width: min(100%,400px); margin: 2px auto 0; }
-.b-sphere canvas { width: 100%; height: auto; aspect-ratio: 1; display: block; }
+
+/* Neural interests graph */
+.neural { position: relative; flex: 1; width: 100%; margin-top: 10px; aspect-ratio: 1 / 0.82; min-height: 260px; }
+.neural-net { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.neural-edge { stroke: var(--acc); stroke-width: 0.35; stroke-opacity: .28; }
+.neural-pulse { fill: var(--acc3); filter: drop-shadow(0 0 1.4px var(--acc3)); }
+.neural-node { position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center; will-change: transform; }
+.nn-inner { width: 100%; height: 100%; border-radius: 18px; display: flex; align-items: center; justify-content: center; background: var(--bg2); border: 1px solid var(--bd2); color: var(--acc3); box-shadow: 0 8px 22px var(--shadow); transition: transform .25s, box-shadow .25s; }
+.nn-inner.accent { background: var(--grad); border-color: transparent; color: #fff; box-shadow: 0 8px 24px rgba(37,99,235,.5); }
+.neural-node:hover .nn-inner { transform: scale(1.12); box-shadow: 0 12px 30px rgba(37,99,235,.5); }
 
 /* CTA */
 .b-cta .glow { position: absolute; top: -40px; right: -40px; width: 170px; height: 170px; border-radius: 50%; background: radial-gradient(circle,rgba(59,130,246,.4),transparent 68%); filter: blur(12px); pointer-events: none; animation: glowPulse 10s ease-in-out infinite; }
@@ -267,10 +281,6 @@ html[data-theme=light] .hero-beam-core { background: radial-gradient(60% 100% at
 .b-cta .chip-link { position: relative; margin-top: 22px; align-self: flex-start; display: inline-flex; align-items: center; gap: 9px; background: var(--grad); color: #fff; font-weight: 600; font-size: 13.5px; padding: 13px 20px; border-radius: 999px; box-shadow: 0 0 24px rgba(37,99,235,.42); transition: all .24s; }
 .b-cta .chip-link:hover { transform: translateY(-3px); box-shadow: 0 0 36px rgba(59,130,246,.7); color: #fff; }
 
-/* Quote */
-.b-quote .mark { position: absolute; top: 14px; right: 22px; font-family: var(--font-disp); font-weight: 800; font-size: 68px; line-height: 1; color: var(--bd); pointer-events: none; }
-.b-quote p { position: relative; margin: 0; font-family: var(--font-disp); font-weight: 600; font-size: clamp(16px,2vw,20px); line-height: 1.45; color: var(--ink); letter-spacing: -.02em; font-style: italic; }
-.b-quote .by { position: relative; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--bd); font-family: var(--font-mono); font-weight: 500; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mut2); }
 
 
 /* ============================================================ STACK — editorial rows ============================================================ */
@@ -314,8 +324,8 @@ html[data-theme=light] .hero-beam-core { background: radial-gradient(60% 100% at
 .laptop-bar i:nth-child(3) { background: #28c840; }
 .laptop-url { margin-left: 12px; flex: 1; max-width: 64%; font-family: var(--font-mono); font-size: 10px; color: #94a8dd; background: rgba(140,180,255,.08); border: 1px solid rgba(140,180,255,.08); border-radius: 6px; padding: 4px 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
 .laptop-view { position: relative; aspect-ratio: 16 / 10; background: #070c18; overflow: hidden; }
-.laptop-view img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; transition: transform 4s ease; }
-.project-card:hover .laptop-view img { transform: translateY(-16%) scale(1.03); }
+.laptop-view img { width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; background: #070c18; transition: transform .6s ease; }
+.project-card:hover .laptop-view img { transform: scale(1.03); }
 .laptop-empty { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 14px; color: var(--mut2); }
 /* base / deck */
 .laptop-base { position: relative; width: 116%; height: 14px; margin: -2px auto 0; left: -8%; background: linear-gradient(180deg,#c3ccdd 0%,#9aa6be 45%,#6c7793 100%); border-radius: 2px 2px 11px 11px; box-shadow: 0 16px 26px rgba(2,4,12,.4); }
