@@ -17,10 +17,10 @@ export function getContent(lang) {
       hi: tr('Hola, soy', "Hi, I'm"),
       kicker: tr('Desarrollador Full-Stack', 'Full-Stack Developer'),
       tagline: tr(
-        'Desarrollador full-stack centrado en backend — Ruby on Rails, APIs REST y SaaS multi-tenant.',
-        'Full-stack developer focused on backend — Ruby on Rails, REST APIs and multi-tenant SaaS.'
+        'Trabajo sobre todo en el backend, con Ruby on Rails. También me manejo en el front cuando toca.',
+        'I mostly work on the backend, with Ruby on Rails. I also handle the front end when needed.'
       ),
-      available: tr('Disponible para nuevas oportunidades', 'Open to new opportunities'),
+      available: tr('Busco nuevas oportunidades', 'Looking for new opportunities'),
       seeWork: tr('Ver proyectos', 'See projects'),
       getInTouch: tr('Hablemos', "Let's talk"),
       reachOut: tr('Escríbeme', 'Reach out'),
@@ -31,16 +31,15 @@ export function getContent(lang) {
       sLang: tr('Idiomas', 'Languages'),
       sContact: tr('Contacto', 'Contact'),
       sHome: tr('Inicio', 'Home'),
-      aboutLead: tr('Full-stack, más cómodo en el backend.', 'Full-stack, most at home in the backend.'),
+      aboutLead: tr('Me muevo mejor en el backend.', "I'm more at home in the backend."),
       aboutBio: tr(
-        'Cojo las funcionalidades de principio a fin con Ruby on Rails: APIs REST, control de permisos, i18n y generación de documentos para SaaS multi-tenant.',
-        'I own features end to end with Ruby on Rails: REST APIs, permission control, i18n and document generation for multi-tenant SaaS.'
+        'Trabajo con Ruby on Rails. Normalmente llevo una funcionalidad entera: la API, los permisos, los idiomas y los documentos que genera la aplicación.',
+        'I work with Ruby on Rails. I usually take a feature from start to finish: the API, permissions, languages and the documents the app generates.'
       ),
       aboutBio2: tr(
-        'Me gusta el código simple, honesto y bien cuidado — prefiero una solución clara a una lista de logros inflada.',
-        'I like code that is simple, honest and well cared for — I prefer a clear solution to an inflated list of achievements.'
+        'Prefiero el código simple. Si algo se puede resolver de forma clara, lo hago así.',
+        'I prefer simple code. If something can be solved in a clear way, that is how I do it.'
       ),
-      signature: tr('Del ticket al merge.', 'From ticket to merge.'),
       quickFacts: tr(
         [
           { k: 'Rol', v: 'Backend & Full-stack' },
@@ -54,27 +53,27 @@ export function getContent(lang) {
         ]
       ),
       traits: tr(
-        ['Detalle en el código', 'Buen ambiente', 'Curioso'],
-        ['Detail in the code', 'Good vibes', 'Curious']
+        ['Cuido los detalles', 'Fácil de tratar'],
+        ['I sweat the details', 'Easy to work with']
       ),
-      locLabel: tr('Basado en', 'Based in'),
+      locLabel: tr('Dónde estoy', 'Where I am'),
       locTitle: tr('Tarragona,', 'Tarragona,'),
       locSub: tr('España', 'Spain'),
       focusTitle: tr('Me interesa', "What I'm into"),
-      interestsTitle: tr('Fuera del código', 'Off the clock'),
-      availShort: tr('Disponible para proyectos', 'Available for work'),
-      ctaA: tr('¿Tienes una idea?', 'Have an idea?'),
-      ctaB: tr('Construyámosla', "Let's build it"),
+      interestsTitle: tr('Y fuera del trabajo', 'And outside work'),
+      availShort: tr('Abierto a propuestas', 'Open to offers'),
+      ctaA: tr('¿Tienes algo en mente?', 'Got something in mind?'),
+      ctaB: tr('Cuéntamelo', 'Tell me about it'),
       now: tr('Ahora', 'Now'),
       verified: tr('Verificado', 'Verified'),
       code: tr('Código', 'Code'),
       demo: 'Demo',
       inProgress: 'WIP',
       backTop: tr('Volver arriba', 'Back to top'),
-      builtWith: tr('Diseñado y desarrollado con cuidado', 'Designed & built with care'),
+      builtWith: tr('Hecho con React y Vite', 'Built with React and Vite'),
       contactNote: tr(
-        'Enlaces y CV próximamente — los añado en breve. Mientras tanto, escríbeme por LinkedIn.',
-        'Links & CV coming soon — adding them shortly. In the meantime, reach me on LinkedIn.'
+        'Todavía me falta subir el CV. Si quieres hablar, por LinkedIn es lo más rápido.',
+        'I still need to upload my CV. If you want to talk, LinkedIn is the fastest way.'
       ),
       // command palette
       palHint: tr('Salta a una sección…', 'Jump to a section…'),
@@ -88,10 +87,7 @@ export function getContent(lang) {
       privacy: tr('Privacidad', 'Privacy'),
     },
 
-    marquee: ['Ruby on Rails', 'REST APIs', 'PostgreSQL', 'Laravel', 'Spring Boot', 'React', 'Multi-tenant SaaS', 'i18n', 'CI/CD', 'JWT'],
-    marqueeB: es
-      ? ['Backend a producción', 'APIs limpias', 'Del ticket al merge', 'SaaS multi-tenant', 'Tests que importan', 'Detalle en el código']
-      : ['Backend that ships', 'Clean APIs', 'Ticket to merge', 'Multi-tenant SaaS', 'Tests that matter', 'Detail in the code'],
+    marquee: ['Ruby on Rails', 'REST APIs', 'PostgreSQL', 'Laravel', 'Spring Boot', 'React', 'MySQL', 'Git', 'RSpec', 'JWT'],
 
     // Áreas profesionales que me representan.
     focus: [
