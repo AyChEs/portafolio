@@ -1,4 +1,5 @@
 import { motion, useScroll } from 'framer-motion';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Ambient from './components/Ambient.jsx';
 import Nav from './components/Nav.jsx';
 import CommandPalette from './components/CommandPalette.jsx';
@@ -44,6 +45,7 @@ export default function App() {
       </main>
 
       <Contact />
+      <SpeedInsights />
     </>
   );
 }
