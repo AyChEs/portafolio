@@ -87,7 +87,7 @@ button { font-family: var(--font-body); }
 .ambient .fade { position: absolute; inset: 0; background: linear-gradient(180deg,transparent 58%,var(--bg)); }
 
 /* ============================================================ NAV ============================================================ */
-.nav { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 6px; border-radius: 999px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--bd2); box-shadow: 0 10px 34px var(--shadow); padding: 5px 5px 5px 8px; max-width: calc(100% - 40px); }
+.nav { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 6px; border-radius: 999px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--bd2); box-shadow: 0 10px 34px var(--shadow); padding: 5px 5px 5px 8px; max-width: calc(100% - 40px); }
 .nav .nav-beam { display: none; }
 .brand { display: inline-flex; align-items: center; padding: 6px 12px; color: var(--ink); font-family: var(--font-disp); font-weight: 700; font-size: 15px; letter-spacing: -.01em; }
 .brand-word { display: inline; letter-spacing: -.01em; }
@@ -145,7 +145,7 @@ button { font-family: var(--font-body); }
 }
 
 /* ============================================================ HERO ============================================================ */
-.hero { position: relative; z-index: 1; overflow: hidden; min-height: min(88vh,720px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: clamp(104px,13vh,140px) clamp(20px,5vw,64px) clamp(48px,6vw,72px); }
+.hero { position: relative; z-index: 1; overflow: hidden; min-height: min(88vh,720px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: clamp(104px,13vh,140px) clamp(20px,3vw,44px) clamp(48px,6vw,72px); }
 .pill { display: inline-flex; align-items: center; gap: 9px; font-weight: 500; font-size: 11.5px; color: var(--acc4); background: var(--accSoft); border: 1px solid var(--bd2); padding: 8px 14px; border-radius: 999px; margin-bottom: clamp(26px,4vw,40px); }
 .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--acc3); animation: pulse 2.4s infinite; }
 .hero-hi { margin: 0 0 16px; font-weight: 600; font-size: clamp(13px,1.6vw,16px); letter-spacing: .24em; text-transform: uppercase; color: var(--mut); display: inline-flex; align-items: center; gap: 12px; }
@@ -178,7 +178,7 @@ html[data-theme=light] .hero-beam-core { background: radial-gradient(60% 100% at
 .ribbon .item i { font-style: normal; color: var(--bd2); }
 
 /* ============================================================ SECTIONS ============================================================ */
-.section { position: relative; z-index: 1; padding: clamp(40px,4.4vw,60px) clamp(20px,5vw,64px); max-width: 1240px; margin: 0 auto; }
+.section { position: relative; z-index: 1; padding: clamp(40px,4.4vw,60px) clamp(20px,3vw,44px); max-width: 1560px; margin: 0 auto; }
 .sec-head { display: flex; align-items: center; gap: 16px; margin-bottom: clamp(22px,2.4vw,30px); }
 .sec-head .num { font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--acc); }
 .sec-head h2 { margin: 0; font-weight: 700; font-size: clamp(26px,4vw,40px); line-height: 1; letter-spacing: -.03em; color: var(--ink); }
@@ -375,7 +375,7 @@ html[data-theme=dark] .laptop-base span { background: linear-gradient(180deg,#16
 .lang-pill.native { background: var(--grad); color: #fff; border-color: rgba(59,130,246,.65); }
 
 /* ============================================================ CONTACT / FOOTER ============================================================ */
-.footer { position: relative; z-index: 1; margin-top: clamp(24px,3vw,40px); background: var(--bg2); padding: clamp(44px,5vw,68px) clamp(20px,5vw,64px) 0; overflow: hidden; border-top: 1px solid var(--bd); }
+.footer { position: relative; z-index: 1; margin-top: clamp(24px,3vw,40px); background: var(--bg2); padding: clamp(44px,5vw,68px) clamp(20px,3vw,44px) 0; overflow: hidden; border-top: 1px solid var(--bd); }
 .footer .beam { position: absolute; top: -60px; left: -10%; width: 120%; height: 200px; background: linear-gradient(90deg,transparent,rgba(37,99,235,.3) 30%,rgba(147,197,253,.45) 54%,rgba(37,99,235,.26) 74%,transparent); filter: blur(50px); border-radius: 50%; pointer-events: none; animation: swell 20s ease-in-out infinite; opacity: var(--beam); }
 .footer-cols { position: relative; display: flex; flex-wrap: wrap; gap: clamp(32px,5vw,64px); justify-content: space-between; align-items: flex-start; }
 .footer-copy { flex: 1 1 380px; min-width: 0; max-width: 560px; }

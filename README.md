@@ -42,7 +42,7 @@ El proyecto se detecta como Vite automáticamente: *Build command* `vite build`,
 
 ## Pendiente
 
-- [ ] Subir el CV en PDF y enlazarlo (tarjeta "CV (PDF)" del footer y del palette, ahora `#`)
+- [ ] Añadir el CV en PDF cuando esté listo (de momento no se enlaza, para no dejar enlaces muertos)
 - [ ] Sustituir las imágenes placeholder de los proyectos y enlazar Código/Demo reales
 
 ---

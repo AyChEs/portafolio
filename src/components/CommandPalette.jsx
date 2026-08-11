@@ -3,7 +3,7 @@ import { Command } from 'cmdk';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Home, User, Layers, FolderGit2, Briefcase, Mail, Github, Linkedin,
-  FileText, Search, Send, Languages, Moon, Sun, ArrowUpRight, ShieldCheck,
+  FileText, Search, Send, Moon, Sun, ArrowUpRight,
 } from 'lucide-react';
 import { useApp } from '../lib/app-context.jsx';
 import { usePalette } from '../lib/palette-context.jsx';
@@ -118,12 +118,6 @@ export default function CommandPalette() {
                   })}
                 </Command.Group>
 
-                <Command.Group heading={ui.palLegal} className="grp-chips pal-legal">
-                  <Command.Item value={ui.privacy} className="pal-chip" onSelect={() => handleSelect('#contact', false)}>
-                    <span className="ico"><ShieldCheck size={15} /></span>
-                    {ui.privacy}
-                  </Command.Item>
-                </Command.Group>
               </Command.List>
             </Command>
           </motion.div>

@@ -17,7 +17,7 @@ function detectTheme() {
     const saved = localStorage.getItem('ayches-theme');
     if (saved === 'light' || saved === 'dark') return saved;
   } catch (e) { /* ignore */ }
-  return 'light';
+  return 'dark';
 }
 
 export function AppProvider({ children }) {

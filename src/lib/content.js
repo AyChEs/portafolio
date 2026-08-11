@@ -72,8 +72,8 @@ export function getContent(lang) {
       backTop: tr('Volver arriba', 'Back to top'),
       builtWith: tr('Hecho con React y Vite', 'Built with React and Vite'),
       contactNote: tr(
-        'Todavía me falta subir el CV. Si quieres hablar, por LinkedIn es lo más rápido.',
-        'I still need to upload my CV. If you want to talk, LinkedIn is the fastest way.'
+        'Si quieres contar conmigo para un proyecto o una vacante, escríbeme. Respondo antes en LinkedIn.',
+        'If you want to work with me on a project or a role, get in touch. LinkedIn is where I reply fastest.'
       ),
       // command palette
       palHint: tr('Salta a una sección…', 'Jump to a section…'),
@@ -183,7 +183,6 @@ export function getContent(lang) {
       { key: 'linkedin', label: 'LinkedIn', value: '/in/ayches', href: 'https://www.linkedin.com/in/ayches', external: true },
       { key: 'github', label: 'GitHub', value: '/AyChEs', href: 'https://github.com/AyChEs', external: true },
       { key: 'email', label: 'Email', value: 'aymanessamadi72@gmail.com', href: 'mailto:aymanessamadi72@gmail.com', external: false },
-      { key: 'resume', label: 'CV (PDF)', value: es ? 'añadir' : 'add', href: '#', external: false },
     ],
 
     nav: [
