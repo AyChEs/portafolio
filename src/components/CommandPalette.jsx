@@ -3,7 +3,7 @@ import { Command } from 'cmdk';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Home, User, Layers, FolderGit2, Briefcase, Mail, Github, Linkedin,
-  FileText, Search, Send, Moon, Sun, ArrowUpRight,
+  FileText, Search, Send, Moon, Sun, ArrowUpRight, ShieldCheck,
 } from 'lucide-react';
 import { useApp } from '../lib/app-context.jsx';
 import { usePalette } from '../lib/palette-context.jsx';
@@ -101,7 +101,7 @@ export default function CommandPalette() {
                 </Command.Group>
 
                 <Command.Group heading={ui.palConnect} className="grp-chips">
-                  {content.contacts.map((c) => {
+                  {content.contacts.filter((c) => c.href).map((c) => {
                     const Ico = CONTACT_ICONS[c.key] || Mail;
                     return (
                       <Command.Item
@@ -118,6 +118,16 @@ export default function CommandPalette() {
                   })}
                 </Command.Group>
 
+                <Command.Group heading={ui.palLegal} className="grp-chips pal-legal">
+                  <Command.Item
+                    value={ui.privacy}
+                    className="pal-chip"
+                    onSelect={() => { closePalette(); setTimeout(() => { window.location.hash = '#/legal'; }, 60); }}
+                  >
+                    <span className="ico"><ShieldCheck size={15} /></span>
+                    {ui.privacy}
+                  </Command.Item>
+                </Command.Group>
               </Command.List>
             </Command>
           </motion.div>

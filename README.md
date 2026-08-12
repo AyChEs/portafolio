@@ -42,7 +42,12 @@ El proyecto se detecta como Vite automáticamente: *Build command* `vite build`,
 
 ## Pendiente
 
-- [ ] Añadir el CV en PDF cuando esté listo (de momento no se enlaza, para no dejar enlaces muertos)
+- [ ] **Enlazar el CV**: sube el PDF a `public/` (p. ej. `public/cv-ayman-charoui.pdf`) o copia el
+  enlace de Drive, y pégalo en `RESUME_URL` al principio de `src/lib/content.js`. Mientras esté
+  vacío, el botón aparece atenuado con "próximamente" en lugar de enlazar a ninguna parte.
+- [ ] Revisar el aviso legal (`#/legal`) y completar el NIF u otros datos si algún día se factura
+  desde el sitio. El texto actual describe la realidad de la web: sin formularios, sin analítica
+  y sin cookies de seguimiento.
 - [ ] Sustituir las imágenes placeholder de los proyectos y enlazar Código/Demo reales
 
 ---

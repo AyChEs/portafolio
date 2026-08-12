@@ -1,4 +1,8 @@
 // Contenido bilingüe del portafolio. `tr(a, b)` elige ES/EN según el idioma.
+// URL del CV. Cuando tengas el PDF, súbelo a /public (p. ej. /cv-ayman-charoui.pdf)
+// o pega aquí el enlace de Drive. Si queda vacío, el botón se muestra desactivado.
+export const RESUME_URL = '';
+
 export function getContent(lang) {
   const es = lang === 'es';
   const tr = (a, b) => (es ? a : b);
@@ -84,7 +88,8 @@ export function getContent(lang) {
       palLang: tr('Cambiar idioma', 'Change language'),
       palTheme: tr('Cambiar tema', 'Toggle theme'),
       palTap: tr('Explorar', 'Explore'),
-      privacy: tr('Privacidad', 'Privacy'),
+      privacy: tr('Aviso legal y privacidad', 'Legal notice & privacy'),
+      resumeSoon: tr('Lo subo en breve', 'Uploading it shortly'),
     },
 
     marquee: ['Ruby on Rails', 'REST APIs', 'PostgreSQL', 'Laravel', 'Spring Boot', 'React', 'MySQL', 'Git', 'RSpec', 'JWT'],
@@ -183,7 +188,137 @@ export function getContent(lang) {
       { key: 'linkedin', label: 'LinkedIn', value: '/in/ayches', href: 'https://www.linkedin.com/in/ayches', external: true },
       { key: 'github', label: 'GitHub', value: '/AyChEs', href: 'https://github.com/AyChEs', external: true },
       { key: 'email', label: 'Email', value: 'aymanessamadi72@gmail.com', href: 'mailto:aymanessamadi72@gmail.com', external: false },
+      {
+        key: 'resume',
+        label: tr('Descargar CV', 'Download CV'),
+        value: RESUME_URL ? 'PDF' : tr('próximamente', 'coming soon'),
+        href: RESUME_URL || null,
+        external: true,
+      },
     ],
+
+    // Aviso legal y privacidad (página aparte, en #/legal).
+    legal: {
+      title: tr('Aviso legal y privacidad', 'Legal notice & privacy'),
+      intro: tr(
+        'Esta página recoge las condiciones de uso de este sitio, cómo se tratan los datos personales y bajo qué licencias se publica el contenido.',
+        'This page covers the terms of use of this site, how personal data is handled, and the licences the content is published under.'
+      ),
+      updated: tr('Última actualización: agosto de 2026', 'Last updated: August 2026'),
+      back: tr('Volver al portafolio', 'Back to the portfolio'),
+      sections: [
+        {
+          id: 'titular',
+          h: tr('1. Titular del sitio', '1. Site owner'),
+          body: tr(
+            [
+              'Titular: Ayman Charoui Essamadi.',
+              'Contacto: aymanessamadi72@gmail.com.',
+              'Finalidad del sitio: portafolio personal con fines informativos y profesionales. No se ofrecen productos ni servicios de pago a través de esta web, y no existe contratación en línea.',
+            ],
+            [
+              'Owner: Ayman Charoui Essamadi.',
+              'Contact: aymanessamadi72@gmail.com.',
+              'Purpose: a personal portfolio for informational and professional use. No paid products or services are sold here, and there is no online contracting.',
+            ]
+          ),
+        },
+        {
+          id: 'datos',
+          h: tr('2. Protección de datos personales', '2. Personal data protection'),
+          body: tr(
+            [
+              'El tratamiento de datos personales se rige por el Reglamento (UE) 2016/679, General de Protección de Datos (RGPD), y por la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD).',
+              'Este sitio no incluye formularios, no utiliza herramientas de analítica ni de publicidad, y no envía datos a servidores propios ni de terceros. Dicho de otro modo: navegar por esta web no genera ningún registro de datos personales por mi parte.',
+              'Lo único que se guarda es una preferencia de tema (claro u oscuro) y de idioma en el almacenamiento local de tu navegador. Es información técnica que no te identifica, permanece en tu dispositivo y puedes borrarla vaciando los datos del sitio en tu navegador.',
+              'Si me escribes por correo electrónico o por LinkedIn, trataré los datos que me facilites con la única finalidad de responderte y, en su caso, valorar una colaboración u oferta laboral. La base jurídica es tu consentimiento y el interés legítimo en atender tu consulta. Conservaré esos mensajes mientras dure la conversación y el tiempo necesario para atender posibles responsabilidades.',
+            ],
+            [
+              'Personal data is handled under Regulation (EU) 2016/679 (GDPR) and, in Spain, Organic Law 3/2018 on Data Protection and the guarantee of digital rights (LOPDGDD).',
+              'This site has no forms, uses no analytics or advertising tools, and sends no data to my own servers or to third parties. In other words: browsing this site does not create any personal data record on my side.',
+              'The only thing stored is your theme (light or dark) and language preference, kept in your browser local storage. It is technical information that does not identify you, it stays on your device, and you can remove it by clearing the site data in your browser.',
+              'If you email me or write to me on LinkedIn, I will use the data you provide solely to reply and, where relevant, to consider a collaboration or job opportunity. The legal basis is your consent and my legitimate interest in answering your enquiry. I keep those messages for as long as the conversation lasts and any period needed to address possible liabilities.',
+            ]
+          ),
+        },
+        {
+          id: 'derechos',
+          h: tr('3. Tus derechos', '3. Your rights'),
+          body: tr(
+            [
+              'Puedes ejercer en cualquier momento tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad escribiendo a aymanessamadi72@gmail.com. Bastará con que indiques cuál de ellos quieres ejercer.',
+              'Si consideras que tus datos no se han tratado correctamente, puedes presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es).',
+            ],
+            [
+              'You can exercise your rights of access, rectification, erasure, objection, restriction of processing and portability at any time by writing to aymanessamadi72@gmail.com. Just tell me which one you want to exercise.',
+              'If you believe your data has not been handled properly, you can lodge a complaint with the Spanish Data Protection Agency (www.aepd.es).',
+            ]
+          ),
+        },
+        {
+          id: 'cookies',
+          h: tr('4. Cookies', '4. Cookies'),
+          body: tr(
+            [
+              'Este sitio no utiliza cookies de analítica, de publicidad ni de seguimiento, ni propias ni de terceros. Por eso no verás un banner de consentimiento: no hay nada que consentir.',
+              'Como se ha indicado, solo se emplea el almacenamiento local del navegador para recordar tus preferencias de tema e idioma, algo técnicamente necesario para que la interfaz funcione como esperas.',
+            ],
+            [
+              'This site uses no analytics, advertising or tracking cookies, neither first-party nor third-party. That is why you will not see a consent banner: there is nothing to consent to.',
+              'As noted above, only browser local storage is used, to remember your theme and language preferences. That is technically necessary for the interface to behave as you expect.',
+            ]
+          ),
+        },
+        {
+          id: 'propiedad',
+          h: tr('5. Propiedad intelectual y licencias', '5. Intellectual property and licences'),
+          body: tr(
+            [
+              'Los textos, el diseño y el código de este sitio son obra propia y están protegidos por el Real Decreto Legislativo 1/1996, por el que se aprueba el texto refundido de la Ley de Propiedad Intelectual.',
+              'Puedes citar o enlazar este sitio libremente. Para reproducir el diseño o los textos de forma sustancial, o reutilizarlos con fines comerciales, hace falta autorización previa por escrito.',
+              'Cada proyecto mostrado en el portafolio se publica con su propia licencia, indicada en su repositorio correspondiente. Consulta el archivo LICENSE de cada repositorio antes de reutilizar su código.',
+              'Los proyectos realizados en un contexto laboral pertenecen a sus respectivas empresas. En este portafolio solo se describe mi participación en ellos, sin publicar código ni material confidencial.',
+              'Sobre recursos de terceros: los iconos de tecnologías proceden de Devicon (licencia MIT, © 2015 konpa) y la tipografía Bricolage Grotesque se distribuye bajo la SIL Open Font License 1.1. Sus licencias completas se incluyen junto a los archivos en este repositorio.',
+            ],
+            [
+              'The text, design and code of this site are my own work and are protected by Spanish Royal Legislative Decree 1/1996, which approves the consolidated text of the Intellectual Property Act.',
+              'You are welcome to quote or link to this site. Reproducing the design or the text substantially, or reusing it commercially, requires prior written permission.',
+              'Each project shown in the portfolio is published under its own licence, stated in its corresponding repository. Check the LICENSE file in each repository before reusing its code.',
+              'Projects carried out in a professional context belong to their respective companies. This portfolio only describes my involvement in them; no code or confidential material is published.',
+              'On third-party resources: the technology icons come from Devicon (MIT licence, © 2015 konpa) and the Bricolage Grotesque typeface is distributed under the SIL Open Font License 1.1. Their full licences are included alongside the files in this repository.',
+            ]
+          ),
+        },
+        {
+          id: 'uso',
+          h: tr('6. Condiciones de uso y responsabilidad', '6. Terms of use and liability'),
+          body: tr(
+            [
+              'El contenido de este sitio se ofrece con fines informativos. Procuro que la información esté actualizada y sea correcta, pero no puedo garantizar que esté libre de errores u omisiones.',
+              'Este sitio enlaza a páginas externas (LinkedIn, GitHub y demos de proyectos). No soy responsable del contenido ni de las políticas de privacidad de esos sitios.',
+              'No se permite usar esta web para fines ilícitos, ni intentar dañar su funcionamiento o el de los sistemas desde los que se sirve.',
+            ],
+            [
+              'The content of this site is provided for information purposes. I aim to keep it accurate and up to date, but I cannot guarantee it is free of errors or omissions.',
+              'This site links to external pages (LinkedIn, GitHub and project demos). I am not responsible for the content or the privacy policies of those sites.',
+              'Using this site for unlawful purposes, or attempting to damage its operation or the systems serving it, is not permitted.',
+            ]
+          ),
+        },
+        {
+          id: 'ley',
+          h: tr('7. Legislación aplicable', '7. Applicable law'),
+          body: tr(
+            [
+              'Estas condiciones se rigen por la legislación española. Para cualquier controversia derivada del uso de este sitio serán competentes los juzgados y tribunales que correspondan conforme a la normativa vigente.',
+            ],
+            [
+              'These terms are governed by Spanish law. Any dispute arising from the use of this site will be settled by the courts designated under the applicable regulations.',
+            ]
+          ),
+        },
+      ],
+    },
 
     nav: [
       { label: tr('Inicio', 'Home'), href: '#top', key: 'home' },

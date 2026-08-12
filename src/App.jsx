@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import { ReactLenis } from 'lenis/react';
 import { motion, useScroll, useReducedMotion } from 'framer-motion';
+import Legal from './components/Legal.jsx';
 import Ambient from './components/Ambient.jsx';
 import Nav from './components/Nav.jsx';
 import CommandPalette from './components/CommandPalette.jsx';
@@ -20,9 +22,23 @@ function Connector({ delay = 0 }) {
   );
 }
 
+// Minimal hash routing: #/legal renders the legal page, anything else the portfolio.
+function useHashRoute() {
+  const [route, setRoute] = useState(() => (window.location.hash.startsWith('#/legal') ? 'legal' : 'home'));
+  useEffect(() => {
+    const onHash = () => setRoute(window.location.hash.startsWith('#/legal') ? 'legal' : 'home');
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  return route;
+}
+
 export default function App() {
   const { scrollYProgress } = useScroll();
   const reduce = useReducedMotion();
+  const route = useHashRoute();
+
+  if (route === 'legal') return <Legal />;
 
   const content = (
     <>

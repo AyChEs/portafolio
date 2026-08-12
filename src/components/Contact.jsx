@@ -25,6 +25,18 @@ export default function Contact() {
         <Reveal delay={0.05} className="contact-icons">
           {content.contacts.map((c) => {
             const Ico = ICONS[c.key] || Mail;
+            if (!c.href) {
+              return (
+                <span
+                  key={c.key}
+                  className="contact-ico is-soon"
+                  aria-label={`${c.label} — ${ui.resumeSoon}`}
+                  title={`${c.label} — ${ui.resumeSoon}`}
+                >
+                  <Ico size={22} aria-hidden="true" />
+                </span>
+              );
+            }
             return (
               <a
                 key={c.key}
@@ -56,6 +68,7 @@ export default function Contact() {
 
       <div className="footer-bar">
         <span>© {year} {content.name}</span>
+        <a href="#/legal">{ui.privacy}</a>
         <a href="#top">
           <ArrowUp size={13} aria-hidden="true" /> {ui.backTop}
         </a>
