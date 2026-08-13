@@ -2,23 +2,22 @@ import { ArrowUpRight } from 'lucide-react';
 import { useApp } from '../lib/app-context.jsx';
 import Reveal from './Reveal.jsx';
 
-function Laptop({ p }) {
+// Browser-window frame that hugs the screenshot's own aspect ratio, so
+// nothing is cropped or letterboxed.
+function BrowserFrame({ p }) {
   return (
-    <div className="laptop" aria-hidden={p.img ? undefined : 'true'}>
-      <div className="laptop-screen">
-        <div className="laptop-bar">
-          <i /><i /><i />
-          <span className="laptop-url">{p.url}</span>
-        </div>
-        <div className="laptop-view">
-          {p.img ? (
-            <img src={p.img} alt={p.title} loading="lazy" />
-          ) : (
-            <span className="laptop-empty">◍ {p.file}</span>
-          )}
-        </div>
+    <div className="browser">
+      <div className="browser-bar">
+        <i /><i /><i />
+        <span className="browser-url">{p.url}</span>
       </div>
-      <div className="laptop-base"><span /></div>
+      <div className="browser-view">
+        {p.img ? (
+          <img src={p.img} alt={p.title} loading="lazy" />
+        ) : (
+          <span className="browser-empty">◍ {p.file}</span>
+        )}
+      </div>
     </div>
   );
 }
@@ -38,7 +37,7 @@ export default function Projects() {
           <Reveal variant="scale" delay={i * 0.06} className="card project-card" key={p.num}>
             <div className="project-stage">
               {p.inProgress && <span className="wip">{ui.inProgress}</span>}
-              <Laptop p={p} />
+              <BrowserFrame p={p} />
             </div>
             <div className="project-body">
               <div className="project-meta">
