@@ -1,21 +1,23 @@
+import { ArrowUpRight } from 'lucide-react';
 import { useApp } from '../lib/app-context.jsx';
 import Reveal from './Reveal.jsx';
 
-function Media({ p }) {
+// Browser-window frame that hugs the screenshot's own aspect ratio, so
+// nothing is cropped or letterboxed.
+function BrowserFrame({ p }) {
   return (
-    <div className="project-media">
-      {p.img ? (
-        <img src={p.img} alt={p.title} loading="lazy" />
-      ) : (
-        <span aria-hidden="true" style={{
-          position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--mut2)',
-          background: 'radial-gradient(circle at 50% 40%, rgba(37,99,235,.16), transparent 70%)',
-        }}>◍</span>
-      )}
-      <span className="veil" aria-hidden="true" />
-      <span className="fname">◍ {p.file}</span>
-      {p.inProgress && <span className="wip">WIP</span>}
+    <div className="browser">
+      <div className="browser-bar">
+        <i /><i /><i />
+        <span className="browser-url">{p.url}</span>
+      </div>
+      <div className="browser-view">
+        {p.img ? (
+          <img src={p.img} alt={p.title} loading="lazy" />
+        ) : (
+          <span className="browser-empty">◍ {p.file}</span>
+        )}
+      </div>
     </div>
   );
 }
@@ -33,7 +35,10 @@ export default function Projects() {
       <div className="projects-grid">
         {content.projects.map((p, i) => (
           <Reveal variant="scale" delay={i * 0.06} className="card project-card" key={p.num}>
-            <Media p={p} />
+            <div className="project-stage">
+              {p.inProgress && <span className="wip">{ui.inProgress}</span>}
+              <BrowserFrame p={p} />
+            </div>
             <div className="project-body">
               <div className="project-meta">
                 <span className="no">{p.num}</span>
@@ -50,7 +55,9 @@ export default function Projects() {
               {p.hasLinks && (
                 <div className="project-links">
                   <a className="link-code" href={p.code} target="_blank" rel="noopener noreferrer">↗ {ui.code}</a>
-                  <a className="link-demo" href={p.demo} target="_blank" rel="noopener noreferrer">↗ {ui.demo}</a>
+                  <a className="link-demo" href={p.demo} target="_blank" rel="noopener noreferrer">
+                    {ui.demo} <ArrowUpRight size={14} aria-hidden="true" />
+                  </a>
                 </div>
               )}
             </div>

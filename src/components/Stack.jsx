@@ -9,7 +9,7 @@ function TechIcon({ item }) {
     <div className="tech" title={item.n}>
       <span className="tech-box">
         {!failed ? (
-          <img src={item.icon} alt="" width="30" height="30" loading="lazy" onError={() => setFailed(true)} />
+          <img src={item.icon} alt="" width="28" height="28" loading="lazy" onError={() => setFailed(true)} />
         ) : (
           <span className="tech-mono">{mono}</span>
         )}
@@ -28,12 +28,16 @@ export default function Stack() {
         <h2>{content.ui.sStack}</h2>
         <span className="line" aria-hidden="true" />
       </Reveal>
-      <div className="stack-grid">
+
+      <div className="stack-rows">
         {content.techGroups.map((g, i) => (
-          <Reveal variant="scale" delay={i * 0.05} className="card stack-card" key={g.num}>
-            <span className="wm" aria-hidden="true">{g.num}</span>
-            <div className="cat">{g.cat}</div>
-            <div className="tech-row">
+          <Reveal variant="up" delay={i * 0.06} className="stack-row" key={g.num}>
+            <div className="stack-row-label">
+              <span className="stack-row-num">{g.num}</span>
+              <span className="stack-row-cat">{g.cat}</span>
+              <span className="stack-row-line" aria-hidden="true" />
+            </div>
+            <div className="stack-row-techs">
               {g.items.map((it) => <TechIcon item={it} key={it.n} />)}
             </div>
           </Reveal>
