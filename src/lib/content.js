@@ -140,21 +140,21 @@ export function getContent(lang) {
 
     projects: [
       { title: 'Hotel ERP System', num: '01', kind: tr('Plataforma web', 'Web platform'), when: '2025',
-        img: '/assets/projects/hotel-erp.jpg', file: 'hotel-erp.java', url: 'hotel-erp.vercel.app',
+        img: '/assets/projects/hotel-erp.png', file: 'hotel-erp.java', url: 'zellige-hotels.vercel.app',
         tags: ['Java', 'Spring Boot', 'React', 'PostgreSQL'],
         desc: tr(
           'Plataforma de administración empresarial con seguridad robusta (JWT), control de acceso por roles y dashboards de reporting.',
           'Enterprise administration platform with robust security (JWT), role-based access control, and reporting dashboards.'
         ),
-        inProgress: false, hasLinks: true, code: 'https://github.com/AyChEs/hotel-erp', demo: 'https://hotel-erp-rho.vercel.app' },
+        inProgress: false, hasLinks: true, code: 'https://github.com/AyChEs/Zellige-Hotels', demo: 'https://zellige-hotels.vercel.app' },
       { title: 'CineFlow Booking Engine', num: '02', kind: tr('App web', 'Web app'), when: '2025',
-        img: '/assets/projects/cineflow.svg', file: 'cineflow.php', url: 'cineflow.app',
+        img: '/assets/projects/cineflow.png', file: 'cineflow.php', url: 'cineflow-ufe0.onrender.com',
         tags: ['PHP · Laravel', 'MySQL', 'Stripe API', 'JS'],
         desc: tr(
           'Sistema completo de reservas de cine con bloqueo de butacas en tiempo real (concurrencia) y lógica de precios dinámicos.',
           'Complete cinema reservation system featuring real-time seat locking concurrency and dynamic pricing logic.'
         ),
-        inProgress: false, hasLinks: true, code: '#', demo: '#' },
+        inProgress: false, hasLinks: true, code: 'https://github.com/AyChEs/cineflow-booking-engine', demo: 'https://cineflow-ufe0.onrender.com/' },
     ],
 
     // Trayectoria unificada (estudios + trabajo + certificación), ascendente.
