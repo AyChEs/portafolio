@@ -36,11 +36,13 @@ export default function About() {
                 <div className="fact-row" key={f.k}><dt>{f.k}</dt><dd>{f.v}</dd></div>
               ))}
             </dl>
-            <div className="trait-row">
-              {ui.traits.map((tt) => (
-                <span className="trait" key={tt}><span className="d" aria-hidden="true" />{tt}</span>
-              ))}
-            </div>
+            {ui.traits.length > 0 && (
+              <div className="trait-row">
+                {ui.traits.map((tt) => (
+                  <span className="trait" key={tt}><span className="d" aria-hidden="true" />{tt}</span>
+                ))}
+              </div>
+            )}
           </div>
         </Reveal>
 

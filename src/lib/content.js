@@ -21,8 +21,8 @@ export function getContent(lang) {
       hi: tr('Hola, soy', "Hi, I'm"),
       kicker: tr('Desarrollador Full-Stack', 'Full-Stack Developer'),
       tagline: tr(
-        'Trabajo sobre todo en el backend, con Ruby on Rails. También me manejo en el front cuando toca.',
-        'I mostly work on the backend, with Ruby on Rails. I also handle the front end when needed.'
+        'Full-stack con base en Java. También trabajo con PHP y Ruby, y estoy metiéndole horas a Python.',
+        "Full-stack with a base in Java. I also work with PHP and Ruby, and I'm putting in hours on Python."
       ),
       available: tr('Busco nuevas oportunidades', 'Looking for new opportunities'),
       seeWork: tr('Ver proyectos', 'See projects'),
@@ -35,10 +35,10 @@ export function getContent(lang) {
       sLang: tr('Idiomas', 'Languages'),
       sContact: tr('Contacto', 'Contact'),
       sHome: tr('Inicio', 'Home'),
-      aboutLead: tr('Me muevo mejor en el backend.', "I'm more at home in the backend."),
+      aboutLead: tr('Full-stack, con Java como base.', 'Full-stack, with Java as my base.'),
       aboutBio: tr(
-        'Trabajo con Ruby on Rails. Normalmente llevo una funcionalidad entera: la API, los permisos, los idiomas y los documentos que genera la aplicación.',
-        'I work with Ruby on Rails. I usually take a feature from start to finish: the API, permissions, languages and the documents the app generates.'
+        'Normalmente llevo una funcionalidad entera: la API, los permisos, los idiomas y los documentos que genera la aplicación.',
+        'I usually take a feature from start to finish: the API, permissions, languages and the documents the app generates.'
       ),
       aboutBio2: tr(
         'Prefiero el código simple. Si algo se puede resolver de forma clara, lo hago así.',
@@ -46,20 +46,17 @@ export function getContent(lang) {
       ),
       quickFacts: tr(
         [
-          { k: 'Rol', v: 'Backend & Full-stack' },
-          { k: 'Base', v: 'Ruby on Rails · PostgreSQL' },
+          { k: 'Rol', v: 'Full-Stack' },
+          { k: 'Base', v: 'Java · PostgreSQL' },
           { k: 'Lugar', v: 'Tarragona · España' },
         ],
         [
-          { k: 'Role', v: 'Backend & Full-stack' },
-          { k: 'Core', v: 'Ruby on Rails · PostgreSQL' },
+          { k: 'Role', v: 'Full-Stack' },
+          { k: 'Core', v: 'Java · PostgreSQL' },
           { k: 'Place', v: 'Tarragona · Spain' },
         ]
       ),
-      traits: tr(
-        ['Cuido los detalles', 'Fácil de tratar'],
-        ['I sweat the details', 'Easy to work with']
-      ),
+      traits: tr([], []),
       locLabel: tr('Dónde estoy', 'Where I am'),
       locTitle: tr('Tarragona,', 'Tarragona,'),
       locSub: tr('España', 'Spain'),
@@ -92,7 +89,7 @@ export function getContent(lang) {
       resumeSoon: tr('Lo subo en breve', 'Uploading it shortly'),
     },
 
-    marquee: ['Ruby on Rails', 'REST APIs', 'PostgreSQL', 'Laravel', 'Spring Boot', 'React', 'MySQL', 'Git', 'RSpec', 'JWT'],
+    marquee: ['Java', 'Spring Boot', 'PHP', 'Laravel', 'REST APIs', 'PostgreSQL', 'React', 'MySQL', 'Git', 'JWT', 'Ruby on Rails'],
 
     // Áreas profesionales que me representan.
     focus: [
@@ -112,16 +109,16 @@ export function getContent(lang) {
     // Stack por categorías (layout en filas, no en cajas).
     techGroups: [
       { num: '01', cat: tr('Lenguajes', 'Languages'), items: [
-        { n: 'Ruby', icon: L + 'ruby.svg' },
-        { n: 'PHP', icon: L + 'php.svg' },
         { n: 'Java', icon: L + 'java.svg' },
+        { n: 'PHP', icon: L + 'php.svg' },
+        { n: 'Ruby', icon: L + 'ruby.svg' },
         { n: 'JavaScript', icon: L + 'javascript.svg', m: 'JS' },
         { n: 'SQL', icon: null, m: 'SQL' },
       ]},
       { num: '02', cat: 'Frameworks', items: [
-        { n: 'Rails', icon: L + 'rails.svg' },
-        { n: 'Laravel', icon: L + 'laravel.svg' },
         { n: 'Spring', icon: L + 'spring.svg' },
+        { n: 'Laravel', icon: L + 'laravel.svg' },
+        { n: 'Rails', icon: L + 'rails.svg' },
         { n: 'React', icon: L + 'react.svg' },
       ]},
       { num: '03', cat: tr('Bases de datos', 'Databases'), items: [
@@ -171,10 +168,11 @@ export function getContent(lang) {
       { type: 'work', period: tr('jul 2025 — mar 2026', 'Jul 2025 — Mar 2026'), title: tr('Desarrollador Backend · Prácticas', 'Backend Developer · Intern'),
         org: 'Etecnic', place: 'Tarragona',
         note: tr('Primeros pasos en producción real con Ruby on Rails, compaginando estudios.', 'First steps in real production with Ruby on Rails, alongside my studies.') },
-      { type: 'work', period: tr('mar 2026 — Actualidad', 'Mar 2026 — Present'), title: tr('Desarrollador Backend', 'Backend Developer'),
+      { type: 'work', period: tr('mar 2026 — Actualidad', 'Mar 2026 — Present'), title: tr('Desarrollador Full-Stack', 'Full-Stack Developer'),
         org: 'Etecnic', place: 'Tarragona', current: true,
         note: tr('Funcionalidades de principio a fin: APIs REST con permisos, i18n de facturas en 9 idiomas, pipeline de PDFs y branding por dominio.',
-                 'Features end to end: REST APIs with permissions, invoice i18n in 9 languages, a PDF pipeline and per-domain branding.') },
+                 'Features end to end: REST APIs with permissions, invoice i18n in 9 languages, a PDF pipeline and per-domain branding.'),
+        tag: tr('Promoción tras las prácticas', 'Promoted after the internship') },
     ],
 
     languages: [
