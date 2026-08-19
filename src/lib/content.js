@@ -165,14 +165,14 @@ export function getContent(lang) {
       { type: 'study', period: '2024 — 2026', title: tr('Téc. Superior en Desarrollo de Aplicaciones Web (DAW)', 'Higher Diploma in Web Application Development (DAW)'),
         org: 'Institut Francesc Vidal i Barraquer',
         note: tr('El salto al desarrollo: full-stack, bases de datos y despliegue.', 'The jump into development: full-stack, databases and deployment.') },
-      { type: 'work', period: tr('jul 2025 — mar 2026', 'Jul 2025 — Mar 2026'), title: tr('Desarrollador Backend · Prácticas', 'Backend Developer · Intern'),
-        org: 'Etecnic', place: 'Tarragona',
-        note: tr('Primeros pasos en producción real con Ruby on Rails, compaginando estudios.', 'First steps in real production with Ruby on Rails, alongside my studies.') },
-      { type: 'work', period: tr('mar 2026 — Actualidad', 'Mar 2026 — Present'), title: tr('Desarrollador Full-Stack', 'Full-Stack Developer'),
-        org: 'Etecnic', place: 'Tarragona', current: true,
-        note: tr('Funcionalidades de principio a fin: APIs REST con permisos, i18n de facturas en 9 idiomas, pipeline de PDFs y branding por dominio.',
-                 'Features end to end: REST APIs with permissions, invoice i18n in 9 languages, a PDF pipeline and per-domain branding.'),
-        tag: tr('Promoción tras las prácticas', 'Promoted after the internship') },
+      { type: 'work', org: 'Etecnic', place: 'Tarragona', current: true,
+        roles: [
+          { period: tr('jul 2025 — mar 2026', 'Jul 2025 — Mar 2026'), title: tr('Desarrollador Backend · Prácticas', 'Backend Developer · Intern'),
+            note: tr('Primeros pasos en producción real con Ruby on Rails, compaginando estudios.', 'First steps in real production with Ruby on Rails, alongside my studies.') },
+          { period: tr('mar 2026 — Actualidad', 'Mar 2026 — Present'), title: tr('Desarrollador Full-Stack', 'Full-Stack Developer'), current: true,
+            note: tr('Funcionalidades de principio a fin: APIs REST con permisos, i18n de facturas en 9 idiomas, pipeline de PDFs y branding por dominio.',
+                     'Features end to end: REST APIs with permissions, invoice i18n in 9 languages, a PDF pipeline and per-domain branding.') },
+        ] },
     ],
 
     languages: [
