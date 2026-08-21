@@ -21,8 +21,8 @@ export function getContent(lang) {
       hi: tr('Hola, soy', "Hi, I'm"),
       kicker: tr('Desarrollador Full-Stack', 'Full-Stack Developer'),
       tagline: tr(
-        'Full-stack con base en Java. También trabajo con PHP y Ruby, y estoy metiéndole horas a Python.',
-        "Full-stack with a base in Java. I also work with PHP and Ruby, and I'm putting in hours on Python."
+        'Desarrollador full-stack con base en Java, construyendo aplicaciones y APIs de principio a fin.',
+        'Full-stack developer with a base in Java, building applications and APIs end to end.'
       ),
       available: tr('Busco nuevas oportunidades', 'Looking for new opportunities'),
       seeWork: tr('Ver proyectos', 'See projects'),
