@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Download, Linkedin } from 'lucide-react';
+import { ArrowRight, Download } from 'lucide-react';
 import { useApp } from '../lib/app-context.jsx';
 
 export default function Hero() {
@@ -7,7 +7,6 @@ export default function Hero() {
   const ui = content.ui;
   const reduce = useReducedMotion();
   const letters = content.firstName.split('');
-  const linkedin = content.contacts.find((c) => c.key === 'linkedin')?.href || '#contact';
 
   const up = (delay) => reduce
     ? {}
@@ -91,11 +90,11 @@ export default function Hero() {
       <motion.p className="hero-sub" {...up(0.8)}>{ui.tagline}</motion.p>
 
       <motion.div className="hero-ctas" {...up(0.9)}>
-        <a className="btn btn-primary" href={content.resumeUrl} download={content.resumeFile}>
-          <Download size={16} aria-hidden="true" /> {ui.downloadCV}
+        <a className="btn btn-primary btn-sm" href={content.resumeUrl} download={content.resumeFile}>
+          <Download size={15} aria-hidden="true" /> {ui.downloadCV}
         </a>
-        <a className="btn btn-ghost" href={linkedin} target="_blank" rel="noopener noreferrer">
-          <Linkedin size={16} aria-hidden="true" /> LinkedIn <ArrowRight size={14} aria-hidden="true" />
+        <a className="btn btn-ghost btn-sm" href="#projects">
+          {ui.seeWork} <ArrowRight size={14} aria-hidden="true" />
         </a>
       </motion.div>
     </header>

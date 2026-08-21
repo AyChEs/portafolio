@@ -34,6 +34,7 @@ export function getContent(lang) {
       getInTouch: tr('Hablemos', "Let's talk"),
       reachOut: tr('Escríbeme', 'Reach out'),
       downloadCV: tr('Descargar CV', 'Download CV'),
+      seeWork: tr('Ver proyectos', 'See projects'),
       sAbout: tr('Sobre mí', 'About me'),
       sStack: 'Stack',
       sProjects: tr('Proyectos', 'Projects'),

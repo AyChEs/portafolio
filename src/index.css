@@ -164,6 +164,7 @@ html[data-theme=light] .hero-beam-core { background: radial-gradient(60% 100% at
 .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 .btn { display: inline-flex; align-items: center; gap: 9px; font-weight: 600; font-size: 15px; padding: 16px 27px; border-radius: 12px; transition: all .24s; cursor: pointer; border: none; }
 .btn .m { font-family: var(--font-mono); }
+.btn-sm { gap: 7px; font-size: 13.5px; padding: 11px 18px; border-radius: 10px; }
 .btn-primary { background: var(--acc2); color: #fff; box-shadow: 0 6px 16px var(--shadow); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 22px var(--shadow); background: var(--acc); color: #fff; }
 .btn-ghost { border: 1px solid var(--bd2); color: var(--txt); background: var(--card); }
