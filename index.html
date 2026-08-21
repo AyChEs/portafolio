@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html lang="es" id="top">
+<html lang="en" id="top">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ayman Charoui — Desarrollador Full-Stack</title>
-  <meta name="description" content="Portafolio de Ayman Charoui Essamadi (AyChEs), desarrollador full-stack con base en Java: APIs REST y SaaS multi-tenant en Etecnic." />
+  <title>Ayman Charoui — Full-Stack Developer</title>
+  <meta name="description" content="Portfolio of Ayman Charoui Essamadi (AyChEs), full-stack developer with a base in Java: REST APIs and multi-tenant SaaS at Etecnic." />
   <meta name="author" content="Ayman Charoui Essamadi" />
-  <meta property="og:title" content="Ayman Charoui — Desarrollador Full-Stack" />
-  <meta property="og:description" content="Desarrollador full-stack con base en Java — APIs REST y SaaS multi-tenant en Etecnic." />
+  <meta property="og:title" content="Ayman Charoui — Full-Stack Developer" />
+  <meta property="og:description" content="Full-stack developer with a base in Java — REST APIs and multi-tenant SaaS at Etecnic." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#04060f" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" />
   <script>
     try {
+      var l = localStorage.getItem('ayches-lang');
+      if (l === 'es' || l === 'en') document.documentElement.lang = l;
       var t = localStorage.getItem('ayches-theme');
       document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
     } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }

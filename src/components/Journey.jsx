@@ -52,45 +52,17 @@ export default function Journey() {
                 <Ico size={17} />
               </span>
               <div className="jn-card">
-                {e.roles ? (
-                  <>
-                    <div className="jn-top">
-                      <span className={`jn-kind jn-kind-${e.type}`}>{labels[e.type]}</span>
-                      {e.current && <span className="jn-now"><span className="d" aria-hidden="true" />{ui.now}</span>}
-                    </div>
-                    <div className="jn-org">
-                      {e.org}{e.place && <span className="jn-place"><MapPin size={12} aria-hidden="true" /> {e.place}</span>}
-                    </div>
-                    {/* Same-company progression: one card, roles stacked on their own
-                        mini timeline, so the promotion reads from the shape, not a label. */}
-                    <div className="jn-roles">
-                      {e.roles.map((r, ri) => (
-                        <div className={`jn-role${r.current ? ' current' : ''}`} key={ri}>
-                          <span className="jn-role-dot" aria-hidden="true" />
-                          <div className="jn-role-top">
-                            <h4>{r.title}</h4>
-                            <span className="jn-role-period">{r.period}</span>
-                          </div>
-                          <p>{r.note}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="jn-top">
-                      <span className={`jn-kind jn-kind-${e.type}`}>{labels[e.type]}</span>
-                      <span className="jn-period">{e.period}</span>
-                      {e.current && <span className="jn-now"><span className="d" aria-hidden="true" />{ui.now}</span>}
-                    </div>
-                    <h3>{e.title}</h3>
-                    <div className="jn-org">
-                      {e.org}{e.place && <span className="jn-place"><MapPin size={12} aria-hidden="true" /> {e.place}</span>}
-                    </div>
-                    <p>{e.note}</p>
-                    {e.tag && <span className="jn-tag">{e.type === 'cert' ? '✓ ' : '★ '}{e.tag}</span>}
-                  </>
-                )}
+                <div className="jn-top">
+                  <span className={`jn-kind jn-kind-${e.type}`}>{labels[e.type]}</span>
+                  <span className="jn-period">{e.period}</span>
+                  {e.current && <span className="jn-now"><span className="d" aria-hidden="true" />{ui.now}</span>}
+                </div>
+                <h3>{e.title}</h3>
+                <div className="jn-org">
+                  {e.org}{e.place && <span className="jn-place"><MapPin size={12} aria-hidden="true" /> {e.place}</span>}
+                </div>
+                <p>{e.note}</p>
+                {e.tag && <span className="jn-tag">{e.type === 'cert' ? '✓ ' : '★ '}{e.tag}</span>}
               </div>
             </motion.div>
           );

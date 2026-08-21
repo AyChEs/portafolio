@@ -1,11 +1,15 @@
 // Contenido bilingüe del portafolio. `tr(a, b)` elige ES/EN según el idioma.
-// URL del CV. Cuando tengas el PDF, súbelo a /public (p. ej. /cv-ayman-charoui.pdf)
-// o pega aquí el enlace de Drive. Si queda vacío, el botón se muestra desactivado.
-export const RESUME_URL = '';
+// CV en PDF: uno por idioma, servidos desde /public/cv. El botón de descarga
+// entrega siempre el que corresponde al idioma activo del portafolio.
+export const RESUME_FILES = {
+  es: '/cv/CV-Ayman-Charoui-ES.pdf',
+  en: '/cv/CV-Ayman-Charoui-EN.pdf',
+};
 
 export function getContent(lang) {
   const es = lang === 'es';
   const tr = (a, b) => (es ? a : b);
+  const resumeUrl = es ? RESUME_FILES.es : RESUME_FILES.en;
 
   // Logos auto-hospedados (devicon, MIT) en /public/assets/logos.
   const L = '/assets/logos/';
@@ -86,7 +90,6 @@ export function getContent(lang) {
       palTheme: tr('Cambiar tema', 'Toggle theme'),
       palTap: tr('Explorar', 'Explore'),
       privacy: tr('Aviso legal y privacidad', 'Legal notice & privacy'),
-      resumeSoon: tr('Lo subo en breve', 'Uploading it shortly'),
     },
 
     marquee: ['Java', 'Spring Boot', 'PHP', 'Laravel', 'REST APIs', 'PostgreSQL', 'React', 'MySQL', 'Git', 'JWT', 'Ruby on Rails'],
@@ -154,25 +157,25 @@ export function getContent(lang) {
         inProgress: false, hasLinks: true, code: 'https://github.com/AyChEs/cineflow-booking-engine', demo: 'https://cineflow-ufe0.onrender.com/' },
     ],
 
-    // Trayectoria unificada (estudios + trabajo + certificación), ascendente.
+    // Trayectoria en orden inverso: lo más reciente primero.
     journey: [
-      { type: 'study', period: '2022 — 2024', title: tr('Téc. en Sistemas Microinformáticos y Redes', 'Diploma in Microcomputer Systems & Networks'),
-        org: 'Institut Francesc Vidal i Barraquer', tag: tr('Honores · 8.6/10', 'Honors · 8.6/10'),
-        note: tr('Primer contacto serio con sistemas, redes y hardware.', 'First serious contact with systems, networks and hardware.') },
-      { type: 'work', period: tr('ene — may 2024', 'Jan — May 2024'), title: tr('Técnico Informático · Prácticas', 'IT Technician · Intern'),
-        org: 'The British School of Costa Daurada', place: 'Tarragona',
-        note: tr('Soporte técnico, redes y automatización de tareas.', 'Technical support, networks and task automation.') },
+      { type: 'work', period: tr('jul 2025 — Actualidad', 'Jul 2025 — Present'),
+        title: tr('Desarrollador Full-Stack', 'Full-Stack Developer'),
+        org: 'Etecnic', place: 'Tarragona', current: true,
+        tag: tr('De prácticas a contrato indefinido', 'From internship to permanent contract'),
+        note: tr(
+          'SaaS multi-tenant de gestión de recarga de vehículo eléctrico (GALP, AENA, Celsia). Funcionalidades de principio a fin: endpoints REST con permisos por rol y tests en RSpec, facturación internacionalizada a 9 idiomas, migración de los PDFs de factura a un pipeline HTML/CSS en CI y branding por dominio.',
+          'Multi-tenant SaaS for EV charging management (GALP, AENA, Celsia). Features end to end: REST endpoints with role-based permissions covered by RSpec tests, invoicing internationalized across 9 languages, invoice PDFs migrated to an HTML/CSS pipeline running in CI, and per-domain branding.'
+        ) },
       { type: 'study', period: '2024 — 2026', title: tr('Téc. Superior en Desarrollo de Aplicaciones Web (DAW)', 'Higher Diploma in Web Application Development (DAW)'),
         org: 'Institut Francesc Vidal i Barraquer',
         note: tr('El salto al desarrollo: full-stack, bases de datos y despliegue.', 'The jump into development: full-stack, databases and deployment.') },
-      { type: 'work', org: 'Etecnic', place: 'Tarragona', current: true,
-        roles: [
-          { period: tr('jul 2025 — mar 2026', 'Jul 2025 — Mar 2026'), title: tr('Desarrollador Backend · Prácticas', 'Backend Developer · Intern'),
-            note: tr('Primeros pasos en producción real con Ruby on Rails, compaginando estudios.', 'First steps in real production with Ruby on Rails, alongside my studies.') },
-          { period: tr('mar 2026 — Actualidad', 'Mar 2026 — Present'), title: tr('Desarrollador Full-Stack', 'Full-Stack Developer'), current: true,
-            note: tr('Funcionalidades de principio a fin: APIs REST con permisos, i18n de facturas en 9 idiomas, pipeline de PDFs y branding por dominio.',
-                     'Features end to end: REST APIs with permissions, invoice i18n in 9 languages, a PDF pipeline and per-domain branding.') },
-        ] },
+      { type: 'work', period: tr('ene — may 2024', 'Jan — May 2024'), title: tr('Técnico Informático · Prácticas', 'IT Technician · Intern'),
+        org: 'The British School of Costa Daurada', place: 'Tarragona',
+        note: tr('Soporte de sistemas y redes: Windows Server, Linux y Office 365.', 'Systems and network support: Windows Server, Linux and Office 365.') },
+      { type: 'study', period: '2022 — 2024', title: tr('Téc. en Sistemas Microinformáticos y Redes', 'Diploma in Microcomputer Systems & Networks'),
+        org: 'Institut Francesc Vidal i Barraquer', tag: tr('Honores · 8.6/10', 'Honors · 8.6/10'),
+        note: tr('Primer contacto serio con sistemas, redes y hardware.', 'First serious contact with systems, networks and hardware.') },
     ],
 
     languages: [
@@ -188,10 +191,11 @@ export function getContent(lang) {
       { key: 'email', label: 'Email', value: 'aymanessamadi72@gmail.com', href: 'mailto:aymanessamadi72@gmail.com', external: false },
       {
         key: 'resume',
-        label: tr('Descargar CV', 'Download CV'),
-        value: RESUME_URL ? 'PDF' : tr('próximamente', 'coming soon'),
-        href: RESUME_URL || null,
+        label: tr('Descargar CV (español)', 'Download CV (English)'),
+        value: 'PDF',
+        href: resumeUrl,
         external: true,
+        download: es ? 'CV-Ayman-Charoui-ES.pdf' : 'CV-Ayman-Charoui-EN.pdf',
       },
     ],
 

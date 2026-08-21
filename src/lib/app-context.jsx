@@ -3,13 +3,14 @@ import { getContent } from './content.js';
 
 const AppContext = createContext(null);
 
+// English is the portfolio's primary language: it is what a first-time visitor
+// gets. Spanish only shows up if they picked it before, or asked for it here.
 function detectLang() {
   try {
     const saved = localStorage.getItem('ayches-lang');
     if (saved === 'es' || saved === 'en') return saved;
   } catch (e) { /* ignore */ }
-  const nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'es';
-  return /^(es|ca)\b/i.test(nav) ? 'es' : 'en';
+  return 'en';
 }
 
 function detectTheme() {
