@@ -20,6 +20,8 @@ export function getContent(lang) {
     firstName: 'Ayman',
     handle: 'AyChEs',
     initials: 'AC',
+    resumeUrl,
+    resumeFile: es ? 'CV-Ayman-Charoui-ES.pdf' : 'CV-Ayman-Charoui-EN.pdf',
 
     ui: {
       hi: tr('Hola, soy', "Hi, I'm"),
@@ -29,9 +31,9 @@ export function getContent(lang) {
         'Full-stack developer with a base in Java, building applications and APIs end to end.'
       ),
       available: tr('Busco nuevas oportunidades', 'Looking for new opportunities'),
-      seeWork: tr('Ver proyectos', 'See projects'),
       getInTouch: tr('Hablemos', "Let's talk"),
       reachOut: tr('Escríbeme', 'Reach out'),
+      downloadCV: tr('Descargar CV', 'Download CV'),
       sAbout: tr('Sobre mí', 'About me'),
       sStack: 'Stack',
       sProjects: tr('Proyectos', 'Projects'),
