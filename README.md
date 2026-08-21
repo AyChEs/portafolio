@@ -19,7 +19,8 @@ puntos animado. Inspiración de referencia: [awrs.me](https://awrs.me/en).
 - `src/App.jsx` — composición de la página
 - `src/index.css` — sistema de diseño (tokens, tipografía, keyframes, clases de componentes)
 - `src/lib/content.js` — todo el contenido bilingüe (ES/EN) en un solo lugar
-- `src/lib/app-context.jsx` — estado de tema e idioma (persistido en `localStorage`)
+- `src/lib/app-context.jsx` — estado de tema e idioma (persistido en `localStorage`; el idioma
+  por defecto es inglés y el español entra al pulsar el conmutador o si ya se eligió antes)
 - `src/lib/palette-context.jsx` — estado del command palette (atajo ⌘K / Ctrl+K)
 - `src/components/*` — Nav, CommandPalette, Hero, Ribbons, About (+ Globe, Clock, Stats), Stack, Projects, Experience, Formation, Contact, Ambient, Reveal
 - `public/assets/logos/` — logos devicon auto-hospedados (MIT, ver `LICENSE-devicon.txt`)
@@ -42,9 +43,10 @@ El proyecto se detecta como Vite automáticamente: *Build command* `vite build`,
 
 ## Pendiente
 
-- [ ] **Enlazar el CV**: sube el PDF a `public/` (p. ej. `public/cv-ayman-charoui.pdf`) o copia el
-  enlace de Drive, y pégalo en `RESUME_URL` al principio de `src/lib/content.js`. Mientras esté
-  vacío, el botón aparece atenuado con "próximamente" en lugar de enlazar a ninguna parte.
+- [x] **Enlazar el CV**: hay un PDF por idioma en `public/cv/`, declarados en `RESUME_FILES` al
+  principio de `src/lib/content.js`. El botón de descarga entrega el que corresponde al idioma
+  activo: CV en español si el portafolio está en español, en inglés si está en inglés. Para
+  actualizarlos basta con reemplazar los dos ficheros manteniendo el nombre.
 - [ ] Revisar el aviso legal (`#/legal`) y completar el NIF u otros datos si algún día se factura
   desde el sitio. El texto actual describe la realidad de la web: sin formularios, sin analítica
   y sin cookies de seguimiento.

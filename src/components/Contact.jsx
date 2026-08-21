@@ -25,18 +25,6 @@ export default function Contact() {
         <Reveal delay={0.05} className="contact-icons">
           {content.contacts.map((c) => {
             const Ico = ICONS[c.key] || Mail;
-            if (!c.href) {
-              return (
-                <span
-                  key={c.key}
-                  className="contact-ico is-soon"
-                  aria-label={`${c.label} — ${ui.resumeSoon}`}
-                  title={`${c.label} — ${ui.resumeSoon}`}
-                >
-                  <Ico size={22} aria-hidden="true" />
-                </span>
-              );
-            }
             return (
               <a
                 key={c.key}
@@ -44,6 +32,7 @@ export default function Contact() {
                 href={c.href}
                 aria-label={c.label}
                 title={c.label}
+                {...(c.download ? { download: c.download } : {})}
                 {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
                 <Ico size={22} aria-hidden="true" />
