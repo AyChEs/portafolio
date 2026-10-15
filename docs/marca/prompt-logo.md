@@ -1,5 +1,7 @@
 # Prompt maestro del logotipo (ChatGPT)
 
+> **Ya usado (2026-10-15).** Salió el concepto de la λ y se redibujó en `docs/marca/logo/`. Se conserva como registro. Desde entonces: nada de naranja, y Java no se presenta como identidad.
+
 **Referencia de estructura:** el logo de Darsi (una sola letra rotunda dentro de un cuadrado de esquinas muy redondeadas, de color liso, más un detalle de acento pequeño con significado). Se toma la estructura, no los elementos: nada de verde azulado, ámbar, destello de cuatro puntas ni letra árabe sobre cuadrado, para que nadie vincule las dos marcas.
 
 **Nombre:** solo «Ayman». El apellido no entra en el logotipo. El nombre completo sigue en el título de la web, el CV y los datos estructurados, para que te encuentren al buscarte.

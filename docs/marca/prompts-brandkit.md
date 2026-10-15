@@ -1,5 +1,7 @@
 # Prompts de tablero de marca (skill brandkit)
 
+**Logotipo ya elegido:** en `- logo:` describe «a navy rounded-square tile with a bold λ-shaped letter A with a small hook at the top left, and a small blue dot at the bottom right».
+
 Para generar en ChatGPT **después de elegir el logotipo** con `prompt-logo.md`. **Son solo referencia de composición y atmósfera.** El logotipo final es el SVG redibujado a partir del elegido, y el texto de las imágenes nunca se copia a la web.
 
 Genera los dos para comparar las direcciones. Si el modelo dibuja otro logotipo, ignóralo y fíjate en la atmósfera, el ritmo y el uso del color.
@@ -12,7 +14,7 @@ Genera los dos para comparar las direcciones. Si el modelo dibuja otro logotipo,
 Create a premium brand-kit overview image for "Ayman Charoui", a full-stack software developer's personal brand.
 
 Brand strategy:
-- category: personal brand of a full-stack developer (Java foundation), aimed at tech recruiters and CTOs
+- category: personal brand of a full-stack developer, aimed at tech recruiters and CTOs
 - audience: technical hiring managers in Spain and remote international teams
 - personality: precise, calm, honest, careful, quietly confident; never loud, never heroic
 - core metaphor: a precision workshop blueprint — measurements, tolerances, dimension lines. "The parts of an application that cannot fail."
@@ -22,18 +24,18 @@ Layout:
 3×3 grid on a light warm-grey presentation canvas with strong gutters, clean alignment and generous negative space.
 
 Panels:
-1. logo cover: the logo with a thin orange dimension line under it, the name "Ayman Charoui" in a characterful grotesque, lots of space
+1. logo cover: the logo (navy rounded tile with a λ-shaped A and a blue dot) and the word "Ayman." in a bold geometric sans, lots of space
 2. logo construction: the logo on a construction grid, showing its geometry
-3. digital application: a minimal light browser window with a portfolio hero, one dark-navy headline and one orange button
+3. digital application: a minimal light browser window with a portfolio hero, one dark-navy headline and one navy button
 4. brand essence: one short line, large, quiet: "Built to not fail."
-5. color system: paper #F3F4F1, white, ink #121620, steel navy #14213D (large swatch), signal orange #C2410C (small swatch, about 10%)
-6. typography: Bricolage Grotesque specimen for headlines, Geist for text, Geist Mono for measurements and dates
+5. color system: paper #F3F4F1, white, ink #121620, navy #14213D (large swatch), dot blue #3A5A8C (small swatch, about 10%)
+6. typography: Plus Jakarta Sans specimen for headlines, Geist for text, Geist Mono for measurements and dates
 7. physical application: a business card and a CV first page with the logo and a dimension line
 8. image direction: close-up of a technical drawing / machinist's blueprint on paper, millimetre grid, soft daylight, slightly desaturated
 9. system detail: UI chips and a case-study stat drawn as a dimension line ("9 languages" between two ticks), favicon at small sizes
 
 Visual mode: light editorial / precision engineering.
-Palette: paper, white, ink, steel navy, one signal-orange accent used sparingly.
+Palette: paper, white, ink, steel navy, one dot-blue accent #3A5A8C used sparingly, no orange anywhere.
 Style: premium, sparse, intentional, brand-guidelines deck, millimetre grid at very low opacity, thin 1px rules, no shadows, square-ish 4px corners. No clutter, no purple gradients, no stock photos of people, no generic code icons, no copied real-world logos.
 Typography: readable, minimal, high hierarchy, no tiny fake text.
 Logo: simple, consistent in every panel.
@@ -47,7 +49,7 @@ Logo: simple, consistent in every panel.
 Create a premium brand-kit overview image for "Ayman Charoui", a full-stack software developer's personal brand.
 
 Brand strategy:
-- category: personal brand of a full-stack developer (Java foundation), aimed at tech recruiters and CTOs
+- category: personal brand of a full-stack developer, aimed at tech recruiters and CTOs
 - audience: technical hiring managers in Spain and remote international teams
 - personality: precise, calm, honest, careful; a workshop at midnight where something is always being built
 - core metaphor: the blinking cursor "_" — work in progress, done carefully

@@ -13,7 +13,9 @@ Este documento razona cada decisión. Las reglas que deben obedecerse al constru
 | Decisión | Valor | Origen |
 |---|---|---|
 | Darsi | No aparece en el portafolio | Tu respuesta del 2026-10-15 (opción a) |
-| Rol | Desarrollador full-stack con base en Java | Tu respuesta |
+| Rol | Desarrollador full-stack. Java es una de las tecnologías que has usado, no tu identidad | Tus respuestas (corregido el 2026-10-15) |
+| Logotipo | La λ con gancho dentro de un cuadrado azul marino y un punto azul; en la web, «λyman.» | Elegido el 2026-10-15 (generado en ChatGPT y redibujado en SVG) |
+| Color | Azul marino y punto azul; **nada de naranja** | Tu decisión del 2026-10-15 |
 | Ubicación | Remoto (España o internacional); presencial o híbrido en Tarragona o Barcelona | Tu respuesta |
 | Identidad | No depende de la empresa donde trabajes | Tu respuesta: «Etecnic no forma mi identidad» |
 | Voz | Profesional y auténtica: ni eslogan ni coloquial | Tus respuestas sobre la frase |
@@ -80,13 +82,13 @@ Encaja con el estudio de julio: el artesano (Creador), atento (Cuidador) y hones
 **Recomendada.** Es profesional y auténtica: cada parte se puede comprobar en la web.
 
 > **Ayman Charoui**
-> Desarrollador full-stack con base en Java. Me ocupo sobre todo de lo que no puede fallar en una aplicación: permisos, facturación y datos.
+> Desarrollador full-stack. Me ocupo sobre todo de lo que no puede fallar en una aplicación: permisos, facturación y datos.
 
-> *EN:* Full-stack developer with a Java foundation. I mostly work on the parts of an application that can't fail: permissions, billing and data.
+> *EN:* Full-stack developer. I mostly work on the parts of an application that can't fail: permissions, billing and data.
 
 **Alternativa**, con más historia personal:
 
-> Vengo de sistemas y redes, y hoy desarrollo aplicaciones web completas, con Java como base. Me ocupo sobre todo de lo que no puede fallar: permisos, facturación y datos.
+> Vengo de sistemas y redes, y hoy desarrollo aplicaciones web completas. Me ocupo sobre todo de lo que no puede fallar: permisos, facturación y datos.
 
 Por qué funciona mejor que «de la API a la pantalla»:
 
@@ -165,7 +167,7 @@ La web se publica en inglés por defecto y en español. Cada idioma se escribe p
 
 ## 7. Dos direcciones visuales (paso 2)
 
-Las dos comparten el logotipo (cuando lo elijas), la voz y la estructura. Cambia cómo se ve el «taller».
+Las dos comparten el logotipo, la voz y la estructura. El logotipo elegido (azul marino, papel y punto azul) encaja de forma natural con la A. Cambia cómo se ve el «taller».
 
 ### Dirección A: «Plano técnico» (recomendada)
 
@@ -178,12 +180,13 @@ Las dos comparten el logotipo (cuando lo elijas), la voz y la estructura. Cambia
 | Texto | `#121620` | `#ECEEF2` |
 | Texto secundario | `#4D5562` | `#A3ABBA` |
 | Línea | `#D9DBD6` | `#263049` |
-| Principal | `#14213D` acero (se mantiene) | `#9DB0D6` |
-| Acento (solo acciones) | `#C2410C` naranja de señal, con texto blanco encima | `#F26B2E`, con texto oscuro encima |
+| Principal (también botones) | `#14213D` azul marino del logotipo, con texto blanco encima | `#9DB0D6`, con texto oscuro encima |
+| Punto (enlaces, foco y detalles) | `#3A5A8C`, el punto del logotipo | `#7C9BD1` |
 
-- **Contraste comprobado (AA):** texto 16,4:1; secundario 6,8:1; botón de acento 5,2:1; acento como texto 4,7:1. En oscuro, todo por encima de 6:1.
+- **Contraste comprobado (AA):** texto 16,4:1; secundario 6,8:1; botón azul marino 16:1; punto como texto 6,3:1. En oscuro, todo por encima de 6:1.
+- **Proporción:** 60 % papel y blanco, 30 % azul marino, 10 % punto azul como máximo. Sin naranja en ningún sitio.
 - **Tipografía:**
-  - **Bricolage Grotesque** (titulares, peso 600–700): se mantiene; tiene carácter de taller sin ser decorativa.
+  - **Plus Jakarta Sans** (titulares, peso 700–800): es la del logotipo «λyman.», así que titulares y marca hablan con la misma voz.
   - **Geist** (cuerpo): neutra y muy legible.
   - **Geist Mono** (cotas, fechas, versiones y datos).
   - Las tres son de Google Fonts y se alojan en la propia web.
@@ -193,9 +196,9 @@ Las dos comparten el logotipo (cuando lo elijas), la voz y la estructura. Cambia
 - **Por qué la recomiendo:**
   1. Es la única de las dos que no parece un portafolio de desarrollador más: los de fondo oscuro con cian son la plantilla más común.
   2. El fondo claro se lee mejor en los 30 segundos de la persona de selección, que suele llegar desde el CV o LinkedIn.
-  3. El naranja de señal casi no se usa en portafolios de programación, así que te hace reconocible.
+  3. Un solo azul marino con un punto azul es sobrio y reconocible, y es exactamente el color de tu logotipo.
   4. El motivo de la cota cuenta tu tesis (precisión) sin decirla.
-- **Riesgo:** rompe con el cian actual. Lo compensa que el azul acero y Bricolage se mantienen.
+- **Riesgo:** rompe con el cian actual. Lo compensa que el azul marino de siempre pasa a ser el centro de la marca.
 
 ### Dirección B: «Medianoche»
 
@@ -230,16 +233,22 @@ Se descartó el motivo geométrico de estrella (zellige o estrella de ocho punta
 
 ---
 
-## 8. Logotipo (paso 3)
+## 8. Logotipo (paso 3): elegido
 
-El logotipo se genera en ChatGPT con el prompt maestro de `docs/marca/prompt-logo.md`. Las imágenes son una exploración: cuando elijas un concepto, se redibuja a mano en SVG limpio (geometría exacta, versión pequeña para favicon y versión en una tinta) y es ese SVG el que usa la web.
+Se generó en ChatGPT con `docs/marca/prompt-logo.md` y se redibujó a mano en SVG sobre la imagen elegida.
 
-Requisitos que debe cumplir el concepto elegido:
-
-- Funciona en una sola tinta (negro sobre blanco) antes que en color.
-- Se lee a 16 px como favicon.
-- Nace de tu nombre, «Ayman» (sin apellido), y de quién eres como programador (precisión, lo que no puede fallar), no de un icono genérico de código.
-- No se parece a la identidad de Darsi (ni estrella de ocho puntas ni geometría zellige).
+- **Símbolo:** una λ con gancho arriba a la izquierda, dentro de un cuadrado azul marino de esquinas muy redondeadas, con un punto azul abajo a la derecha.
+  - **La λ es la A de Ayman** y, a la vez, λ: el símbolo de la función en programación, que comparten todos los lenguajes. No representa una tecnología concreta, sino el oficio.
+  - **El punto es el punto final:** el trabajo terminado y comprobado, lo que no puede fallar.
+- **En la web, el símbolo forma el nombre:** «λyman.». La λ hace de A, «yman» va en Plus Jakarta Sans 800 y el punto cierra la palabra.
+- **Animación** (prototipo en `docs/marca/logo/animacion-logo.html`):
+  - **Entrada del Inicio:** el logo aparece centrado; el cuadrado se recoge sobre la λ, que pasa a azul marino. El punto sale de la esquina y avanza escribiendo «yman» hasta quedarse como punto final. Dura 1,1 s, con la curva `cubic-bezier(.23,1,.32,1)`.
+  - **Barra de navegación:** arriba se lee «λyman.»; al bajar se recoge en el icono, y al volver arriba se despliega.
+  - Con `prefers-reduced-motion` se muestra el estado final sin movimiento.
+- **Archivos** en `docs/marca/logo/`:
+  - `ayman-icono.svg`: icono y favicon, en una retícula de 512.
+  - `ayman-simbolo.svg`: la λ y el punto, sin cuadrado; la λ toma el color del texto.
+- **Colores:** cuadrado `#14213D`, letra `#F3F4F1`, punto `#3A5A8C`.
 
 ---
 
