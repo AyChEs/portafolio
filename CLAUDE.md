@@ -71,13 +71,15 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
 
 1. **Inicio:** nombre animado, frase, «Hablemos», «Descargar CV» y «Ver proyectos». Al lado, «Lo que hago»: backend y APIs, frontend y bases de datos. Nada de sistemas ni arquitectura: no se afirma lo que no se domina.
 2. **Casos:** filas alternas. Cada caso tiene su página con contexto, problema, decisiones y su porqué, resultado y qué aprendí. Referencia: `docs/marca/referencias/caso.html`.
-3. **Stack:** un solo teclado mecánico en 3D (inclinado, caja azul marino y teclas claras) con lenguajes, frameworks, datos y herramientas juntos.
-   - Cada tecla lleva el logotipo oficial a color de su marca: Devicon (MIT) y, para Stripe y Claude, Simple Icons (CC0). Licencias en `docs/terceros/`.
+3. **Stack:** un teclado mecánico en 3D real (Three.js, WebGL): caja azul marino con grosor, teclas esculpidas que se estrechan hacia arriba, luz, sombras y un contraluz azul. Lenguajes, frameworks, datos y herramientas juntos.
+   - Se inclina un poco siguiendo el ratón y la tecla bajo el puntero se hunde y muestra su nombre.
+   - Three.js se carga solo cuando el teclado entra en pantalla, y el bucle de dibujo se para fuera de ella.
+   - En pantallas de 760 px o menos, o sin WebGL, se usa la cuadrícula plana en CSS de 4 columnas.
+   - Cada tecla lleva el logotipo oficial a color de su marca: Devicon (MIT) y, para Stripe y Claude, Simple Icons (CC0). Licencias en `docs/terceros/`, junto a la de Three.js (MIT).
    - Java y Spring Boot van separados.
    - **Teclas especiales:** la primera es la λ en azul; abajo, una barra espaciadora con el cursor «_».
    - **Sin marcar preferencias:** al pasar el ratón, unas pocas teclas muestran una nota (Java «donde mejor leo el código», React «mi preferido en frontend», Rails «lo uso a diario», Supabase «en mis proyectos»).
    - Al entrar en pantalla, las teclas se pulsan una vez en cascada.
-   - En móvil, sin inclinación, en una cuadrícula de 4 columnas.
    - Los logotipos de marcas de terceros conservan sus colores: es la única excepción a la paleta.
 4. **Cómo trabajo:** pruebas antes del merge, cambios pequeños y mirar dónde corre. **Sin ninguna frase sobre IA:** el criterio se demuestra en las páginas de caso (decisión, porqué y alternativa descartada). Claude sale como una herramienta más.
 5. **Sobre mí:**
