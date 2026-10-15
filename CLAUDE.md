@@ -5,7 +5,7 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
 - Método: `FORMULA-MARCA-PORTAFOLIO.md`.
 - Razonamiento de la marca: `docs/marca/ESTUDIO-DE-MARCA.md`.
 - Posicionamiento: `.agents/product-marketing.md`.
-- Referencia visual aprobada: `docs/marca/referencias/direccion-final.html`.
+- Referencia visual (estructura y estilo de cada sección): `docs/marca/referencias/direccion-final.html`.
 
 ## Decisiones fijas
 
