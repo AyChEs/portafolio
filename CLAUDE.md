@@ -74,7 +74,8 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
 3. **Stack:** un teclado mecánico en 3D real (Three.js, WebGL): caja azul marino con grosor, teclas esculpidas que se estrechan hacia arriba, luz, sombras y un contraluz azul. Lenguajes, frameworks, datos y herramientas juntos.
    - Se inclina un poco siguiendo el ratón y la tecla bajo el puntero se hunde y muestra su nombre.
    - Three.js se carga solo cuando el teclado entra en pantalla, y el bucle de dibujo se para fuera de ella.
-   - En pantallas de 760 px o menos, o sin WebGL, se usa la cuadrícula plana en CSS de 4 columnas.
+   - También en móvil (lienzo más bajo, sin giro lateral). Sin WebGL se usa la cuadrícula plana en CSS de 4 columnas.
+   - Caja fina: poco margen alrededor de las teclas y base baja, para que no pese en modo claro.
    - Cada tecla lleva el logotipo oficial a color de su marca: Devicon (MIT) y, para Stripe y Claude, Simple Icons (CC0). Licencias en `docs/terceros/`, junto a la de Three.js (MIT).
    - Java y Spring Boot van separados.
    - **Teclas especiales:** la primera es la λ en azul; abajo, una barra espaciadora con el cursor «_».

@@ -142,7 +142,8 @@ section{position:relative;padding:130px 0 0}
 .kc.press{transform:translateY(4px);padding-bottom:4px}
 .kc[data-note]::after{content:attr(data-note);position:absolute;left:50%;bottom:calc(100% + 10px);transform:translate(-50%,6px);white-space:nowrap;font:500 12px var(--mono);color:#F3F4F1;background:#04060F;border:1px solid #2A3B61;border-radius:8px;padding:6px 9px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s var(--ease);z-index:5}
 @media (hover:hover){.kc[data-note]:hover::after{opacity:1;transform:translate(-50%,0)}}
-@media (hover:none){.kb-hint{display:none}}
+@media (hover:hover) and (pointer:fine){.kb-hint .h-touch{display:none}}
+@media not ((hover:hover) and (pointer:fine)){.kb-hint .h-mouse{display:none}}
 .kb-hint{text-align:center;font:500 12.5px var(--mono);color:var(--faint);margin-top:8px}
 .credit{margin-top:14px;font-size:12px;color:var(--faint);text-align:center}
 @media (max-width:980px){.kb3{--u:64px;--g:8px;transform:rotateX(18deg)}.kc img,.kc svg{width:26px;height:26px}.kc b{font-size:9.5px}}
@@ -161,6 +162,8 @@ section{position:relative;padding:130px 0 0}
 .kb-tip{position:absolute;left:0;top:0;transform:translate(-50%,calc(-100% - 18px));pointer-events:none;opacity:0;transition:opacity .15s;background:#04060F;color:#F3F4F1;border:1px solid #2A3B61;border-radius:10px;padding:8px 11px;white-space:nowrap;z-index:3}
 .kb-tip.on{opacity:1}
 .kb-tip b{display:block;font:700 14px PJ}.kb-tip span{display:block;font:500 12px var(--mono);color:#93C5FD;margin-top:2px}
+.kb3d canvas{max-height:620px}
+@media (max-width:760px){.kb3d canvas{height:auto;aspect-ratio:10/7}}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* AFICIONES: objetos sobre la mesa */
 .ahora{margin-top:96px}
@@ -424,7 +427,7 @@ footer .glow{position:absolute;left:50%;top:0;width:900px;height:400px;transform
     </div>
     </div>
   </div>
-  <p class="kb-hint">mueve el ratón sobre el teclado y pasa por las teclas</p>
+  <p class="kb-hint"><span class="h-mouse">mueve el ratón sobre el teclado y pasa por las teclas</span><span class="h-touch">toca una tecla para ver su nombre</span></p>
   <p class="credit">Logotipos de Devicon (MIT) y Simple Icons (CC0); las marcas pertenecen a sus dueños.</p>
 </div></section>
 <script type="text/plain" id="three-src">/**
@@ -442,10 +445,9 @@ const canvas = document.getElementById('kbCanvas');
 const tip = document.getElementById('kbTip');
 const ROWS = JSON.parse(document.getElementById('kb-data').textContent);
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const narrow = () => innerWidth <= 760;
 
 async function boot() {
-  // En pantallas estrechas el 3D no se lee: se queda la cuadrícula plana.
-  if (matchMedia('(max-width: 760px)').matches) return;
   const src = document.getElementById('three-src').textContent;
   const THREE = await import(URL.createObjectURL(new Blob([src], { type: 'text/javascript' })));
   const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
@@ -492,26 +494,26 @@ async function boot() {
   };
 
   // Medidas: 1 unidad = una tecla (incluye la separación)
-  const COLS = 8, NROWS = ROWS.length, GAP = 0.09, CAP_H = 0.46, PAD = 0.42;
+  const COLS = 8, NROWS = ROWS.length, GAP = 0.09, CAP_H = 0.46, PAD = 0.24;
   const W = COLS + PAD * 2, D = NROWS + PAD * 2;
 
   // Carcasa: base, bandeja interior y paredes
   const caseMat = new THREE.MeshStandardMaterial({ color: 0x14213d, roughness: 0.42, metalness: 0.35 });
-  const base = new THREE.Mesh(new THREE.ExtrudeGeometry(rrect(W, D, 0.5), { depth: 0.75, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 4, curveSegments: 12 }), caseMat);
-  base.rotation.x = -Math.PI / 2; base.position.y = -0.8; base.castShadow = base.receiveShadow = true;
+  const base = new THREE.Mesh(new THREE.ExtrudeGeometry(rrect(W, D, 0.42), { depth: 0.34, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 4, curveSegments: 12 }), caseMat);
+  base.rotation.x = -Math.PI / 2; base.position.y = -0.38; base.castShadow = base.receiveShadow = true;
   kb.add(base);
-  const wallShape = rrect(W, D, 0.5);
-  wallShape.holes.push(rrect(W - PAD * 0.9, D - PAD * 0.9, 0.3));
-  const wall = new THREE.Mesh(new THREE.ExtrudeGeometry(wallShape, { depth: 0.3, bevelEnabled: true, bevelThickness: 0.04, bevelSize: 0.04, bevelSegments: 3, curveSegments: 12 }), caseMat);
+  const wallShape = rrect(W, D, 0.42);
+  wallShape.holes.push(rrect(W - 0.2, D - 0.2, 0.32));
+  const wall = new THREE.Mesh(new THREE.ExtrudeGeometry(wallShape, { depth: 0.16, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 3, curveSegments: 12 }), caseMat);
   wall.rotation.x = -Math.PI / 2; wall.position.y = 0.0; wall.castShadow = wall.receiveShadow = true;
   kb.add(wall);
-  const plate = new THREE.Mesh(new THREE.PlaneGeometry(W - PAD * 0.9, D - PAD * 0.9), new THREE.MeshStandardMaterial({ color: 0x0a1226, roughness: 0.8 }));
+  const plate = new THREE.Mesh(new THREE.PlaneGeometry(W - 0.2, D - 0.2), new THREE.MeshStandardMaterial({ color: 0x0a1226, roughness: 0.8 }));
   plate.rotation.x = -Math.PI / 2; plate.position.y = 0.0; plate.receiveShadow = true;
   kb.add(plate);
 
   // Suelo que solo recibe la sombra
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ opacity: 0.35 }));
-  ground.rotation.x = -Math.PI / 2; ground.position.y = -0.9; ground.receiveShadow = true;
+  ground.rotation.x = -Math.PI / 2; ground.position.y = -0.45; ground.receiveShadow = true;
   scene.add(ground);
 
   // Tecla esculpida: rectángulo redondeado extruido que se estrecha hacia arriba
@@ -590,7 +592,7 @@ async function boot() {
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     const vf = THREE.MathUtils.degToRad(camera.fov), hf = 2 * Math.atan(Math.tan(vf / 2) * camera.aspect);
-    const need = Math.max((W * 0.98) / 2 / Math.tan(hf / 2), (D * 1.45) / 2 / Math.tan(vf / 2));
+    const need = Math.max((W * (narrow() ? 1.06 : 0.98)) / 2 / Math.tan(hf / 2), (D * 1.45) / 2 / Math.tan(vf / 2));
     const dir = new THREE.Vector3(0, 0.82, 0.57).normalize();
     camera.position.copy(dir.multiplyScalar(need));
     camera.lookAt(0, -0.3, 0.05);
@@ -643,7 +645,7 @@ async function boot() {
       if (!visible) return;
       const t = clock.getElapsedTime();
       const idle = reduce ? 0 : Math.sin(t * 0.6) * 0.025;
-      kb.rotation.y += ((-0.08 + tx * 0.14 + idle) - kb.rotation.y) * 0.06;
+      kb.rotation.y += (((narrow() ? 0 : -0.08) + tx * 0.14 + idle) - kb.rotation.y) * 0.06;
       kb.rotation.x += ((0.06 - ty * 0.07) - kb.rotation.x) * 0.06;
       for (const g of keys) {
         const down = g === hover && g.userData.key.kind !== 'blank' ? 1 : g.userData.press;
