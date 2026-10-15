@@ -167,6 +167,8 @@ La web se publica en inglés por defecto y en español. Cada idioma se escribe p
 
 ## 7. Dos direcciones visuales (paso 2)
 
+> **Dirección elegida el 2026-10-15: «Medianoche con señal».** No es ni la A ni la B tal cual. Usa el fondo oscuro mixto (casi negro con bloques en el azul marino del logotipo) y recupera lo que te gustaba de la web anterior: cintas de luz, resplandor azul, punto azul eléctrico, tarjetas en mosaico, globo y trayectoria. Todo ello al servicio de la marca nueva. Las reglas están en `CLAUDE.md` y la referencia en `docs/marca/referencias/direccion-final.html`. Lo que sigue en esta sección queda como registro de cómo se llegó.
+
 Las dos comparten el logotipo, la voz y la estructura. El logotipo elegido (azul marino, papel y punto azul) encaja de forma natural con la A. Cambia cómo se ve el «taller».
 
 ### Dirección A: «Plano técnico» (recomendada)
