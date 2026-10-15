@@ -5,8 +5,11 @@ dist/
 .vite/
 
 # Local AI tooling (Claude / opencode / etc.) — never commit this
-.agents/
-.claude/
+.agents/*
+!.agents/skills/
+!.agents/product-marketing.md
+.claude/*
+!.claude/skills/
 .copilot/
 .gemini/
 .cursor/
