@@ -129,7 +129,7 @@ Por qué funciona mejor que «de la API a la pantalla»:
 | Nombre de marca | **Ayman Charoui** | Es lo que se busca y lo que aparece en el CV y en LinkedIn. Es una marca personal, no un producto. |
 | Nombre completo | Ayman Charoui Essamadi (aviso legal, datos estructurados y CV) | Coherencia legal y SEO |
 | Usuario | `AyChEs` en GitHub y en el dominio | Ya existe y tiene historial; deja de ser la marca y pasa a ser un usuario |
-| Monograma | **AC** (forma por decidir en el paso 3) | Iniciales legibles y cortas para el favicon |
+| Logotipo | **Solo «Ayman»**: una «A» propia en un cuadrado redondeado más un acento con significado (estructura como la de Darsi, sin sus elementos) | Decisión tuya del 2026-10-15: el logotipo es tu nombre, sin apellido. Forma por decidir en el paso 3 |
 | Dominio | `ayches.is-a.dev` (gratis) | Si algún día pagas uno, `aymancharoui.dev` (~12 €/año); no hace falta ahora |
 
 ---
@@ -238,7 +238,7 @@ Requisitos que debe cumplir el concepto elegido:
 
 - Funciona en una sola tinta (negro sobre blanco) antes que en color.
 - Se lee a 16 px como favicon.
-- Nace del nombre (Ayman Charoui, iniciales AC) o de la idea de marca (precisión, lo que no puede fallar), no de un icono genérico de código.
+- Nace de tu nombre, «Ayman» (sin apellido), y de quién eres como programador (precisión, lo que no puede fallar), no de un icono genérico de código.
 - No se parece a la identidad de Darsi (ni estrella de ocho puntas ni geometría zellige).
 
 ---
