@@ -11,7 +11,7 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
 
 - **Darsi no aparece en el portafolio**, ni con nombre ni como caso anónimo (decisión del 2026-10-15). Tampoco se usan sus elementos de marca: estrella de ocho puntas, geometría zellige, verde azulado `#0F5E5A`, arena y ámbar, ni la tipografía Cairo.
 - **Rol:** desarrollador full-stack. Java es una tecnología más; no se presenta como identidad.
-- **La identidad no depende de la empresa** donde trabajo: Etecnic sale como contexto de un caso, no como centro del relato.
+- **La identidad no depende de la empresa** donde trabajo: Etecnic sale como contexto de un caso, no como centro del relato. Sus clientes no se nombran: «operadores energéticos y aeropuertos de varios países».
 - **Nombre de marca:** «Ayman». El nombre completo (Ayman Charoui Essamadi) va en el título, el CV, el aviso legal y los datos estructurados. `AyChEs` es solo el usuario de GitHub.
 - **Frase del Inicio:** «Desarrollador full-stack. Construyo aplicaciones web completas, del backend a la interfaz, y cuido especialmente lo que no puede fallar.» (2026-10-15)
 - **«Lo que no puede fallar» es una actitud, no un límite.** Programo de todo; nunca se presenta como si solo hiciera permisos, facturación o datos.
@@ -64,19 +64,28 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
   - botón 5,2:1; azul señal como texto 5,5:1.
 
   Toda animación respeta `prefers-reduced-motion`: se muestra el estado final, sin movimiento.
-- **Modo:** solo oscuro.
+- **Modo:** automático según el sistema o navegador (`prefers-color-scheme`), sin botón. Oscuro por defecto; el claro usa fondo `#F3F4F1`, superficie `#FFFFFF`, texto `#0F1626`, secundario `#4A5468`, señal `#2563EB` y etiquetas `#1D4ED8`, con el icono en su versión azul marino. Si el sistema cambia con la página abierta, la web cambia con una transición suave (2026-10-15).
+- **Idioma:** según el navegador (español si está en español; si no, inglés), con un selector discreto ES/EN.
 
 ## Estructura de la web (2026-10-15)
 
-1. **Inicio:** nombre animado, frase, «Hablemos», «Descargar CV» y «Ver proyectos». Al lado, «Lo que hago» (backend y APIs, frontend, bases de datos, sistemas y despliegue).
+1. **Inicio:** nombre animado, frase, «Hablemos», «Descargar CV» y «Ver proyectos». Al lado, «Lo que hago»: backend y APIs, frontend y bases de datos. Nada de sistemas ni arquitectura: no se afirma lo que no se domina.
 2. **Casos:** filas alternas. Cada caso tiene su página con contexto, problema, decisiones y su porqué, resultado y qué aprendí. Referencia: `docs/marca/referencias/caso.html`.
-3. **Stack y herramientas:** con lo que construyo y con lo que trabajo cada día. Iconos de Simple Icons (CC0, licencia en `docs/terceros/`), monocromos y con el color de la marca al pasar el ratón.
-4. **Cómo trabajo.**
-5. **Sobre mí:** bio corta, CV, dónde estoy, trayectoria, aficiones e idiomas.
+3. **Stack:** una aplicación por capas (interfaz, API y lógica, datos) con un punto de luz que recorre la petición.
+   - **Preferidos:** React y Java con Spring (este último «donde mejor leo el código»).
+   - **Trabajo actual:** Ruby on Rails.
+   - **Datos:** Supabase («en mis proyectos personales»), PostgreSQL y MySQL, sin preferencia.
+   - **Banco de trabajo:** Git, GitHub, Jira, Sentry, Cloudflare, Postman, VS Code, DBX Studio y Claude. Ni Linux ni RubyMine.
+   - Filtro por proyecto que ilumina lo usado en cada uno.
+   - Iconos de Simple Icons (CC0, licencia en `docs/terceros/`).
+4. **Cómo trabajo:** pruebas antes del merge, cambios pequeños y mirar dónde corre. **Sin ninguna frase sobre IA:** el criterio se demuestra en las páginas de caso (decisión, porqué y alternativa descartada). Claude sale como una herramienta más.
+5. **Sobre mí:**
+   - bio corta, CV, dónde estoy, trayectoria e idiomas;
+   - «Ahora mismo» con datos reales: libro que leo (portada tipográfica propia, no la real), última película, último viaje (mapa propio) y días de gimnasio.
 6. **¿Tienes un proyecto?:**
    - qué acepto y qué no;
    - formulario con qué necesitas, plazo y correo, sin presupuesto.
-7. **Contacto:** correo que se puede copiar, LinkedIn, GitHub y CV.
+7. **Contacto:** Gmail personal con botón de copiar, LinkedIn, GitHub y CV.
 
 El CV está siempre a mano: en la barra, en el Inicio, en Sobre mí y en el pie.
 
