@@ -100,3 +100,10 @@ Si una skill choca con estas reglas, mandan estas reglas.
 ## Stack
 
 Astro en Cloudflare Pages, sin servicios de pago. GSAP y Lenis solo si aportan. Formulario con una Pages Function y Cloudflare Turnstile.
+
+Decisiones del 2026-10-15:
+
+- **Dirección:** la web nueva sustituye a la actual en `ayches.is-a.dev`, servida desde Cloudflare Pages. La web React se retira cuando la nueva esté lista.
+- **Formulario:** Pages Function con Turnstile. El correo sale con Resend verificado en `ayches.is-a.dev` (registros DNS mediante una PR a is-a.dev) y llega al Gmail personal.
+- **Freelance:** la sección «¿Tienes un proyecto?» se publica desde el principio.
+- **Analítica:** Cloudflare Web Analytics, como un sitio más en la misma cuenta, sin cookies. Nada en la web la vincula con otros proyectos.
