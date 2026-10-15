@@ -70,7 +70,8 @@ Flat vector, no gradients, no shadows, no mockups. Spell the name exactly "Ayman
 ## Prompt 3: versión limpia para redibujar
 
 ```
-Render only the final icon, perfectly centred on a pure white background, flat vector style, exact colours (#14213D tile, #F3F4F1 letter, #C2410C accent), no text, no texture, no shadow, large size with generous margin. I will redraw it as SVG.
+Render only the final icon, perfectly centred on a pure white background, flat vector style, no text, no texture, no shadow, large size with generous margin. I will redraw it as SVG.
+Change the small orange accent to navy blue #14213D, the same navy as the tile: no orange anywhere. If the accent sits on the navy background and would disappear, use a lighter navy #3A5A8C so it stays visible. Keep the letter in #F3F4F1 and everything else exactly as it is.
 ```
 
 Los colores corresponden a la dirección A («Plano técnico»). Si eliges la B, cambia en el prompt el naranja `#C2410C` por el cian `#7FD1E0` y el fondo por `#0A0F1C`.
