@@ -13,7 +13,8 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
 - **Rol:** desarrollador full-stack. Java es una tecnología más; no se presenta como identidad.
 - **La identidad no depende de la empresa** donde trabajo: Etecnic sale como contexto de un caso, no como centro del relato.
 - **Nombre de marca:** «Ayman». El nombre completo (Ayman Charoui Essamadi) va en el título, el CV, el aviso legal y los datos estructurados. `AyChEs` es solo el usuario de GitHub.
-- **Frase del Inicio:** «Desarrollador full-stack. Me ocupo sobre todo de lo que no puede fallar en una aplicación: permisos, facturación y datos.»
+- **Frase del Inicio:** «Desarrollador full-stack. Construyo aplicaciones web completas, del backend a la interfaz, y cuido especialmente lo que no puede fallar.» (2026-10-15)
+- **«Lo que no puede fallar» es una actitud, no un límite.** Programo de todo; nunca se presenta como si solo hiciera permisos, facturación o datos.
 
 ## Marca (dirección elegida el 2026-10-15: «Medianoche con señal»)
 
@@ -55,7 +56,8 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
 - **Prohibido:**
   - El naranja, en cualquier sitio.
   - Fotos de stock, iconos genéricos de «código», degradados morados y plantillas de portafolio.
-  - Muros de logos de tecnologías: el stack va dentro de cada caso.
+  - Pedir el presupuesto en el formulario de freelance.
+  - Cambios bruscos de fondo entre secciones (bandas de color a todo el ancho): el fondo es continuo.
   - «Apasionado», «ninja», «rockstar», «robusto», «soluciones», signos de exclamación y rayas largas en los textos visibles.
 - **Accesibilidad:** WCAG 2.2 AA. Contrastes comprobados:
   - texto 18,3:1; secundario 7,9:1 sobre el fondo y 6,2:1 sobre azul marino;
@@ -63,6 +65,20 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
 
   Toda animación respeta `prefers-reduced-motion`: se muestra el estado final, sin movimiento.
 - **Modo:** solo oscuro.
+
+## Estructura de la web (2026-10-15)
+
+1. **Inicio:** nombre animado, frase, «Hablemos», «Descargar CV» y «Ver proyectos». Al lado, «Lo que hago» (backend y APIs, frontend, bases de datos, sistemas y despliegue).
+2. **Casos:** filas alternas. Cada caso tiene su página con contexto, problema, decisiones y su porqué, resultado y qué aprendí. Referencia: `docs/marca/referencias/caso.html`.
+3. **Stack y herramientas:** con lo que construyo y con lo que trabajo cada día. Iconos de Simple Icons (CC0, licencia en `docs/terceros/`), monocromos y con el color de la marca al pasar el ratón.
+4. **Cómo trabajo.**
+5. **Sobre mí:** bio corta, CV, dónde estoy, trayectoria, aficiones e idiomas.
+6. **¿Tienes un proyecto?:**
+   - qué acepto y qué no;
+   - formulario con qué necesitas, plazo y correo, sin presupuesto.
+7. **Contacto:** correo que se puede copiar, LinkedIn, GitHub y CV.
+
+El CV está siempre a mano: en la barra, en el Inicio, en Sobre mí y en el pie.
 
 ## Precedencia
 
