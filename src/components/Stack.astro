@@ -1,0 +1,55 @@
+---
+import { UI, KEYBOARD, PERSON, type Lang } from '../content/site';
+import Lambda from './Lambda.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = UI[lang];
+const LAMBDA = 'M 26.5 0 L 52.2 0 L 95.7 100 L 67.4 100 L 47.8 55.7 L 27 100 L 0 100 L 34.3 26.1 C 30.9 24.3 25.7 24.8 22.2 23 C 19.1 21.3 18.3 18.7 19.1 15.7 L 21.7 3 Q 22.6 0 26.5 0 Z';
+const logo = (id: string) => `/logos/${id}.svg`;
+const data = KEYBOARD.map((row) => row.map((k) => ({
+  id: k.id, label: k.label, kind: k.kind, w: k.w, mono: k.mono, note: k.note?.[lang],
+  img: k.kind || k.mono ? undefined : logo(k.id),
+})));
+const labelled = data.flat().filter((k) => k.label);
+---
+<section id="stack"><div class="wrap">
+  <div class="sh"><div><span class="k">{t.stackKicker}</span><h2>{t.stackTitle}<i>.</i></h2></div><p>{t.stackIntro}</p></div>
+  <div class="kb3d" id="kbs" data-lambda={LAMBDA}>
+    <canvas aria-hidden="true"></canvas>
+    <div class="kb-tip"></div>
+    <ul class="sr-only">{labelled.map((k) => <li>{k.label}{k.note ? ` · ${k.note}` : ''}</li>)}</ul>
+    <div class="scene" aria-hidden="true">
+      <div class="kb3">
+        {data.map((row) => (
+          <div class="row">
+            {row.map((k) => k.kind === 'acc'
+              ? <div class="kc acc"><span><Lambda /></span></div>
+              : k.kind === 'blank'
+                ? <div class="kc flex blank" style={k.w && k.w > 1 ? `flex:${k.w}` : undefined}><span></span></div>
+                : k.kind === 'space'
+                  ? <div class="kc flex space"><span><em>_</em></span></div>
+                  : <div class="kc" data-note={k.note}><span>{k.mono ? <em>{k.mono}</em> : <img src={k.img} alt="" width="34" height="34" loading="lazy" />}<b>{k.label}</b></span></div>)}
+          </div>
+        ))}
+      </div>
+    </div>
+    <script type="application/json" set:html={JSON.stringify(data)} />
+  </div>
+  <p class="kb-hint"><span class="h-mouse">{t.stackHintMouse}</span><span class="h-touch">{t.stackHintTouch}</span></p>
+  <p class="credit">{t.stackCredit}</p>
+</div></section>
+<script>
+  // Three.js pesa mucho: se descarga solo cuando el teclado está cerca de la pantalla.
+  const host = document.getElementById('kbs');
+  if (host && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => {
+      if (!es.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      const probe = document.createElement('canvas');
+      if (!(probe.getContext('webgl2') || probe.getContext('webgl'))) return;
+      host.classList.add('gl-on');
+      import('../scripts/keyboard').then((m) => m.boot(host));
+    }, { rootMargin: '400px' });
+    io.observe(host);
+  }
+</script>

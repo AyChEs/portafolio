@@ -1,0 +1,57 @@
+---
+import { UI, FREELANCE, PERSON, type Lang } from '../content/site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = UI[lang];
+const f = FREELANCE[lang];
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+<section id="proyecto"><div class="wrap">
+  <div class="free">
+    <div>
+      <span class="k">{t.freeKicker}</span>
+      <div class="sh" style="margin-bottom:22px"><h2>{t.freeTitle}<i>?</i></h2></div>
+      <p class="free-intro">{t.freeIntro}</p>
+      <div class="yesno">
+        <div class="si"><span class="k">{t.yes}</span><ul>{f.yes.map((x) => <li>{x}</li>)}</ul></div>
+        <div class="no"><span class="k">{t.no}</span><ul>{f.no.map((x) => <li>{x}</li>)}</ul></div>
+      </div>
+    </div>
+    <form id="contact-form" method="post" action="/api/contact" novalidate data-ok={t.fOk} data-err={t.fErr} data-sending={t.fSending} data-send={t.fSend} data-email={PERSON.email} data-live={siteKey ? '1' : ''}>
+      <div class="row2">
+        <label>{t.fName}<input name="name" type="text" autocomplete="name" required maxlength="80" /></label>
+        <label>{t.fEmail}<input name="email" type="email" autocomplete="email" required maxlength="120" placeholder={t.fEmailPh} /></label>
+      </div>
+      <div class="row2">
+        <label>{t.fKind}<select name="kind">{f.kinds.map((x) => <option>{x}</option>)}</select></label>
+        <label>{t.fWhen}<select name="when">{f.when.map((x) => <option>{x}</option>)}</select></label>
+      </div>
+      <label>{t.fWhat}<textarea name="message" required minlength="10" maxlength="2000" placeholder={t.fWhatPh}></textarea></label>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input type="hidden" name="lang" value={lang} />
+      {siteKey && <div class="cf-turnstile" data-sitekey={siteKey} data-theme="auto" data-language={lang}></div>}
+      <button class="btn p" type="submit">{t.fSend}</button>
+      <small>{siteKey ? t.fNote : <>{t.fOff} <a href={`mailto:${PERSON.email}`}>{PERSON.email}</a>.</>}</small>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</div></section>
+{siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const status = form.querySelector<HTMLElement>('.form-status')!;
+    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    if (!form.reportValidity()) return;
+    if (!form.dataset.live) { status.textContent = `${form.dataset.err} ${form.dataset.email}`; return; }
+    btn.disabled = true; btn.textContent = form.dataset.sending ?? '';
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+      if (!res.ok) throw new Error(String(res.status));
+      status.textContent = form.dataset.ok ?? ''; status.className = 'form-status ok'; form.reset();
+    } catch {
+      status.textContent = `${form.dataset.err} ${form.dataset.email}`; status.className = 'form-status bad';
+    } finally { btn.disabled = false; btn.textContent = form.dataset.send ?? ''; }
+  });
+</script>

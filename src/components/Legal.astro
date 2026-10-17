@@ -1,0 +1,70 @@
+---
+import { PERSON, ROUTES, type Lang } from '../content/site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const E = PERSON.email;
+const T = {
+  es: {
+    title: 'Aviso legal y privacidad', back: 'Volver al portafolio', updated: 'Última actualización: octubre de 2026',
+    intro: 'Esta página recoge las condiciones de uso de este sitio, cómo se tratan los datos personales y bajo qué licencias se publica el contenido.',
+    s: [
+      ['1. Titular del sitio', [`Titular: ${PERSON.name}.`, `Contacto: ${E}.`, 'Finalidad: portafolio personal con fines informativos y profesionales. No se venden productos ni servicios a través de esta web y no existe contratación en línea.']],
+      ['2. Protección de datos personales', [
+        'El tratamiento de datos personales se rige por el Reglamento (UE) 2016/679 (RGPD) y por la Ley Orgánica 3/2018 (LOPDGDD).',
+        'Navegar por esta web no genera ningún registro de datos personales por mi parte. La única forma de enviarme datos es el formulario de «¿Tienes un proyecto?» o escribirme por correo o LinkedIn.',
+        'Si usas el formulario, trato tu nombre, tu correo y el contenido del mensaje con la única finalidad de responderte y valorar una colaboración. La base jurídica es tu consentimiento y mi interés legítimo en atender tu consulta. Conservo los mensajes mientras dure la conversación y el tiempo necesario para atender posibles responsabilidades.',
+        'Para enviarlo y protegerlo de bots intervienen dos proveedores: Cloudflare (alojamiento de la web y verificación Turnstile) y Resend (envío del correo). Actúan como encargados del tratamiento y pueden tratar datos fuera del Espacio Económico Europeo con las garantías que ofrecen sus condiciones.',
+      ]],
+      ['3. Tus derechos', [`Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad escribiendo a ${E}.`, 'Si consideras que tus datos no se han tratado correctamente, puedes presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es).']],
+      ['4. Cookies y almacenamiento', [
+        'Este sitio no utiliza cookies de publicidad ni de seguimiento. Para saber cuántas personas lo visitan uso Cloudflare Web Analytics, que mide visitas, páginas y países sin cookies y sin identificar a nadie.',
+        'Solo se guarda una cookie técnica llamada «lang» cuando cambias de idioma a mano, para recordar tu elección. No identifica a nadie y es necesaria para que la web se comporte como esperas, así que no requiere consentimiento.',
+      ]],
+      ['5. Propiedad intelectual y licencias', [
+        'Los textos, el diseño y el código de este sitio son obra propia y están protegidos por el Real Decreto Legislativo 1/1996 (Ley de Propiedad Intelectual). Puedes citarlos o enlazarlos libremente; para reproducirlos de forma sustancial o con fines comerciales hace falta autorización previa por escrito.',
+        'Cada proyecto mostrado se publica con su propia licencia, indicada en su repositorio.',
+        'Los proyectos realizados en un contexto laboral pertenecen a sus respectivas empresas. Aquí solo se describe mi participación, sin publicar código ni material confidencial.',
+        'Recursos de terceros: logotipos de tecnologías de Devicon (licencia MIT) y Simple Icons (CC0), que pertenecen a sus respectivos dueños; la tipografía Plus Jakarta Sans y JetBrains Mono (SIL Open Font License 1.1) y Three.js (MIT).',
+      ]],
+      ['6. Condiciones de uso y responsabilidad', ['El contenido se ofrece con fines informativos. Procuro que sea correcto y esté actualizado, pero no puedo garantizar que esté libre de errores.', 'El sitio enlaza a páginas externas (LinkedIn, GitHub y demos de proyectos) de cuyo contenido y políticas de privacidad no soy responsable.', 'No se permite usar esta web para fines ilícitos ni intentar dañar su funcionamiento.']],
+      ['7. Legislación aplicable', ['Estas condiciones se rigen por la legislación española. Para cualquier controversia serán competentes los juzgados y tribunales que correspondan conforme a la normativa vigente.']],
+    ],
+  },
+  en: {
+    title: 'Legal notice & privacy', back: 'Back to the portfolio', updated: 'Last updated: October 2026',
+    intro: 'This page covers the terms of use of this site, how personal data is handled, and the licences the content is published under.',
+    s: [
+      ['1. Site owner', [`Owner: ${PERSON.name}.`, `Contact: ${E}.`, 'Purpose: a personal portfolio for informational and professional use. Nothing is sold on this site and there is no online contracting.']],
+      ['2. Personal data protection', [
+        'Personal data is handled under Regulation (EU) 2016/679 (GDPR) and, in Spain, Organic Law 3/2018 (LOPDGDD).',
+        'Browsing this site does not create any personal data record on my side. The only ways to send me data are the “Got a project?” form, or writing to me by email or LinkedIn.',
+        'If you use the form, I process your name, email and message solely to reply and to consider a collaboration. The legal basis is your consent and my legitimate interest in answering your enquiry. I keep messages for as long as the conversation lasts and any period needed to address possible liabilities.',
+        'Two providers take part in sending the form and protecting it from bots: Cloudflare (hosting and Turnstile verification) and Resend (email delivery). They act as processors and may process data outside the European Economic Area under the safeguards of their terms.',
+      ]],
+      ['3. Your rights', [`You can exercise your rights of access, rectification, erasure, objection, restriction of processing and portability by writing to ${E}.`, 'If you believe your data has not been handled properly, you can lodge a complaint with the Spanish Data Protection Agency (www.aepd.es).']],
+      ['4. Cookies and storage', [
+        'This site uses no advertising or tracking cookies. To know how many people visit it I use Cloudflare Web Analytics, which measures visits, pages and countries without cookies and without identifying anyone.',
+        'Only one technical cookie, “lang”, is stored when you switch language by hand, to remember your choice. It identifies nobody and is necessary for the site to behave as you expect, so it needs no consent.',
+      ]],
+      ['5. Intellectual property and licences', [
+        'The text, design and code of this site are my own work and are protected by Spanish Royal Legislative Decree 1/1996 (Intellectual Property Act). You may quote or link to them freely; reproducing them substantially or commercially requires prior written permission.',
+        'Each project shown is published under its own licence, stated in its repository.',
+        'Projects carried out in a professional context belong to their companies. Only my involvement is described here; no code or confidential material is published.',
+        'Third-party resources: technology logos from Devicon (MIT licence) and Simple Icons (CC0), which belong to their respective owners; the Plus Jakarta Sans and JetBrains Mono typefaces (SIL Open Font License 1.1) and Three.js (MIT).',
+      ]],
+      ['6. Terms of use and liability', ['The content is provided for information purposes. I aim to keep it accurate and up to date, but cannot guarantee it is free of errors.', 'The site links to external pages (LinkedIn, GitHub and project demos) whose content and privacy policies I am not responsible for.', 'Using this site for unlawful purposes or attempting to damage its operation is not permitted.']],
+      ['7. Applicable law', ['These terms are governed by Spanish law. Any dispute will be settled by the courts designated under the applicable regulations.']],
+    ],
+  },
+}[lang] as { title: string; back: string; updated: string; intro: string; s: [string, string[]][] };
+---
+<div class="chead"><div class="wrap">
+  <p class="crumb"><a href={ROUTES[lang].home}>← {T.back}</a></p>
+  <h1>{T.title}<i>.</i></h1>
+  <p class="sum">{T.intro}</p>
+  <p class="k" style="margin-top:18px">{T.updated}</p>
+</div></div>
+<div class="wrap"><div class="body legal-body">
+  <nav class="toc" aria-label="Index">{T.s.map(([h], i) => <a href={`#s${i + 1}`} class={i === 0 ? 'on' : ''}>{h}</a>)}</nav>
+  <article>{T.s.map(([h, ps], i) => <section id={`s${i + 1}`}><h2>{h}</h2>{ps.map((p) => <p>{p}</p>)}</section>)}</article>
+</div></div>

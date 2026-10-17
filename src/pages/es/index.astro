@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import TopBar from '../../components/TopBar.astro';
+import Hero from '../../components/Hero.astro';
+import Cases from '../../components/Cases.astro';
+import Stack from '../../components/Stack.astro';
+import How from '../../components/How.astro';
+import About from '../../components/About.astro';
+import Freelance from '../../components/Freelance.astro';
+import Footer from '../../components/Footer.astro';
+import { UI, PERSON, ROUTES } from '../../content/site';
+const lang = 'es';
+const t = UI[lang];
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: PERSON.name,
+  alternateName: ['Ayman Charoui', 'AyChEs'],
+  url: PERSON.site + ROUTES[lang].home,
+  jobTitle: lang === 'es' ? 'Desarrollador full-stack' : 'Full-stack developer',
+  email: PERSON.email,
+  address: { '@type': 'PostalAddress', addressLocality: 'Tarragona', addressCountry: 'ES' },
+  knowsLanguage: ['es', 'ca', 'ar', 'en'],
+  knowsAbout: ['Ruby on Rails', 'Java', 'Spring Boot', 'PHP', 'Laravel', 'React', 'MySQL', 'PostgreSQL'],
+  sameAs: [PERSON.linkedin, PERSON.github],
+};
+---
+<Base lang={lang} title={t.title} description={t.description} path={ROUTES[lang].home} alt={ROUTES['en'].home} jsonld={jsonld}>
+  <TopBar lang={lang} alt={ROUTES['en'].home} home />
+  <main id="main">
+    <Hero lang={lang} />
+    <Cases lang={lang} />
+    <Stack lang={lang} />
+    <How lang={lang} />
+    <About lang={lang} />
+    <Freelance lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</Base>

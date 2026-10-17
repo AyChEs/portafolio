@@ -1,0 +1,5 @@
+# Secretos de la Pages Function (functions/api/contact.ts). En producción se definen en Cloudflare Pages.
+TURNSTILE_SECRET=
+RESEND_API_KEY=
+CONTACT_TO=aymanessamadi72@gmail.com
+CONTACT_FROM="Portafolio <web@ayches.is-a.dev>"

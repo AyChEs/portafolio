@@ -15,3 +15,6 @@ dist/
 .cursor/
 .aitk/
 .aik/
+.astro/
+.wrangler/
+.dev.vars

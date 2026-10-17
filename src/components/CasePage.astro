@@ -1,0 +1,73 @@
+---
+import InvoiceDiagram from './InvoiceDiagram.astro';
+import { UI, CASES, ROUTES, type Lang } from '../content/site';
+interface Props { lang: Lang; index: number }
+const { lang, index } = Astro.props;
+const t = UI[lang];
+const c = CASES[index];
+const prev = CASES[(index + CASES.length - 1) % CASES.length];
+const next = CASES[(index + 1) % CASES.length];
+const href = (x: (typeof CASES)[number]) => `${ROUTES[lang].cases}${x.slug[lang]}/`;
+const sections = [
+  { id: 'contexto', label: t.context },
+  { id: 'problema', label: lang === 'es' ? 'El problema' : 'The problem' },
+  { id: 'decisiones', label: t.decisions },
+  { id: 'resultado', label: t.result[0].toUpperCase() + t.result.slice(1) },
+  ...(c.learned ? [{ id: 'aprendi', label: t.learned }] : []),
+];
+---
+<div class="chead"><div class="wrap">
+  <p class="crumb"><a href={`${ROUTES[lang].home}#casos`}>{t.casesTitle}</a> / {c.title[lang].replace(/\.$/, '')}</p>
+  <h1>{c.title[lang].replace(/\.$/, '')}<i>.</i></h1>
+  <p class="sum">{c.summary[lang]}</p>
+  <dl class="meta">
+    <div><dt>{t.role}</dt><dd>{c.meta.role[lang]}</dd></div>
+    <div><dt>{t.year}</dt><dd>{c.meta.year}</dd></div>
+    <div><dt>{t.stack}</dt><dd class="chips">{c.tags.map((x) => <span>{x}</span>)}</dd></div>
+    <div><dt>{t.links}</dt><dd>{c.meta.code ? <a href={c.meta.code} target="_blank" rel="noopener">{t.code} ↗</a> : <span class="pend">—</span>}{c.meta.demo && <a href={c.meta.demo} target="_blank" rel="noopener">{t.demo} ↗</a>}</dd></div>
+  </dl>
+</div></div>
+
+<div class="wrap">
+  {c.visual.type === 'diagram'
+    ? <div class="hero-shot diag"><InvoiceDiagram lang={lang} /></div>
+    : <div class="hero-shot"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src={c.visual.src} alt={c.visual.alt[lang]} width="1440" height="900" decoding="async" /></div></div>}
+</div>
+
+<div class="wrap"><div class="body">
+  <nav class="toc" aria-label={lang === 'es' ? 'En este caso' : 'In this case'}>{sections.map((s, i) => <a href={`#${s.id}`} class={i === 0 ? 'on' : ''}>{s.label}</a>)}</nav>
+  <article>
+    <section id="contexto"><span class="k">// {t.context.toLowerCase()}</span><h2>{t.context}<i>.</i></h2>{c.context[lang].map((p) => <p>{p}</p>)}</section>
+    <section id="problema"><span class="k">// {t.problem}</span><h2>{lang === 'es' ? 'El problema' : 'The problem'}<i>.</i></h2><p>{c.problem[lang]}</p></section>
+    <section id="decisiones"><span class="k">// {lang === 'es' ? 'decisiones' : 'decisions'}</span><h2>{t.decisions}<i>.</i></h2>
+      <div class="dec">
+        {c.decisions[lang].map((d, i) => (
+          <div class="d"><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{d.t}</h3>
+            <dl><div><dt>{t.what}</dt><dd>{d.what}</dd></div>{d.why && <div><dt>{t.why}</dt><dd>{d.why}</dd></div>}</dl></div>
+        ))}
+      </div>
+    </section>
+    {c.visual.type === 'shot' && c.visual.extra && (
+      <section class="extra">{c.visual.extra.map((x) => <figure class="fig"><img src={x.src} alt={x.alt[lang]} width="1440" height="900" loading="lazy" decoding="async" /><figcaption>{x.alt[lang]}</figcaption></figure>)}</section>
+    )}
+    <section id="resultado"><span class="k">// {t.result}</span><h2>{t.result[0].toUpperCase() + t.result.slice(1)}<i>.</i></h2><ul class="out">{c.outcome[lang].map((o) => <li>{o}</li>)}</ul></section>
+    {c.learned && <section id="aprendi"><span class="k">// {t.learned.toLowerCase()}</span><h2>{t.learned}<i>.</i></h2><ul class="out">{c.learned[lang].map((o) => <li>{o}</li>)}</ul>
+      {c.different && <><h3 class="sub">{t.different}</h3><ul class="out">{c.different[lang].map((o) => <li>{o}</li>)}</ul></>}</section>}
+  </article>
+</div></div>
+
+<div class="wrap"><nav class="next" aria-label={lang === 'es' ? 'Más casos' : 'More cases'}>
+  <a href={href(prev)}><span class="k">← {t.prevCase}</span><b>{prev.title[lang]}</b></a>
+  <a href={href(next)} style="text-align:right"><span class="k">{t.nextCase} →</span><b>{next.title[lang]}</b></a>
+</nav></div>
+<script>
+  // El índice lateral marca la sección que se está leyendo.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+  const secs = links.map((a) => document.querySelector(a.hash)).filter(Boolean) as Element[];
+  if (secs.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) links.forEach((a) => a.classList.toggle('on', a.hash === `#${e.target.id}`));
+    }), { rootMargin: '-30% 0px -60% 0px' });
+    secs.forEach((s) => io.observe(s));
+  }
+</script>
