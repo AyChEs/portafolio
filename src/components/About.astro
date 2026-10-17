@@ -30,19 +30,24 @@ const n = NOW[lang];
       <article class="obj pass" aria-label={n.tripK}>
         <div class="main">
           <header><span class="air"><b>λ</b>{n.tripK}</span><span>{lang === 'es' ? 'PASE DE EMBARQUE' : 'BOARDING PASS'}</span></header>
-          <div class="route"><div><b>TGN</b><small>Tarragona</small></div><div class="path"><i></i></div><div style="text-align:right"><b>GRX</b><small>{n.tripCity}</small></div></div>
+          <div class="route"><div><b>TAR</b><small>Tarragona</small></div><div class="path"><i></i></div><div style="text-align:right"><b>GRA</b><small>{n.tripCity}</small></div></div>
           <dl><div><dt>{lang === 'es' ? 'pasajero' : 'passenger'}</dt><dd>AYMAN C.</dd></div><div><dt>{lang === 'es' ? 'destino' : 'to'}</dt><dd>{n.tripCity}, {n.tripCountry}</dd></div><div><dt>{n.tripBestK}</dt><dd>{n.tripBest}</dd></div></dl>
         </div>
-        <div class="stub"><span class="mono">{lang === 'es' ? 'EN TREN / COCHE' : 'GROUND'}</span><b>{n.tripCity}</b><div class="barcode"></div></div>
+        <div class="stub"><span class="mono">{lang === 'es' ? 'DESTINO' : 'TO'}</span><b>{n.tripCity}</b><div class="barcode"></div></div>
       </article>
       <article class="obj ticket" aria-label={n.filmK}>
         <span class="mono">{n.filmK}</span>
+        <img class="cartel" src="/img/spiderman-cartel.webp" alt={lang === 'es' ? 'Cartel de Spider-Man: Brand New Day' : 'Spider-Man: Brand New Day poster'} width="480" height="680" loading="lazy" decoding="async" />
         <b class="film">{n.film}</b>
         <div class="seat"><span>{lang === 'es' ? 'SALA' : 'SCREEN'}<b>3</b></span><span>{lang === 'es' ? 'FILA' : 'ROW'}<b>F</b></span><span>{lang === 'es' ? 'BUTACA' : 'SEAT'}<b>7</b></span></div>
         <div class="rate" role="img" aria-label={lang === 'es' ? 'Nota: 3,5 de 5' : 'Rating: 3.5 out of 5'}><i class="f"></i><i class="f"></i><i class="f"></i><i class="h"></i><i></i></div>
         <p class="note-film">{n.filmNote}</p>
         <div class="tear"><span>{lang === 'es' ? 'UNA BUTACA' : 'ONE SEAT'}</span><span>{lang === 'es' ? 'UNA COMPRA' : 'ONE PURCHASE'}</span></div>
       </article>
+      <figure class="obj polaroid">
+        <img src="/img/granada.webp" alt={lang === 'es' ? 'La Alhambra de Granada al atardecer' : 'The Alhambra in Granada at sunset'} width="1200" height="675" loading="lazy" decoding="async" />
+        <figcaption>{n.tripCity} · {n.tripCountry}</figcaption>
+      </figure>
       <article class="obj card-lib" aria-label={n.bookK}>
         <header><span>{n.bookK}</span><span>Nº 001</span></header>
         <div class="f">

@@ -222,7 +222,7 @@ export const KEYBOARD: Key[][] = [
     { id: 'cloudflare', label: 'Cloudflare' },
     { id: 'postman', label: 'Postman' },
     { id: 'vscode', label: 'VS Code' },
-    { id: 'dbx', label: 'DBX Studio', mono: 'DBX' },
+    { id: 'dbx', label: 'DBX Studio' },
     { id: 'claude', label: 'Claude' },
   ],
   [

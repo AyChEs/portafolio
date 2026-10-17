@@ -5,7 +5,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = UI[lang];
 const LAMBDA = 'M 26.5 0 L 52.2 0 L 95.7 100 L 67.4 100 L 47.8 55.7 L 27 100 L 0 100 L 34.3 26.1 C 30.9 24.3 25.7 24.8 22.2 23 C 19.1 21.3 18.3 18.7 19.1 15.7 L 21.7 3 Q 22.6 0 26.5 0 Z';
-const logo = (id: string) => `/logos/${id}.svg`;
+const logo = (id: string) => `/logos/${id}.${id === 'dbx' ? 'png' : 'svg'}`;
 const data = KEYBOARD.map((row) => row.map((k) => ({
   id: k.id, label: k.label, kind: k.kind, w: k.w, mono: k.mono, note: k.note?.[lang],
   img: k.kind || k.mono ? undefined : logo(k.id),

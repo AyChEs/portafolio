@@ -395,3 +395,11 @@ img{height:auto}
 .crumb a,.legal a{text-decoration:underline;text-underline-offset:3px}
 .chead .crumb a{text-decoration:underline}
 .chead h1{min-height:1em}
+/* Fotos reales en la mesa */
+.ticket{height:auto;min-height:330px;padding-bottom:16px}
+.ticket .cartel{width:100%;height:150px;object-fit:cover;object-position:50% 78%;border-radius:8px;box-shadow:0 8px 20px -10px rgba(0,0,0,.7)}
+.ticket .film{font-size:22px}
+.polaroid{margin:0;left:41%;top:36%;width:250px;background:#F3F4F1;padding:10px 10px 12px;border-radius:4px;transform:rotate(-5deg);z-index:4;color:#14213D}
+.polaroid img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px}
+.polaroid figcaption{font:500 12px var(--mono);margin-top:10px;text-align:center;letter-spacing:.04em}
+@media (max-width:960px){.polaroid{transform:rotate(-1.5deg);max-width:300px}}
