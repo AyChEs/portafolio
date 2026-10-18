@@ -30,8 +30,7 @@ npm run build    # dist/
 
 ## Calidad medida
 
-Lighthouse 100 en rendimiento, accesibilidad, buenas prácticas y SEO (inicio, un caso y aviso legal; móvil y escritorio).
-Sin desplazamiento horizontal a 390 y 1440 px en claro y oscuro. Funciones del formulario probadas con simulaciones.
+Lo comprueba el CI (GitHub Actions) en cada PR: `npm run check` (tipos), `npm run build`, `npm run audit` (las 11 páginas a 390 y 1440 px en claro y oscuro, sin desplazamiento horizontal, sin errores de consola ni imágenes rotas) y `npm run lhci` + `npm run lhci:mobile` (Lighthouse ≥ 95 en rendimiento, accesibilidad, buenas prácticas y SEO; inicio, un caso y aviso legal).
 
 ## Licencias
 
