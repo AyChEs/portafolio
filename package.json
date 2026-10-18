@@ -7,7 +7,11 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check": "astro check",
+    "audit": "node scripts/auditoria.mjs",
+    "lhci": "CHROME_PATH=\"$(node -e 'process.stdout.write(require(\"playwright-core\").chromium.executablePath())')\" lhci autorun",
+    "lhci:mobile": "CHROME_PATH=\"$(node -e 'process.stdout.write(require(\"playwright-core\").chromium.executablePath())')\" lhci autorun --config=lighthouserc.mobile.json"
   },
   "dependencies": {
     "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
@@ -16,6 +20,10 @@
     "three": "^0.186.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20261016.1"
+    "@astrojs/check": "^0.9.10",
+    "@cloudflare/workers-types": "^5.20261016.1",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.64.1",
+    "typescript": "^6.0.3"
   }
 }
