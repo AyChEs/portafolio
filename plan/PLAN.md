@@ -22,7 +22,7 @@ El estado dice «44 combinaciones sin errores y Lighthouse 100», pero en el rep
 
 | NN | Sesión | Modelo | Depende de | Se fusiona | Estado |
 |---|---|---|---|---|---|
-| 01 | CI: build, astro check, auditoría Playwright y Lighthouse CI (P1) | GLM | | sí | pendiente |
+| 01 | CI: build, astro check, auditoría Playwright y Lighthouse CI (P1) | GLM | | sí | hecha (PR #12, fusionada) |
 | 02 | Pruebas de las funciones con Vitest (P2) | GLM | 01 | sí | pendiente |
 | 03 | «Fuera del trabajo» (P3) | GLM | 01 | no, decide Ayman | pendiente |
 | 04 | Capturas y casos de Zellige y CineFlow (P4) | Flash | 01; Zellige 09 y CineFlow 07 | no, decide Ayman | pendiente |
