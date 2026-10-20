@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "wallapop": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@yhugosoares/wallapop-mcp"
+      ],
+      "env": {}
+    }
+  }
+}
