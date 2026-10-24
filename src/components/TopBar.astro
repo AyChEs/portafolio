@@ -20,7 +20,7 @@ const base = home ? '' : ROUTES[lang].home;
       <a class="lang" href={alt} hreflang={lang === 'es' ? 'en' : 'es'} lang={lang === 'es' ? 'en' : 'es'} data-lang-switch={lang === 'es' ? 'en' : 'es'}>
         <b>{lang.toUpperCase()}</b> / {lang === 'es' ? 'EN' : 'ES'}<span class="sr-only"> · {t.langSwitch}</span>
       </a>
-      <a class="btn p" href={`${base}#contacto`}>{t.talk}</a>
+      <a class="btn p" href={`${base}#contacto`} data-magnetic>{t.talk}</a>
     </nav>
   </div>
 </header>

@@ -37,7 +37,9 @@ const labelled = data.flat().filter((k) => k.label);
   </div>
   <p class="kb-hint"><span class="h-mouse">{t.stackHintMouse}</span><span class="h-touch">{t.stackHintTouch}</span></p>
   <p class="credit">{t.stackCredit}</p>
-</div></section>
+</div>
+  <div class="tape" aria-hidden="true"><div class="tape-run">{[0, 1].map(() => <span class="tape-set">{labelled.map((k) => <span>{k.label}</span>)}</span>)}</div></div>
+</section>
 <script>
   // Three.js pesa mucho: se descarga solo cuando el teclado está cerca de la pantalla.
   const host = document.getElementById('kbs');

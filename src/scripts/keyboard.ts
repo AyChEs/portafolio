@@ -192,16 +192,30 @@ export function boot(host: HTMLElement) {
     canvas.addEventListener('pointerdown', move);
     canvas.addEventListener('pointerleave', () => { hover = null; tx = ty = 0; tip.classList.remove('on'); });
 
-    // Al entrar en pantalla, las teclas se pulsan una vez en cascada
+    // Al entrar en pantalla, las teclas se pulsan una vez en cascada. Con las animaciones de scroll
+    // activas la dispara ScrollTrigger (scripts/motion-core.ts); si no, este mismo observador.
     let visible = false, cascaded = false;
+    const viaScroll = document.documentElement.classList.contains('js-motion');
+    const cascade = () => {
+      if (cascaded || reduce) return;
+      cascaded = true;
+      keys.forEach((g, i) => { if (g.userData.key.kind === 'blank') return; setTimeout(() => { g.userData.press = 1; setTimeout(() => { g.userData.press = 0; }, 130); }, 150 + i * 45); });
+    };
+    host.addEventListener('kb:cascade', () => { cascade(); loop(); });
+    if (host.dataset.cascade === 'go') cascade();
     new IntersectionObserver(es => {
       visible = es[0].isIntersecting;
-      if (visible && !cascaded && !reduce) {
-        cascaded = true;
-        keys.forEach((g, i) => { if (g.userData.key.kind === 'blank') return; setTimeout(() => { g.userData.press = 1; setTimeout(() => { g.userData.press = 0; }, 130); }, 250 + i * 45); });
-      }
+      if (visible && !viaScroll) cascade();
       if (visible) loop();
     }, { threshold: 0.15 }).observe(host);
+
+    // Con el scroll, el teclado gira e inclina un poco: de frente al llegar y algo de lado al irse.
+    const scrollTilt = () => {
+      if (reduce) return 0;
+      const r = host.getBoundingClientRect();
+      const p = (innerHeight - r.top) / (innerHeight + r.height);
+      return Math.min(1, Math.max(0, p)) - 0.5;
+    };
 
     const t0 = performance.now();
     let raf = 0;
@@ -212,8 +226,9 @@ export function boot(host: HTMLElement) {
         if (!visible) return;
         const t = (performance.now() - t0) / 1000;
         const idle = reduce ? 0 : Math.sin(t * 0.6) * 0.025;
-        kb.rotation.y += (((narrow() ? 0 : -0.08) + tx * 0.14 + idle) - kb.rotation.y) * 0.06;
-        kb.rotation.x += ((0.06 - ty * 0.07) - kb.rotation.x) * 0.06;
+        const sp = scrollTilt();
+        kb.rotation.y += (((narrow() ? 0 : -0.08 - sp * 0.22) + tx * 0.14 + idle) - kb.rotation.y) * 0.06;
+        kb.rotation.x += ((0.06 - sp * 0.16 - ty * 0.07) - kb.rotation.x) * 0.06;
         for (const g of keys) {
           const down = g === hover && g.userData.key.kind !== 'blank' ? 1 : g.userData.press;
           const target = g.userData.rest - down * 0.16;

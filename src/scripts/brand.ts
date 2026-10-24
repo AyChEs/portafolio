@@ -20,12 +20,16 @@ function setup(brand: HTMLElement, glow: boolean) {
 
   function build() {
     anims.forEach((a) => a.cancel());
+    // Las medidas se pasan a coordenadas propias del nombre: el scroll puede tenerlo escalado
+    // (scripts/motion-core.ts), y el recorte y el punto se aplican antes de esa escala.
     const b = brand.getBoundingClientRect();
-    const l = lam.getBoundingClientRect();
-    const d = dot.getBoundingClientRect();
+    const k = b.width / (brand.offsetWidth || b.width) || 1;
+    const rect = (el: Element) => { const r = el.getBoundingClientRect(); return { left: (r.left - b.left) / k, top: (r.top - b.top) / k, width: r.width / k, height: r.height / k }; };
+    const l = rect(lam);
+    const d = rect(dot);
     const h = l.height;
-    const lx = l.left - b.left;
-    const ly = l.top - b.top;
+    const lx = l.left;
+    const ly = l.top;
     const size = G.size * h;
     Object.assign(tile.style, {
       left: `${lx + G.tx * h}px`, top: `${ly + G.ty * h}px`,

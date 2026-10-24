@@ -9,10 +9,12 @@ const t = UI[lang];
   <div class="sh"><div><span class="k">{t.casesKicker}</span><h2>{t.casesTitle}<i>.</i></h2></div><p>{t.casesIntro}</p></div>
   {CASES.map((c) => (
     <article class="case">
+      <div class="reveal">
       {c.visual.type === 'diagram'
-        ? <div class="vis diagram"><InvoiceDiagram lang={lang} /></div>
-        : <div class="vis"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src={c.visual.src} alt={c.visual.alt[lang]} width="1440" height="900" loading="lazy" decoding="async" /></div></div>}
-      <div>
+        ? <div class="vis diagram"><div class="px"><InvoiceDiagram lang={lang} /></div></div>
+        : <div class="vis"><div class="frame px"><div class="bar"><i></i><i></i><i></i></div><img src={c.visual.src} alt={c.visual.alt[lang]} width="1440" height="900" loading="lazy" decoding="async" /></div></div>}
+      </div>
+      <div class="ctext">
         <span class="k">// {c.kicker[lang]}</span>
         <h3>{c.title[lang]}</h3>
         <dl class="dl">

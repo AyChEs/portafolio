@@ -29,7 +29,7 @@ const ribbons = Array.from({ length: 11 }, (_, i) => {
         <h1><Brand role="hero" label={`Ayman Charoui, ${t.leadStrong.replace('.', '').toLowerCase()}`} /></h1>
         <p class="lead"><strong>{t.leadStrong}</strong> {t.lead}</p>
         <div class="cta">
-          <a class="btn p" href="#contacto">{t.talk}</a>
+          <a class="btn p" href="#contacto" data-magnetic>{t.talk}</a>
           <a class="btn s" href={PERSON.cv[lang]} download>{t.downloadCV} ↓</a>
           <a class="more" href="#casos">{t.seeProjects} →</a>
         </div>
