@@ -443,7 +443,7 @@ img{height:auto}
 .how.pinned .step p{font-size:17px;max-width:40ch}
 
 /* Pie: «Ayman.» a todo el ancho, en contorno, que se rellena con el scroll. */
-.giant{position:relative;margin-top:56px;overflow:hidden;padding:0;line-height:.8;--g-fill:#1B2B4D;--g-stroke:#2A3B61}
+.giant{position:relative;margin-top:56px;overflow:hidden;padding:0;line-height:.8;--g-fill:#4A5D86;--g-stroke:#2A3B61}
 .giant-in{position:relative;display:flex;align-items:baseline;justify-content:center;font:800 var(--g-size,29vw)/.8 "Plus Jakarta Sans Variable";letter-spacing:-.05em;padding:.16em 0 .28em}
 .g-out{color:transparent;-webkit-text-stroke:1.5px var(--g-stroke)}
 .g-fill{position:absolute;left:0;right:0;top:0;bottom:0;overflow:hidden;display:flex;justify-content:center;align-items:baseline;padding:.16em 0 .28em;pointer-events:none}
@@ -453,5 +453,5 @@ img{height:auto}
 .g-tile svg{position:absolute;left:20%;top:22%;width:54%;fill:var(--tile-fg)}
 .g-tile i{position:absolute;left:73%;top:63%;width:12%;height:12%;border-radius:50%;background:var(--punto)}
 .g-tile.g2{left:14%;top:44%;width:clamp(36px,4.6vw,72px);transform:rotate(-12deg);opacity:.9}
-@media (prefers-color-scheme:light){.giant{--g-fill:#CBD5E6;--g-stroke:#B4BFD2}}
+@media (prefers-color-scheme:light){.giant{--g-fill:#76839C;--g-stroke:#B4BFD2}}
 @media (max-width:960px){.how.pinned .step{width:72vw}}
