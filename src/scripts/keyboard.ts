@@ -129,6 +129,7 @@ export function boot(host: HTMLElement) {
 
     const lightCap = new THREE.MeshStandardMaterial({ color: 0xe9edf3, roughness: 0.5, metalness: 0 });
     const accCap = new THREE.MeshStandardMaterial({ color: 0x2563eb, roughness: 0.45, metalness: 0.05 });
+    const draw = () => renderer.render(scene, camera);
     const keys = [];
     for (let r = 0; r < NROWS; r++) {
       let cx = -COLS / 2;
@@ -141,7 +142,10 @@ export function boot(host: HTMLElement) {
         if (key.kind !== 'blank') {
           const k = 0.84, top = new THREE.Mesh(new THREE.PlaneGeometry((w - GAP) * (1 - 0.16 / w), (1 - GAP) * k), new THREE.MeshBasicMaterial({ transparent: true, toneMapped: false }));
           top.rotation.x = -Math.PI / 2; top.position.y = CAP_H + 0.052;
-          topTexture(key, w).then(t => { top.material.map = t; top.material.needsUpdate = true; });
+          // La cara no se ve hasta que tiene su logotipo (sin ella saldría un plano blanco) y, al tenerlo, se
+          // dibuja un fotograma: si el bucle está parado (fuera de pantalla o sin movimiento) no se quedaría la tecla en blanco.
+          top.visible = false;
+          topTexture(key, w).then(t => { top.material.map = t; top.material.needsUpdate = true; top.visible = true; draw(); });
           g.add(top);
         }
         g.position.set(cx + w / 2, 0.02, -NROWS / 2 + r + 0.5);
@@ -164,7 +168,7 @@ export function boot(host: HTMLElement) {
       camera.updateProjectionMatrix();
     }
     resize();
-    addEventListener('resize', resize);
+    addEventListener('resize', () => { resize(); draw(); });
 
     // Interacción: inclinación con el puntero y tecla que se hunde
     const ray = new THREE.Raycaster(), ptr = new THREE.Vector2(9, 9);
@@ -181,7 +185,7 @@ export function boot(host: HTMLElement) {
     const move = e => {
       const b = canvas.getBoundingClientRect();
       ptr.set(((e.clientX - b.left) / b.width) * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
-      tx = ptr.x; ty = ptr.y;
+      if (!reduce) { tx = ptr.x; ty = ptr.y; } // con «reducir movimiento» el teclado no se inclina, solo se hunde la tecla
       ray.setFromCamera(ptr, camera);
       const hit = ray.intersectObjects(keys, true)[0];
       hover = hit ? keys.find(k => k === hit.object.parent) : null;
@@ -234,11 +238,11 @@ export function boot(host: HTMLElement) {
           const target = g.userData.rest - down * 0.16;
           g.position.y += (target - g.position.y) * 0.35;
         }
-        renderer.render(scene, camera);
+        draw();
         raf = requestAnimationFrame(step);
       };
       raf = requestAnimationFrame(step);
     }
-    renderer.render(scene, camera);
+    draw();
     }
   }
