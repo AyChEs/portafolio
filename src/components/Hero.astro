@@ -13,6 +13,13 @@ const ribbons = Array.from({ length: 11 }, (_, i) => {
   return { d: 'M' + pts.join(' L'), op: (0.16 + 0.05 * (5 - Math.abs(5 - i))).toFixed(2), w: i === 4 || i === 7 ? 2.2 : 1.4, spark: i === 4 || i === 7 ? `s${i}` : '' };
 });
 ---
+<script is:inline>
+  // Primera visita de la sesión: se enciende la apertura antes del primer pintado (scripts/brand.ts la ejecuta).
+  try {
+    if (!sessionStorage.getItem('opened') && !location.hash && !scrollY && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-open');
+  } catch (e) {}
+</script>
+<div class="open" aria-hidden="true"></div>
 <div class="hero">
   <div class="dots" aria-hidden="true"></div><div class="glow" aria-hidden="true"></div>
   <svg class="ribbons" viewBox="0 0 1440 380" preserveAspectRatio="none" aria-hidden="true">

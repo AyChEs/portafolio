@@ -19,7 +19,7 @@
   --ease:cubic-bezier(.23,1,.32,1);        /* marca: logotipo, botones, objetos */
   --ease-out:cubic-bezier(.16,1,.3,1);     /* entradas de contenido (expo.out) */
   --ease-io:cubic-bezier(.65,0,.35,1);     /* cambios de estado y transiciones de página */
-  --d-fast:.2s; --d-base:.45s; --d-slow:.9s; --d-brand:1.1s; --d-page:.7s; --d-scramble:.3s;
+  --d-fast:.2s; --d-base:.45s; --d-slow:.9s; --d-brand:1.1s; --d-open:.64s; --d-page:.7s; --d-scramble:.3s;
   --step:.07s;                              /* retardo entre elementos de un mismo grupo */
   --scene:.22s                              /* retardo entre capas de una escena: titular, visual, datos */
 }
@@ -507,3 +507,17 @@ img{height:auto}
   background:radial-gradient(130px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.16),transparent 70%)}
 @media (hover:hover){.btn.p:hover::before{opacity:1}}
 @media (prefers-reduced-motion:reduce){.links a::after,.crumb a::after,.legal a::after,.cta .more::after,.soc a::after,.meta a::after,.mail a::after,.free-intro a::after,.form-end a::after,.btn.p::before{transition:none}}
+
+/* APERTURA (primera visita de la sesión, ver scripts/brand.ts)
+   Una capa fija con transform y opacity cubre el Inicio. El texto real ya está en el DOM debajo, así que no retrasa el LCP.
+   Si el script no llega, la capa se retira sola a los 2,6 s. Con «reducir movimiento» no se crea. */
+.open{display:none}
+.js-open .open{display:block;position:fixed;inset:0;z-index:30;background:var(--bg);pointer-events:none;animation:open-off .01s 2.6s forwards}
+@keyframes open-off{to{opacity:0;visibility:hidden}}
+.open-ic{position:fixed;background:var(--tile-bg);opacity:0;will-change:transform,opacity}
+.open-ic svg{position:absolute;fill:var(--tile-fg)}
+.open-ic i{position:absolute;border-radius:50%;background:var(--punto)}
+@keyframes m-up{from{opacity:0;transform:translateY(18px)}}
+.js-open .hero .chip,.js-open .hero .lead,.js-open .hero .cta,.js-open .hero .index,.js-open .hero .proof{
+  animation:m-up var(--d-slow) var(--ease-out) backwards;animation-delay:calc(var(--d-open)*.85 + var(--i,0)*var(--step))}
+.js-open .hero .lead{--i:1}.js-open .hero .cta{--i:2}.js-open .hero .index{--i:3}.js-open .hero .proof{--i:4}
