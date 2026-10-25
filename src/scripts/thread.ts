@@ -97,7 +97,12 @@ export function thread(): (() => void) | undefined {
   // Centro del elemento en pantalla y tamaño del punto que lo representa.
   const centre = (t: Target) => {
     const r = live(t).getBoundingClientRect();
-    if (t.kind === 'dot') return { x: r.left + r.width / 2, y: r.top + r.height / 2, d: Math.min(r.width, r.height) };
+    if (t.kind === 'dot') {
+      // El punto del formulario vive en una caja de 40 px: el hilo se hace del tamaño del punto de dentro, no de la caja.
+      const inner = live(t).querySelector<HTMLElement>('.fb')?.getBoundingClientRect();
+      const d = inner && inner.width ? Math.min(inner.width, 12) : Math.min(r.width, r.height);
+      return { x: r.left + r.width / 2, y: r.top + r.height / 2, d };
+    }
     const fm = t.fm!;
     const baseline = r.top + (r.height - (fm.a + fm.dsc)) / 2 + fm.a;
     return { x: r.left + t.ink!.dx, y: baseline - (fm.aba - fm.abd) / 2, d: t.ink!.d };

@@ -5,8 +5,11 @@ import { CustomEase } from 'gsap/CustomEase';
 
 const css = (n: string) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const num = (n: string, fallback: number) => {
-  const v = parseFloat(css(n));
-  return Number.isFinite(v) ? v : fallback;
+  // El minificador de CSS reescribe `.07s` como `70ms`: sin convertir, un retardo de 70 ms se leía como 70 s
+  // y los elementos de un grupo tardaban un minuto en aparecer.
+  const raw = css(n), v = parseFloat(raw);
+  if (!Number.isFinite(v)) return fallback;
+  return /ms\s*$/.test(raw) ? v / 1000 : v;
 };
 const bezier = (n: string, fallback: string) => (/cubic-bezier\(([^)]+)\)/.exec(css(n))?.[1] ?? fallback).replace(/\s/g, '');
 

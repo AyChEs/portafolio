@@ -4,7 +4,7 @@
 const G = { tx: -0.304, ty: -0.387, size: 1.761, r: 0.383, dx: 1.087, dy: 0.83, dr: 0.104 };
 const css = (n: string) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 // Duración y curva salen de los tokens de movimiento (src/styles/global.css).
-const sec = (n: string, d: number) => (parseFloat(css(n)) || d) * 1000;
+const sec = (n: string, d: number) => { const r = css(n), v = parseFloat(r); return !v ? d * 1000 : /ms\s*$/.test(r) ? v : v * 1000; };
 const DUR = sec('--d-brand', 1.1);
 const OPEN = sec('--d-open', 0.64);
 const EASE = css('--ease') || 'cubic-bezier(.23,1,.32,1)';

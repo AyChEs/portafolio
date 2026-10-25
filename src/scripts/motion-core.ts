@@ -16,6 +16,27 @@ registerEases();
 const T = tokens();
 const EASE = 'out';
 
+// Red de seguridad: toda animación de entrada que oculta algo (gsap.from) se registra aquí. Si su elemento ya está
+// en pantalla, o por encima, y sigue sin haberse mostrado pasado 1,5 s sin estar sonando, se completa a la fuerza. Así un cálculo de
+// posiciones fallido (fuentes o imágenes tardías, pins que cambian la altura, saltos rápidos) nunca deja contenido oculto.
+const guarded: { el: Element; anim: gsap.core.Animation; since: number }[] = [];
+function guard<T extends gsap.core.Animation>(el: Element, anim: T): T {
+  guarded.push({ el, anim, since: 0 });
+  return anim;
+}
+function sweep() {
+  const now = performance.now();
+  for (let i = guarded.length - 1; i >= 0; i--) {
+    const g = guarded[i];
+    if (g.anim.progress() >= 1 || !g.el.isConnected) { guarded.splice(i, 1); continue; }
+    if (g.anim.isActive()) { g.since = 0; continue; } // está sonando: se deja acabar
+    const r = g.el.getBoundingClientRect();
+    if (r.top >= innerHeight || (r.width === 0 && r.height === 0)) { g.since = 0; continue; }
+    if (!g.since) g.since = now;
+    else if (now - g.since > 1500) { g.anim.progress(1, false); guarded.splice(i, 1); }
+  }
+}
+
 export function init() {
   const root = document.documentElement;
   const mm = gsap.matchMedia();
@@ -58,6 +79,14 @@ export function init() {
       // Las fuentes, el teclado 3D o las imágenes diferidas pueden cambiar el layout después:
       // se recalculan los puntos de inicio cuando cambia la altura de la página.
       document.fonts.ready.then(() => ScrollTrigger.refresh());
+      const sweeper = window.setInterval(() => { if (!document.hidden) sweep(); }, 250);
+      // Cada imagen diferida que termina de cargar cambia la altura: se recalculan las posiciones.
+      let rt = 0;
+      const refreshSoon = () => { clearTimeout(rt); rt = window.setTimeout(() => ScrollTrigger.refresh(), 150); };
+      document.querySelectorAll<HTMLImageElement>('img').forEach((im) => { if (!im.complete) im.addEventListener('load', refreshSoon, { once: true }); });
+      addEventListener('load', refreshSoon, { once: true });
+      addEventListener('resize', refreshSoon);
+      addEventListener('orientationchange', refreshSoon);
       let last = document.body.scrollHeight, t = 0;
       const ro = new ResizeObserver(() => {
         const h = document.body.scrollHeight;
@@ -69,7 +98,7 @@ export function init() {
         alive = false;
         events.forEach((e) => removeEventListener(e, go));
         undo.forEach((f) => f());
-        ro.disconnect(); lenis.destroy(); root.classList.remove('m-on');
+        clearInterval(sweeper); ro.disconnect(); lenis.destroy(); root.classList.remove('m-on');
       };
     },
   );
@@ -120,7 +149,7 @@ const isHead = (e: Element) => /^H[1-6]$/.test(e.tagName) || e.classList.contain
 function scenes() {
   for (const [rootSel, layers] of SCENES) {
     $$(rootSel).forEach((root) => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: root, start: 'top 85%', once: true }, defaults: { ease: EASE } });
+      const tl = guard(root, gsap.timeline({ scrollTrigger: { trigger: root, start: 'top 85%', once: true }, defaults: { ease: EASE } }));
       layers.forEach((sels, i) => {
         const at = i * T.scene;
         const els = sels.flatMap((sel) => (sel === ':scope' ? [root] : $$(sel, root)));
@@ -218,7 +247,7 @@ function stack() {
     trigger: host, start: 'top 70%', once: true,
     onEnter: () => { host.dataset.cascade = 'go'; host.dispatchEvent(new CustomEvent('kb:cascade')); },
   });
-  gsap.from('#stack .scene', { y: 40, opacity: 0, duration: 1, ease: EASE, scrollTrigger: { trigger: host, start: 'top 80%', once: true } });
+  guard(host, gsap.from('#stack .scene', { y: 40, opacity: 0, duration: 1, ease: EASE, scrollTrigger: { trigger: host, start: 'top 80%', once: true } }));
 }
 
 // Cómo trabajo: en escritorio la sección se fija y los tres pasos pasan en horizontal,
@@ -232,7 +261,7 @@ function how(wide: boolean) {
   const figs = steps.map((s) => $('.rv', s));
   if (!wide) {
     steps.forEach((s, i) => {
-      gsap.from(s, { y: 40, opacity: 0, duration: 0.9, ease: EASE, scrollTrigger: { trigger: s, start: 'top 88%', once: true } });
+      guard(s, gsap.from(s, { y: 40, opacity: 0, duration: 0.9, ease: EASE, scrollTrigger: { trigger: s, start: 'top 88%', once: true } }));
       // Cada ilustración avanza mientras su paso cruza la pantalla.
       const st = ScrollTrigger.create({ trigger: s, start: 'top 80%', end: 'bottom 50%', onUpdate: (self) => piece(figs[i], self.progress) });
       piece(figs[i], st.progress);
@@ -309,11 +338,6 @@ function footer() {
   tl.fromTo('.g-fill', { xPercent: -100 }, { xPercent: 0, ease: 'none', duration: 1 }, 0)
     .fromTo('.g-fill-in', { xPercent: 100 }, { xPercent: 0, ease: 'none', duration: 1 }, 0)
     .fromTo('.g-dot', { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, ease: 'back.out(3)', duration: 0.25 }, 0.85);
-  const st = { trigger: g, start: 'top bottom', end: 'bottom bottom', scrub: true };
-  // Los dos iconos cruzan el nombre a distinta velocidad y terminan dentro del pie, sin recortarse.
-  const gh = () => g.offsetHeight;
-  gsap.fromTo('.g-tile:not(.g2)', { y: () => gh() * 0.55, rotate: 22 }, { y: 0, rotate: 8, ease: 'none', scrollTrigger: { ...st, invalidateOnRefresh: true } });
-  gsap.fromTo('.g-tile.g2', { y: () => gh() * 0.2, rotate: -30 }, { y: () => -gh() * 0.12, rotate: -12, ease: 'none', scrollTrigger: { ...st, invalidateOnRefresh: true } });
 }
 
 // Etiquetas mono que se descifran al entrar. Las que ya están a la vista al arrancar se quedan como están.

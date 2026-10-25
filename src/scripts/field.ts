@@ -63,6 +63,9 @@ export function boot() {
     const head = ((t * 0.13) % (W + 900)) - 300; // haz que recorre la retícula en diagonal
     const lit: number[] = [];
     const ramp = clamp(ready);
+    // La parte interactiva (haz, cursor y ondas) solo vive en el Inicio: más abajo la retícula es un fondo quieto y
+    // no dibuja cúmulos de puntos azules sobre el texto.
+    const act = 1 - clamp((sy - 160) / 420);
     for (const L of layers) {
       const off = (sy * L.speed) % L.gap;
       const cols = Math.ceil(W / L.gap) + 2, rows = Math.ceil(H / L.gap) + 2;
@@ -79,17 +82,17 @@ export function boot() {
           let g = 0;
           // haz ambiental
           const u = (x0 + y0 * 0.35 - head) / 120;
-          if (u > -2.4 && u < 2.4) g += 0.5 * (1 - (u * u) / 5.76) ** 2;
+          if (act > 0 && u > -2.4 && u < 2.4) g += 0.5 * act * (1 - (u * u) / 5.76) ** 2;
           // cursor
           const dx = x - px, dy = y - py, d2 = dx * dx + dy * dy;
-          if (d2 < R2) {
-            const d = Math.sqrt(d2) || 1, k = 1 - d / R, s = k * k * (3 - 2 * k);
+          if (act > 0 && d2 < R2) {
+            const d = Math.sqrt(d2) || 1, k = 1 - d / R, s = (k * k * (3 - 2 * k)) * act;
             x += (dx / d) * s * P * L.push; y += (dy / d) * s * P * L.push; g += s;
           }
-          for (const r of ripples) {
+          if (act > 0) for (const r of ripples) {
             const rd = Math.hypot(x - r.x, y - r.y), ring = (t - r.t) * 420, w = 70;
             const e = 1 - Math.abs(rd - ring) / w;
-            if (e > 0) { const s = e * e * clamp(1 - (t - r.t) / 1.6); g += s; x += ((x - r.x) / (rd || 1)) * s * 9; y += ((y - r.y) / (rd || 1)) * s * 9; }
+            if (e > 0) { const s = e * e * clamp(1 - (t - r.t) / 1.6) * act; g += s; x += ((x - r.x) / (rd || 1)) * s * 9; y += ((y - r.y) / (rd || 1)) * s * 9; }
           }
           if (g > 0.05) lit.push(x, y, Math.min(1, g) * L.a, L.r);
           else c.rect(x - L.r, y - L.r, L.r * 2, L.r * 2);
