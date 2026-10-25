@@ -163,6 +163,19 @@ export function boot() {
     c.globalAlpha = 1;
   };
 
+  // Regulador: si dibujar cuesta demasiado (móvil lento, sin GPU), baja de calidad por pasos y, en último
+  // caso, devuelve el fondo a la retícula y las cintas estáticas de CSS.
+  let cost = 0, level = 0, lastLevelAt = 0;
+  const govern = (ms: number, now: number) => {
+    cost += (ms - cost) * 0.1;
+    if (now - lastLevelAt < 1200 || level >= 3) return;
+    const next = cost > 22 ? level + 1 : cost > 11 && level < 1 ? 1 : level;
+    if (next === level) return;
+    level = next; lastLevelAt = now;
+    if (level === 2) layers.splice(0, layers.length, layers[Math.min(1, layers.length - 1)]);
+    if (level === 3) { hidden = true; cancelAnimationFrame(raf); raf = 0; document.documentElement.classList.remove('field-on'); dctx.clearRect(0, 0, W, H); rctx?.clearRect(0, 0, rw, rh); }
+  };
+
   let t0 = 0;
   const tick = (now: number) => {
     raf = 0;
@@ -174,7 +187,8 @@ export function boot() {
     const idle = now - lastMove > 3000 && now - lastScroll > 3000;
     frame++;
     raf = requestAnimationFrame(tick);
-    if (idle && frame % 2) return;
+    if ((idle || level >= 1) && frame % 2) return;
+    const s0 = performance.now();
     vel += (clamp(Math.abs(sy - lastY) / 38, 0, 1.5) - vel) * 0.12;
     if (Math.abs(sy - lastY) > 0.5) lastScroll = now;
     lastY = sy;
@@ -182,7 +196,8 @@ export function boot() {
     ready = Math.min(1, ready + 0.03);
     while (ripples.length && t - ripples[0].t > 1.6) ripples.shift();
     drawDots(t, sy);
-    if (rctx && rib && heroOn) drawRibbons(t, sy);
+    if (rctx && rib && heroOn && (level < 2 || frame % 4 < 2)) drawRibbons(t, sy);
+    govern(performance.now() - s0, now);
   };
   const run = () => { if (!raf && !hidden) raf = requestAnimationFrame(tick); };
 

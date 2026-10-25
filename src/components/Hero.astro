@@ -54,11 +54,14 @@ const ribbons = Array.from({ length: 11 }, (_, i) => {
   </div>
 </div>
 <script>
-  // El fondo vivo se descarga y arranca cuando el navegador está libre; hasta entonces (y con «reducir
-  // movimiento») se ve la retícula y las cintas estáticas de CSS.
+  // El fondo vivo se descarga y arranca con el primer gesto del visitante (como las animaciones de scroll):
+  // así no pesa en la carga. Hasta entonces, y con «reducir movimiento», se ve la retícula y las cintas estáticas de CSS.
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const go = () => import('../scripts/field').then((m) => m.boot()).catch(() => {});
-    const idle = () => ('requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 1500 }) : setTimeout(go, 400));
-    if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
+    const events = ['pointermove', 'pointerdown', 'touchstart', 'wheel', 'scroll', 'keydown'];
+    const go = () => {
+      events.forEach((e) => removeEventListener(e, go));
+      import('../scripts/field').then((m) => m.boot()).catch(() => {});
+    };
+    if (scrollY > 40) go(); else events.forEach((e) => addEventListener(e, go, { passive: true }));
   }
 </script>
