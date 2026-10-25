@@ -293,3 +293,63 @@ Se generó en ChatGPT con `docs/marca/prompt-logo.md` y se redibujó a mano en S
 4. **Cómo resolviste el bloqueo de butacas en CineFlow**: bloqueo en base de datos, reserva temporal con caducidad u otra técnica.
 5. **Freelance:** revisa si tu contrato tiene un pacto de plena dedicación o de exclusividad antes de anunciar que aceptas proyectos. En España, el pacto de plena dedicación tiene que estar firmado y compensado (artículo 21 del Estatuto de los Trabajadores); sin él puedes trabajar por tu cuenta mientras no compitas con tu empresa. Para facturar necesitarás darte de alta como autónomo cuando llegue el primer proyecto.
 6. **Generar el logotipo** con `docs/marca/prompt-logo.md` y, con el elegido, **el tablero de marca** con `docs/marca/prompts-brandkit.md` (ChatGPT o similar).
+
+---
+
+## Movimiento
+
+La web se recorre como una presentación animada de la marca. El movimiento no añade nada a la marca: la paleta, la tipografía, los textos y la estructura son los de arriba. Cada animación tiene una función (orientar, mostrar un cambio de estado o contar el caso en orden) y todas se apagan con `prefers-reduced-motion`: estado final, sin Lenis, sin pins, sin apertura, sin fondo vivo, sin transición entre páginas.
+
+### Tokens de movimiento
+
+Viven en un solo sitio: el bloque «TOKENS DE MOVIMIENTO» de `src/styles/global.css`. `src/scripts/tokens.ts` los lee para GSAP y registra las curvas con los mismos nombres. No se escriben duraciones ni curvas sueltas en ningún otro archivo.
+
+| Token | Valor | Para qué |
+|---|---|---|
+| `--ease` / `brand` | `cubic-bezier(.23,1,.32,1)` | El logotipo, los botones y los objetos de la mesa |
+| `--ease-out` / `out` | `cubic-bezier(.16,1,.3,1)` | Entradas de contenido |
+| `--ease-io` / `io` | `cubic-bezier(.65,0,.35,1)` | Cambios de estado y transiciones de página |
+| `--d-fast` | 0,2 s | Pulsaciones y hover |
+| `--d-base` | 0,45 s | Subrayados, colores, puntos de progreso |
+| `--d-slow` | 0,9 s | Entrada de bloques de texto |
+| `--d-brand` | 1,1 s | Animación del logotipo y titulares |
+| `--d-open` | 0,64 s | Vuelo del icono en la apertura (más 1,1 s del nombre: 1,74 s en total) |
+| `--d-page` | 0,7 s | Transición entre páginas |
+| `--d-scramble` | 0,3 s | Etiquetas que se descifran |
+| `--step` | 0,07 s | Retardo entre elementos de una misma capa |
+| `--scene` | 0,22 s | Retardo entre capas de una escena |
+
+### Piezas
+
+- **Apertura** (`scripts/brand.ts`, `Hero.astro`). Solo en la primera visita de la sesión (`sessionStorage`), sin ancla ni scroll previo. Una capa fija con `transform` y `opacity` cubre el Inicio: el icono aparece grande en el centro y vuela hasta su sitio en «λyman.», donde sigue la animación de siempre. El texto real del Inicio está en el DOM debajo de la capa, de modo que no retrasa el LCP. Solo WAAPI y CSS. Si el script no llega, la capa se retira sola a los 2,6 s. Un scroll durante la apertura la termina al instante.
+- **El punto como hilo** (`scripts/thread.ts`). En escritorio (desde 1000 px) un trazado fino recorre el margen izquierdo y el punto azul baja por él ligado al scroll. Al llegar a cada sección se acerca a su elemento y se superpone a él: el punto de «Disponible», el punto final de los titulares de Casos, Stack, Cómo trabajo y Sobre mí, el punto del formulario (que se vuelve ✓ al enviarse bien: entonces el punto del hilo se desvanece) y el punto final de «Hablemos.». En móvil no se crea: no hay margen y estorbaría.
+- **Escenas** (`scripts/motion-core.ts`, `SCENES`). Cada bloque entra en este orden: titular con su etiqueta, visual y datos, con `--scene` entre capas y `--step` dentro de cada una. Los titulares entran por líneas con máscara y el punto azul llega el último.
+- **Etiquetas que se descifran** (`scripts/scramble.ts`). Las etiquetas mono (`// caso 01`, `problema`) pasan por caracteres aleatorios hasta su texto en 0,3 s. El texto real queda en el DOM, en un `span` oculto a la vista, para el lector de pantalla; el ancho no cambia. Las que ya están a la vista al cargar no se animan.
+- **Transición entre páginas.** View Transitions entre documentos (`@view-transition { navigation: auto }`). La imagen del caso y su titular llevan el mismo `view-transition-name` en el Inicio y en la página del caso, así que la imagen se expande hasta ser la cabecera y el titular viaja a su sitio. Sin soporte del navegador es una navegación normal.
+- **Página de caso como historia.** En escritorio, «Decisiones» se fija y las decisiones pasan una a una, con su porqué y unos puntos que marcan por cuál vas. El índice lateral llena una línea azul en cada sección según lo que llevas leído. En móvil o con menos de 680 px de alto, las decisiones entran como el resto.
+- **Fondo vivo** (`scripts/field.ts`). Canvas 2D: la retícula de puntos tiene tres capas de profundidad (las lejanas se mueven más despacio con el scroll), reacciona al cursor como un campo de fuerza suave, ondula con el scroll y un haz azul la recorre cada pocos segundos. Las cintas de luz detrás del nombre fluyen y se deforman con el scroll y dos destellos las recorren. En táctil hay menos puntos y responde al toque, al arrastre y al scroll. Arranca con el primer gesto (no pesa en la carga), se pausa con la pestaña oculta y, las cintas, fuera de pantalla. Un regulador baja la calidad por pasos si dibujar cuesta demasiado y, en último caso, devuelve la retícula y las cintas estáticas de CSS. Solo usa colores de la paleta; la CSP no cambia.
+- **Microdetalles.** Cursor normal. Los enlaces del texto se subrayan con un trazo azul que crece desde la izquierda. El botón principal lleva un brillo que sigue al ratón dentro del botón (`scripts/micro.ts`).
+
+### Reglas técnicas
+
+- Solo se animan `transform` y `opacity` (más `clip-path` donde ya se usaba: el hilo y la máscara del logotipo).
+- GSAP, ScrollTrigger y Lenis siguen cargándose con el primer gesto. La apertura funciona sin ellos.
+- Los pins no tapan el foco: el teclado y el lector de pantalla recorren el mismo DOM.
+- Lighthouse debe seguir en 95 o más en las cuatro categorías, en móvil y en escritorio.
+
+### Escala de espaciado
+
+Una sola escala de márgenes verticales, en `:root` de `src/styles/global.css`. Los pasos fluidos se encogen en móvil para que no queden huecos grandes entre secciones.
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--sp-1` a `--sp-3` | 4, 8, 16 px | Huecos pequeños dentro de componentes |
+| `--sp-4` | 24 px | Entre elementos de un bloque |
+| `--sp-5` | 40 px | Entre bloques relacionados (cinta, pie, legal) |
+| `--sp-6` | 64 px | Entre el contenido del Inicio y su línea de datos |
+| `--blk` | 32 a 48 px | Entre bloques de una misma sección y entre casos |
+| `--head` | 32 a 48 px | Bajo el titular de sección |
+| `--sec` | 64 a 104 px | Entre secciones y sobre el pie |
+| `--top` | 104 a 132 px | Bajo la barra: Inicio y cabecera de caso |
+
+Con esta escala la página del Inicio mide 310 px menos en escritorio (1440 px) y 740 px menos en móvil (390 px) que con los 130 px fijos de antes, sin bandas vacías alrededor de los pins de «Cómo trabajo» ni del pie con «Ayman.».

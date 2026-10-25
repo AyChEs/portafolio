@@ -165,10 +165,12 @@ export function boot() {
 
   // Regulador: si dibujar cuesta demasiado (móvil lento, sin GPU), baja de calidad por pasos y, en último
   // caso, devuelve el fondo a la retícula y las cintas estáticas de CSS.
-  let cost = 0, level = 0, lastLevelAt = 0;
+  // Para diagnosticar en equipos sin GPU: sessionStorage.setItem('fieldGov', 'off') desactiva el regulador.
+  let cost = 0, level = 0, lastLevelAt = 0, gov = true;
+  try { gov = sessionStorage.getItem('fieldGov') !== 'off'; } catch { /* sin almacenamiento */ }
   const govern = (ms: number, now: number) => {
     cost += (ms - cost) * 0.1;
-    if (now - lastLevelAt < 1200 || level >= 3) return;
+    if (!gov || now - lastLevelAt < 1200 || level >= 3) return;
     const next = cost > 22 ? level + 1 : cost > 11 && level < 1 ? 1 : level;
     if (next === level) return;
     level = next; lastLevelAt = now;
