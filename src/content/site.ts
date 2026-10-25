@@ -43,7 +43,7 @@ export const UI: Pair<Record<string, string>> = {
     howKicker: '03 · cómo trabajo', howTitle: 'Cómo trabajo', howIntro: 'Lo que hago en cada tarea, sea en un equipo o en un proyecto por mi cuenta.',
     aboutKicker: '04 · sobre mí', aboutTitle: 'Sobre mí', cvOther: 'CV en inglés',
     whereK: '// dónde estoy', whereT: 'Tarragona, España', whereS: 'Remoto en España e internacional, o híbrido en Tarragona y Barcelona.',
-    pathK: '// trayectoria', langsK: '// idiomas',
+    pathK: '// trayectoria', logrosK: '// certificados y voluntariado', langsK: '// idiomas',
     freeKicker: '05 · encargos', freeTitle: '¿Tienes un proyecto',
     freeIntro: 'Ahora mismo busco un puesto como desarrollador. Aun así, si tienes un proyecto concreto que encaje con lo que hago, cuéntamelo y te digo con sinceridad si puedo ayudarte.',
     yes: '// encaja', no: '// no encaja',
@@ -80,7 +80,7 @@ export const UI: Pair<Record<string, string>> = {
     howKicker: '03 · how I work', howTitle: 'How I work', howIntro: 'What I do on every task, whether in a team or on a project of my own.',
     aboutKicker: '04 · about', aboutTitle: 'About me', cvOther: 'CV in Spanish',
     whereK: '// where I am', whereT: 'Tarragona, Spain', whereS: 'Remote in Spain and abroad, or hybrid in Tarragona and Barcelona.',
-    pathK: '// path', langsK: '// languages',
+    pathK: '// path', logrosK: '// certificates and volunteering', langsK: '// languages',
     freeKicker: '05 · freelance work', freeTitle: 'Got a project',
     freeIntro: "Right now I'm looking for a developer role. Even so, if you have a specific project that fits what I do, tell me about it and I'll be honest about whether I can help.",
     yes: '// a good fit', no: '// not a fit',
@@ -147,6 +147,18 @@ export const PATH: Pair<{ when: string; t: string; s: string; now?: boolean }[]>
     { when: '2024–2026', t: 'Higher Diploma in Web Application Development', s: 'Institut Francesc Vidal i Barraquer' },
     { when: '2024', t: 'IT technician intern', s: 'Windows Server, Linux and Office 365' },
     { when: '2022–2024', t: 'Diploma in Computer Systems and Networks', s: 'With honours · 8.6/10' },
+  ],
+};
+
+// Logros: certificados verificables y voluntariado. Solo datos reales; cada uno con su enlace si existe.
+export const LOGROS: Pair<{ when: string; t: string; s: string; href?: string; link?: string }[]> = {
+  es: [
+    { when: 'hoy', t: 'Voluntario en Islamic Relief', s: 'ONG de ayuda humanitaria' },
+    { when: '2025', t: 'Full Stack Web Development', s: 'Amazon, en Coursera', href: 'https://coursera.org/verify/1SUXINCID97O', link: 'Verificar' },
+  ],
+  en: [
+    { when: 'now', t: 'Volunteer at Islamic Relief', s: 'Humanitarian aid charity' },
+    { when: '2025', t: 'Full Stack Web Development', s: 'Amazon, on Coursera', href: 'https://coursera.org/verify/1SUXINCID97O', link: 'Verify' },
   ],
 };
 
