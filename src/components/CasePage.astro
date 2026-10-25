@@ -18,7 +18,7 @@ const sections = [
 ---
 <div class="chead"><div class="wrap">
   <p class="crumb"><a href={`${ROUTES[lang].home}#casos`}>{t.casesTitle}</a> / {c.title[lang].replace(/\.$/, '')}</p>
-  <h1>{c.title[lang].replace(/\.$/, '')}<i>.</i></h1>
+  <h1 style={`view-transition-name:case-title-${c.id}`}>{c.title[lang].replace(/\.$/, '')}<i>.</i></h1>
   <p class="sum">{c.summary[lang]}</p>
   <dl class="meta">
     <div><dt>{t.role}</dt><dd>{c.meta.role[lang]}</dd></div>
@@ -30,8 +30,8 @@ const sections = [
 
 <div class="wrap">
   {c.visual.type === 'diagram'
-    ? <div class="hero-shot diag"><InvoiceDiagram lang={lang} /></div>
-    : <div class="hero-shot"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src={c.visual.src} alt={c.visual.alt[lang]} width="1440" height="900" decoding="async" /></div></div>}
+    ? <div class="hero-shot diag" style={`view-transition-name:case-box-${c.id}`}><InvoiceDiagram lang={lang} /></div>
+    : <div class="hero-shot" style={`view-transition-name:case-box-${c.id}`}><div class="frame" style={`view-transition-name:case-vis-${c.id}`}><div class="bar"><i></i><i></i><i></i></div><img src={c.visual.src} alt={c.visual.alt[lang]} width="1440" height="900" decoding="async" /></div></div>}
 </div>
 
 <div class="wrap"><div class="body">

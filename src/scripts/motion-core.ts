@@ -156,7 +156,8 @@ function cases(wide: boolean) {
   $$('.case').forEach((c) => {
     const mask = $('.reveal', c), vis = $('.vis', c), px = $('.px', c), text = $('.ctext', c);
     if (!mask || !vis) return;
-    const st = { trigger: c, start: 'top 92%', end: 'top 35%', scrub: 0.5 };
+    // Con la máscara abierta del todo, la imagen se puede pulsar (lleva a la página del caso).
+    const st = { trigger: c, start: 'top 92%', end: 'top 35%', scrub: 0.5, onUpdate: (self: ScrollTrigger) => c.classList.toggle('is-open', self.progress > 0.98) };
     gsap.timeline({ scrollTrigger: st })
       .fromTo(mask, { yPercent: 100 }, { yPercent: 0, ease: 'none' }, 0)
       .fromTo(vis, { yPercent: -100 }, { yPercent: 0, ease: 'none' }, 0);

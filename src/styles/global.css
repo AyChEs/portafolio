@@ -417,7 +417,7 @@ img{height:auto}
 /* MOVIMIENTO LIGADO AL SCROLL (scripts/motion-core.ts)
    Sin JavaScript o con «reducir movimiento», todo se queda en su estado final. */
 .reveal{border-radius:22px;overflow:hidden}
-.m-on .reveal{pointer-events:none}
+.m-on .reveal{pointer-events:none}.m-on .case.is-open .reveal{pointer-events:auto}
 .obj{translate:0 var(--fy,0px);rotate:var(--fr,0deg)}
 #como{overflow-x:clip}
 
@@ -521,3 +521,13 @@ img{height:auto}
 .js-open .hero .chip,.js-open .hero .lead,.js-open .hero .cta,.js-open .hero .index,.js-open .hero .proof{
   animation:m-up var(--d-slow) var(--ease-out) backwards;animation-delay:calc(var(--d-open)*.85 + var(--i,0)*var(--step))}
 .js-open .hero .lead{--i:1}.js-open .hero .cta{--i:2}.js-open .hero .index{--i:3}.js-open .hero .proof{--i:4}
+
+/* TRANSICIÓN ENTRE PÁGINAS (View Transitions entre documentos; sin soporte es una navegación normal)
+   La imagen del caso se expande hasta ser la cabecera de su página y el titular viaja a su sitio. */
+@view-transition{navigation:auto}
+::view-transition-group(*){animation-duration:var(--d-page);animation-timing-function:var(--ease-io)}
+::view-transition-old(root),::view-transition-new(root){animation-duration:var(--d-base);animation-timing-function:var(--ease-out)}
+::view-transition-old(*),::view-transition-new(*){height:100%;object-fit:cover}
+.top{view-transition-name:top-bar}
+.vis-link{display:block;border-radius:22px}
+@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}
