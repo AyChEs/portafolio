@@ -5,10 +5,19 @@ dist/
 .vite/
 
 # Local AI tooling (Claude / opencode / etc.) — never commit this
-.agents/
-.claude/
+.agents/*
+!.agents/skills/
+!.agents/product-marketing.md
+.claude/*
+!.claude/skills/
 .copilot/
 .gemini/
 .cursor/
 .aitk/
 .aik/
+.astro/
+.wrangler/
+.dev.vars
+
+# Piezas de Rive: se ignora la salida de la CLI (el .riv que se sirve va en public/rive/)
+rive/*/build/

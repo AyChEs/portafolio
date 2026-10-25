@@ -1,0 +1,67 @@
+---
+import Brand from './Brand.astro';
+import { UI, WHAT_I_DO, PERSON, type Lang } from '../content/site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = UI[lang];
+
+// Cintas de luz detrás del nombre (heredadas de la web anterior), con dos destellos.
+const ribbons = Array.from({ length: 11 }, (_, i) => {
+  const y0 = 120 + i * 20, amp = 24 + i * 3, ph = i * 0.35;
+  const pts: string[] = [];
+  for (let x = -40; x <= 1480; x += 40) pts.push(`${x},${(y0 + amp * Math.sin(x / 260 + ph) + 10 * Math.sin(x / 90 + ph * 2)).toFixed(1)}`);
+  return { d: 'M' + pts.join(' L'), op: (0.16 + 0.05 * (5 - Math.abs(5 - i))).toFixed(2), w: i === 4 || i === 7 ? 2.2 : 1.4, spark: i === 4 || i === 7 ? `s${i}` : '' };
+});
+---
+<script is:inline>
+  // Primera visita de la sesión: se enciende la apertura antes del primer pintado (scripts/brand.ts la ejecuta).
+  try {
+    if (!sessionStorage.getItem('opened') && !location.hash && !scrollY && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-open');
+  } catch (e) {}
+</script>
+<div class="open" aria-hidden="true"></div>
+<canvas id="field" class="field" aria-hidden="true"></canvas>
+<div class="hero">
+  <div class="dots" aria-hidden="true"></div><div class="glow" aria-hidden="true"></div>
+  <svg class="ribbons" viewBox="0 0 1440 380" preserveAspectRatio="none" aria-hidden="true">
+    <defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#1d4ed8"/><stop offset=".5" stop-color="#60a5fa"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient></defs>
+    {ribbons.map((r) => <>
+      <path d={r.d} stroke="url(#rg)" stroke-width={r.w} fill="none" opacity={r.op} />
+      {r.spark && <path class={`spark ${r.spark}`} d={r.d} stroke="#93c5fd" stroke-width="3" fill="none" stroke-linecap="round" pathLength="1000" stroke-dasharray="140 860" />}
+    </>)}
+  </svg>
+  <canvas id="field-ribbons" class="ribbons" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="chip"><b></b>{t.available}</span>
+        <h1><Brand role="hero" label={`Ayman Charoui, ${t.leadStrong.replace('.', '').toLowerCase()}`} /></h1>
+        <p class="lead"><strong>{t.leadStrong}</strong> {t.lead}</p>
+        <div class="cta">
+          <a class="btn p" href="#contacto" data-magnetic>{t.talk}</a>
+          <a class="btn s" href={PERSON.cv[lang]} download>{t.downloadCV} ↓</a>
+          <a class="more" href="#casos">{t.seeProjects} →</a>
+        </div>
+      </div>
+      <aside class="index" aria-label={t.whatIDo.replace('// ', '')}>
+        <span class="k">{t.whatIDo}</span>
+        {WHAT_I_DO[lang].map((w, i) => (
+          <div class="it"><span class="n">{String(i + 1).padStart(2, '0')}</span><span><b>{w.t}</b><small>{w.s}</small></span></div>
+        ))}
+      </aside>
+    </div>
+    <div class="proof"><span>{t.proof1}</span><span>{t.proof2}</span><span>{t.proof3}</span></div>
+  </div>
+</div>
+<script>
+  // El fondo vivo se descarga y arranca con el primer gesto del visitante (como las animaciones de scroll):
+  // así no pesa en la carga. Hasta entonces, y con «reducir movimiento», se ve la retícula y las cintas estáticas de CSS.
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const events = ['pointermove', 'pointerdown', 'touchstart', 'wheel', 'scroll', 'keydown'];
+    const go = () => {
+      events.forEach((e) => removeEventListener(e, go));
+      import('../scripts/field').then((m) => m.boot()).catch(() => {});
+    };
+    if (scrollY > 40) go(); else events.forEach((e) => addEventListener(e, go, { passive: true }));
+  }
+</script>

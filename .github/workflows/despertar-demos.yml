@@ -1,0 +1,30 @@
+# Mantiene despiertas las demos de Render (plan gratuito) en horario laboral, que es cuando
+# las abren reclutadores y entrevistadores. Render duerme un servicio tras 15 minutos sin
+# visitas y tarda un minuto en despertarlo.
+#
+# Por qué solo en horario laboral: el plan gratuito da 750 horas al mes para TODOS los
+# servicios de la cuenta. Dos servicios despiertos 24 h gastarían unas 1.460 horas y Render
+# los suspendería hasta el mes siguiente. De lunes a viernes, de 7:00 a 19:59 UTC
+# (de 8:00 a 21:00 en España), son unas 13 h × 22 días × 2 servicios ≈ 570 horas.
+# Fuera de ese horario las despierta el propio portafolio cuando alguien lo visita
+# (functions/_middleware.ts).
+name: Despertar demos
+
+on:
+  schedule:
+    - cron: '*/10 7-19 * * 1-5'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: CineFlow y Zellige
+        run: |
+          for url in https://cineflow-ufe0.onrender.com/up https://zellige-hotels.onrender.com/api/health; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 120 "$url" || true)
+            echo "$url -> $code"
+          done

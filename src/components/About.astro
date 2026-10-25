@@ -1,0 +1,27 @@
+---
+import Lambda from './Lambda.astro';
+import { UI, BIO, PATH, LOGROS, LANGS, PERSON, type Lang } from '../content/site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = UI[lang];
+---
+<section id="sobre"><div class="wrap">
+  <div class="about">
+    <div class="bio">
+      <span class="k">{t.aboutKicker}</span>
+      <div class="sh" style="margin-bottom:28px"><h2>{t.aboutTitle}<i>.</i></h2></div>
+      {BIO[lang].map((p) => <p set:html={p} />)}
+      <div class="cta"><a class="btn p" href={PERSON.cv[lang]} download>{t.downloadCV}</a><a class="btn s" href={PERSON.cv[lang === 'es' ? 'en' : 'es']} download>{t.cvOther}</a></div>
+    </div>
+    <div class="side">
+      <div class="box place"><div class="globe"><img src="/img/globo.webp" alt="" width="120" height="120" loading="lazy" /></div><div><span class="k">{t.whereK}</span><b>{t.whereT}</b><small>{t.whereS}</small></div></div>
+      <div class="box"><span class="k">{t.pathK}</span>
+        <ul class="tl">{PATH[lang].map((p) => <li class={p.now ? 'now' : ''}><time>{p.when}</time><span>{p.t}<small>{p.s}</small></span></li>)}</ul>
+      </div>
+      <div class="box"><span class="k">{t.logrosK}</span>
+        <ul class="tl">{LOGROS[lang].map((g) => <li><time>{g.when}</time><span>{g.t}<small>{g.s}{g.href && <> · <a href={g.href} target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px" aria-label={`${g.link}: ${g.t} (${lang === 'es' ? 'se abre en una pestaña nueva' : 'opens in a new tab'})`}>{g.link} ↗</a></>}</small></span></li>)}</ul>
+      </div>
+      <div class="box"><span class="k">{t.langsK}</span><div class="langs">{LANGS[lang].map(([c, l]) => <span><b>{c}</b>{l}</span>)}</div></div>
+    </div>
+  </div>
+</div></section>

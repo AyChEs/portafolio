@@ -1,0 +1,7 @@
+GSAP 3.15.0 (gsap, con ScrollTrigger y SplitText)
+Licencia: GreenSock «Standard No Charge License»
+https://gsap.com/standard-license
+
+Desde 2025 todos los plugins de GSAP son gratuitos, también para uso comercial,
+bajo esta licencia. Se distribuye desde el paquete npm `gsap`.
+Copyright (c) GreenSock, Inc. (Webflow). Todos los derechos reservados.
