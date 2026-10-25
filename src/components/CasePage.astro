@@ -24,7 +24,7 @@ const sections = [
     <div><dt>{t.role}</dt><dd>{c.meta.role[lang]}</dd></div>
     <div><dt>{t.year}</dt><dd>{c.meta.year}</dd></div>
     <div><dt>{t.stack}</dt><dd class="chips">{c.tags.map((x) => <span>{x}</span>)}</dd></div>
-    <div><dt>{t.links}</dt><dd>{c.meta.code ? <a href={c.meta.code} target="_blank" rel="noopener">{t.code} ↗</a> : <span class="pend">—</span>}{c.meta.demo && <a href={c.meta.demo} target="_blank" rel="noopener">{t.demo} ↗</a>}</dd></div>
+    <div><dt>{t.links}</dt><dd>{c.meta.code ? <a href={c.meta.code} target="_blank" rel="noopener">{t.code} ↗</a> : <span class="pend">{lang === 'es' ? 'Privado' : 'Private'}</span>}{c.meta.demo && <a href={c.meta.demo} target="_blank" rel="noopener">{t.demo} ↗</a>}</dd></div>
   </dl>
 </div></div>
 

@@ -17,7 +17,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
         <div class="no"><span class="k">{t.no}</span><ul>{f.no.map((x) => <li>{x}</li>)}</ul></div>
       </div>
     </div>
-    <form id="contact-form" method="post" action="/api/contact" novalidate data-ok={t.fOk} data-err={t.fErr} data-sending={t.fSending} data-send={t.fSend} data-email={PERSON.email} data-live={siteKey ? '1' : ''}>
+    <form id="contact-form" method="post" action="/api/contact" novalidate data-ok={t.fOk} data-mail={t.fMail} data-err={t.fErr} data-sending={t.fSending} data-send={t.fSend} data-email={PERSON.email} data-live={siteKey ? '1' : ''}>
       <div class="row2">
         <label>{t.fName}<input name="name" type="text" autocomplete="name" required maxlength="80" /></label>
         <label>{t.fEmail}<input name="email" type="email" autocomplete="email" required maxlength="120" placeholder={t.fEmailPh} /></label>
@@ -34,7 +34,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
       <div class="form-end">
         <span class="sdot" id="form-dot" data-rive="/rive/formulario-ok.riv" data-mode="manual" data-p="0" aria-hidden="true"><i class="fb"></i><canvas></canvas></span>
         <div>
-          <small>{siteKey ? t.fNote : <>{t.fOff} <a href={`mailto:${PERSON.email}`}>{PERSON.email}</a>.</>}</small>
+          <small>{siteKey ? t.fNote : t.fOff}</small>
           <p class="form-status" role="status" aria-live="polite"></p>
         </div>
       </div>
@@ -58,10 +58,20 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
     const status = form.querySelector<HTMLElement>('.form-status')!;
     const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
     if (!form.reportValidity()) return;
-    if (!form.dataset.live) { status.textContent = `${form.dataset.err} ${form.dataset.email}`; return; }
+    // Sin servicio de envío (sin claves de Turnstile y Resend), el mensaje sale por el correo del visitante.
+    const viaMail = () => {
+      const f = new FormData(form), v = (k: string) => String(f.get(k) ?? '').trim();
+      const es = v('lang') !== 'en';
+      const subject = `Portafolio · ${v('kind')} · ${v('name')}`.replace(/[\r\n]+/g, ' ');
+      const body = [`${es ? 'Nombre' : 'Name'}: ${v('name')}`, `${es ? 'Correo' : 'Email'}: ${v('email')}`, `${es ? 'Tipo' : 'Type'}: ${v('kind')}`, `${es ? 'Plazo' : 'When'}: ${v('when')}`, '', v('message')].join('\r\n');
+      status.textContent = `${form.dataset.mail} ${form.dataset.email}`; status.className = 'form-status ok';
+      location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    };
+    if (!form.dataset.live) { viaMail(); return; }
     btn.disabled = true; btn.textContent = form.dataset.sending ?? '';
     try {
       const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+      if (res.status === 503) { viaMail(); return; }
       if (!res.ok) throw new Error(String(res.status));
       status.textContent = form.dataset.ok ?? ''; status.className = 'form-status ok'; form.reset();
       dot('ok');
