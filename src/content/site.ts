@@ -112,16 +112,17 @@ export const WHAT_I_DO: Pair<{ t: string; s: string }[]> = {
   ],
 };
 
-export const HOW: Pair<{ t: string; s: string }[]> = {
+// `rive` es el nombre de la pieza de Rive de cada paso (rive/<nombre>/ y public/rive/<nombre>.riv).
+export const HOW: Pair<{ t: string; s: string; rive: string }[]> = {
   es: [
-    { t: 'Pruebas antes del merge', s: 'Lo que toca permisos o dinero lleva sus tests. Si no está probado, no está terminado.' },
-    { t: 'Cambios pequeños', s: 'Merge requests que se revisan en minutos y se pueden deshacer sin miedo.' },
-    { t: 'Mirar dónde corre', s: 'Cuando algo falla, miro también el entorno, no solo el código. Viene de mis años en sistemas.' },
+    { t: 'Pruebas antes del merge', s: 'Lo que toca permisos o dinero lleva sus tests. Si no está probado, no está terminado.', rive: 'como-pruebas' },
+    { t: 'Cambios pequeños', s: 'Merge requests que se revisan en minutos y se pueden deshacer sin miedo.', rive: 'como-ramas' },
+    { t: 'Mirar dónde corre', s: 'Cuando algo falla, miro también el entorno, no solo el código. Viene de mis años en sistemas.', rive: 'como-entorno' },
   ],
   en: [
-    { t: 'Tests before the merge', s: 'Anything that touches permissions or money ships with its tests. If it is not tested, it is not done.' },
-    { t: 'Small changes', s: 'Merge requests that can be reviewed in minutes and rolled back without fear.' },
-    { t: 'Look at where it runs', s: 'When something breaks, I look at the environment too, not just the code. That comes from my years in systems.' },
+    { t: 'Tests before the merge', s: 'Anything that touches permissions or money ships with its tests. If it is not tested, it is not done.', rive: 'como-pruebas' },
+    { t: 'Small changes', s: 'Merge requests that can be reviewed in minutes and rolled back without fear.', rive: 'como-ramas' },
+    { t: 'Look at where it runs', s: 'When something breaks, I look at the environment too, not just the code. That comes from my years in systems.', rive: 'como-entorno' },
   ],
 };
 
@@ -334,17 +335,17 @@ export const CASES: Case[] = [
       en: 'Roles in Spring Security and role-guarded routes in React, with JWT and refresh tokens that rotate on every use.',
     },
     result: {
-      es: '28 tests en el backend, algunos contra un PostgreSQL real, CI en cada push y demo pública.',
-      en: '28 backend tests, some against a real PostgreSQL, CI on every push and a public demo.',
+      es: '31 pruebas en el backend, algunas contra un PostgreSQL real, axe en la CI y demo pública.',
+      en: '31 backend tests, some against a real PostgreSQL, axe in CI and a public demo.',
     },
-    tags: ['Java 21', 'Spring Boot', 'PostgreSQL', 'React', 'TypeScript', 'Testcontainers'],
+    tags: ['Java 21', 'Spring Boot', 'PostgreSQL', 'React', 'TypeScript', 'Testcontainers', 'axe'],
     visual: {
       type: 'shot',
-      src: '/img/proyectos/zellige-landing.webp',
-      alt: { es: 'Portada de Zellige Hotels', en: 'Zellige Hotels home page' },
+      src: '/img/proyectos/zellige-portada.webp',
+      alt: { es: 'Portada de Zellige Hotels con el titular y la foto en arco de un patio', en: 'Zellige Hotels home page with the headline and an arched photo of a courtyard' },
       extra: [
-        { src: '/img/proyectos/zellige-admin.webp', alt: { es: 'Panel de administración con indicadores', en: 'Admin dashboard with KPIs' } },
-        { src: '/img/proyectos/zellige-detalle.webp', alt: { es: 'Ficha de un hotel', en: 'Hotel detail page' } },
+        { src: '/img/proyectos/zellige-panel.webp', alt: { es: 'Panel de administración con indicadores, ingresos por mes y ocupación', en: 'Admin dashboard with KPIs, monthly revenue and occupancy' } },
+        { src: '/img/proyectos/zellige-hoteles.webp', alt: { es: 'Los tres hoteles en tarjetas que entran con el scroll', en: 'The three hotels as cards that enter on scroll' } },
       ],
     },
     meta: {
@@ -357,10 +358,12 @@ export const CASES: Case[] = [
       es: [
         'Empezó como un proyecto de clase del ciclo DAW. Después lo reescribí entero por mi cuenta para aprender lo que quería de verdad: Spring Boot en el backend, React en el frontend, autenticación real, restricciones en la base de datos y tests contra un PostgreSQL de verdad.',
         'Es lo que más me enseñó sobre roles y permisos: qué roles hay y qué puede hacer cada uno.',
+        'Después le di un diseño propio con movimiento ligado al scroll, ordené el frontend y lo hice accesible. El objetivo es WCAG 2.2 AA y lo comprueba axe en la CI.',
       ],
       en: [
         'It started as a class project in my web development diploma. I then rewrote it from scratch on my own to learn what I really wanted: Spring Boot on the backend, React on the frontend, real authentication, database constraints and tests against a real PostgreSQL.',
         'It is the project that taught me most about roles and permissions: which roles exist and what each of them can do.',
+        'I later gave it its own design with scroll-linked motion, tidied the frontend and made it accessible. The target is WCAG 2.2 AA and axe checks it in CI.',
       ],
     },
     decisions: {
@@ -368,16 +371,20 @@ export const CASES: Case[] = [
         { t: 'Cuatro perfiles, tres de personal', what: 'Administración, gerencia y recepción en el ERP, y cliente en su área. Las reglas viven en el backend y el frontend solo enseña lo que cada rol puede usar.', why: 'Si la regla solo estuviera en la interfaz, bastaría con llamar a la API para saltársela.' },
         { t: 'Refresh tokens que rotan', what: 'El token de acceso vive en memoria y el de refresco cambia en cada uso. Si uno se usa dos veces, se revoca toda la familia.', why: 'Mi primera versión emitía un token largo y ya está. Al leer OWASP con calma vi que la rotación con detección de reutilización era barata y mucho más segura.' },
         { t: 'Que la base de datos impida las reservas solapadas', what: 'El servicio rechaza reservas que se pisan y, además, PostgreSQL tiene una restricción EXCLUDE USING gist como red de seguridad.', why: 'Mis dos primeras comprobaciones a mano fallaban: una con el día de salida y otra con las zonas horarias. La tercera la hace la base de datos y el test es una línea.' },
+        { t: 'Accesibilidad comprobada en cada PR', what: 'Un trabajo de la CI recorre 18 pantallas a 390 y 1440 px con axe y mide el desplazamiento horizontal. Falla si hay violaciones serias o críticas.', why: 'Una revisión a mano al final se olvida. Con la prueba en cada PR, una regresión se ve el mismo día.' },
+        { t: 'Datos de demo que no caducan', what: 'Un proceso opcional renueva las reservas, facturas y tareas de demo para que el panel no muestre 0 € ni 0 reservas. Los clientes de demo no tienen cuenta y sus reservas no envían correos. Está apagado por defecto y se activa con una variable de entorno.', why: 'Un panel vacío no enseña lo que hace el ERP, y las fechas escritas a mano caducan.' },
       ],
       en: [
         { t: 'Four profiles, three of them staff', what: 'Admin, manager and receptionist in the ERP, and guest in their own area. The rules live in the backend; the frontend only shows what each role can use.', why: 'If the rule only lived in the interface, calling the API directly would bypass it.' },
         { t: 'Rotating refresh tokens', what: 'The access token lives in memory and the refresh token changes on every use. If one is used twice, the whole token family is revoked.', why: 'My first version issued a long-lived token and called it done. Reading OWASP properly showed me that rotation with reuse detection was cheap and far safer.' },
         { t: 'Let the database block overlapping bookings', what: 'The service rejects overlapping bookings and PostgreSQL also has an EXCLUDE USING gist constraint as a safety net.', why: 'My first two hand-written checks were wrong: one on the checkout day, one on time zones. The third time I let the database do it, and the test is one line.' },
+        { t: 'Accessibility checked on every PR', what: 'A CI job walks 18 screens at 390 and 1440 px with axe and measures horizontal overflow. It fails on serious or critical violations.', why: 'A manual review at the end gets forgotten. With the check on every PR, a regression shows up the same day.' },
+        { t: 'Demo data that does not expire', what: 'An optional job refreshes the demo bookings, invoices and tasks so the dashboard does not show 0 € or 0 bookings. Demo guests have no account and their bookings send no emails. It is off by default and is switched on with an environment variable.', why: 'An empty dashboard does not show what the ERP does, and hand-written dates expire.' },
       ],
     },
     outcome: {
-      es: ['28 tests en el backend, incluidos tests con Testcontainers contra PostgreSQL.', 'CI en cada push y despliegue gratuito con demo pública.'],
-      en: ['28 backend tests, including Testcontainers tests against PostgreSQL.', 'CI on every push and a free deployment with a public demo.'],
+      es: ['31 pruebas en el backend, incluidas pruebas con Testcontainers contra PostgreSQL.', 'axe en la CI: 18 pantallas a 390 y 1440 px, sin violaciones serias ni críticas.', 'Despliegue gratuito con demo pública.'],
+      en: ['31 backend tests, including Testcontainers tests against PostgreSQL.', 'axe in CI: 18 screens at 390 and 1440 px, with no serious or critical violations.', 'Free deployment with a public demo.'],
     },
     learned: {
       es: ['La rotación de refresh tokens no es opcional.', 'Una restricción en la base de datos vale más que tres comprobaciones a mano.', 'TanStack Query cambió mi forma de pensar el estado del frontend.'],
@@ -402,15 +409,23 @@ export const CASES: Case[] = [
       en: 'Minutes go by between choosing a seat and finishing the payment. If someone else picks it in that window, both could buy it.',
     },
     decision: {
-      es: 'Bloqueo temporal de la butaca al elegirla y confirmación dentro de una transacción con bloqueo pesimista.',
-      en: 'A temporary seat hold when it is picked, and confirmation inside a transaction with pessimistic locking.',
+      es: 'Bloqueo temporal de la butaca al elegirla, confirmación en una transacción con bloqueo pesimista y pago con Stripe que confirma un webhook firmado.',
+      en: 'A temporary seat hold when it is picked, confirmation in a transaction with pessimistic locking, and Stripe payments confirmed by a signed webhook.',
     },
     result: {
-      es: '38 tests, incluidos los de condiciones de carrera: no se puede vender la misma butaca dos veces.',
-      en: '38 tests, including race-condition tests: the same seat cannot be sold twice.',
+      es: '76 pruebas con PHPUnit, incluidas las de condiciones de carrera y las del pago: no se puede vender la misma butaca dos veces.',
+      en: '76 PHPUnit tests, including race-condition and payment tests: the same seat cannot be sold twice.',
     },
     tags: ['PHP 8.4', 'Laravel 12', 'MySQL', 'Stripe', 'JavaScript', 'PHPUnit'],
-    visual: { type: 'shot', src: '/img/proyectos/cineflow.webp', alt: { es: 'Cartelera de CineFlow', en: 'CineFlow listings page' } },
+    visual: {
+      type: 'shot',
+      src: '/img/proyectos/cineflow-portada.webp',
+      alt: { es: 'Portada de CineFlow con la película en cartelera y el botón para ver sesiones', en: 'CineFlow home page with the featured film and a button to see showtimes' },
+      extra: [
+        { src: '/img/proyectos/cineflow-butacas.webp', alt: { es: 'Mapa de butacas con estados por forma y texto y la cuenta atrás del bloqueo', en: 'Seat map with states shown by shape and text, and the hold countdown' } },
+        { src: '/img/proyectos/cineflow-pago.webp', alt: { es: 'Cómo se compra: pago con Stripe en modo de prueba y entrada con código QR', en: 'How to buy: Stripe payment in test mode and a ticket with a QR code' } },
+      ],
+    },
     meta: {
       role: { es: 'Proyecto final de ciclo en equipo, ampliado por mi cuenta', en: 'Team final project, extended on my own' },
       year: '2025',
@@ -419,29 +434,59 @@ export const CASES: Case[] = [
     },
     context: {
       es: [
-        'Fue el proyecto final del ciclo, hecho en equipo con Ismael Achamrouk y Danna Guevara. Después lo retomé por mi cuenta para modernizarlo: despliegue, CI y pago con Stripe.',
-        'Quería un proyecto donde la concurrencia fuera de verdad, no un listado de películas.',
+        'Fue el proyecto final del ciclo, hecho en equipo con Ismael Achamrouk y Danna Guevara. Después lo retomé por mi cuenta para modernizarlo: despliegue, CI, el pago con Stripe, un mapa de butacas accesible y un diseño nuevo.',
+        'La confirmación de la compra, con su bloqueo pesimista, sigue como la dejó el equipo. Quería un proyecto donde la concurrencia fuera de verdad, no un listado de películas.',
       ],
       en: [
-        'It was the final project of my diploma, built as a team with Ismael Achamrouk and Danna Guevara. I later picked it up on my own to modernise it: deployment, CI and Stripe payments.',
-        'I wanted a project where concurrency was a real problem, not just a list of films.',
+        'It was the final project of my diploma, built as a team with Ismael Achamrouk and Danna Guevara. I later picked it up on my own to modernise it: deployment, CI, Stripe payments, an accessible seat map and a new design.',
+        'The purchase confirmation, with its pessimistic locking, stays as the team left it. I wanted a project where concurrency was a real problem, not just a list of films.',
       ],
     },
     decisions: {
       es: [
         { t: 'Retener la butaca al elegirla', what: 'Al seleccionar una butaca se crea un bloqueo temporal de 8 minutos ligado a esa persona. El resto la ve ocupada al momento gracias a un sondeo por AJAX.' },
         { t: 'Confirmar con bloqueo pesimista', what: 'La compra se confirma dentro de una transacción con SELECT … FOR UPDATE (lockForUpdate) y hasta 3 intentos. Dos compras simultáneas se ordenan y la segunda falla de forma limpia.' },
-        { t: 'Precio según el tipo de entrada', what: 'El precio parte del precio base de la sesión y aplica un factor por tipo: adulto, reducida, familiar y mayor de 65.' },
+        { t: 'Precio según el tipo de entrada', what: 'El precio parte del precio base de la sesión y aplica un factor por tipo: adulto, reducida, familiar y mayor de 65. Se calcula en el servidor, en céntimos enteros: el navegador no envía importes.' },
+        { t: 'Bloqueos que valen igual para invitados y para cuentas', what: 'Una butaca bloqueada por un invitado aparecía libre para quien tenía sesión iniciada, y esa persona podía quitársela. Ahora el bloqueo se respeta para las dos.', why: 'Un bloqueo que solo vale para parte de las personas no protege la butaca.' },
+        { t: 'Que confirme Stripe, no el navegador', what: 'El pago es Stripe Checkout en modo de pruebas. La reserva no la confirma el navegador al volver: la confirma un webhook firmado. Cada evento se procesa una sola vez, aunque llegue repetido.', why: 'Si la reserva dependiera de la vuelta del navegador, cerrar la pestaña dejaría un cobro sin reserva.' },
+        { t: 'Butacas retenidas mientras se paga', what: 'Mientras alguien paga, sus butacas siguen bloqueadas: el bloqueo se amplía hasta que caduca el pago. Si el pago caduca, falla o se cancela, las butacas se liberan al momento.', why: 'Sin ampliar el bloqueo, otra persona podría quedarse la butaca durante el pago. Sin liberarla, un pago abandonado dejaría la butaca ocupada.' },
+        { t: 'Reembolso si otra compra gana', what: 'Si otra compra se queda la butaca un instante antes, el pago se reembolsa solo.', why: 'La butaca ya está vendida. Devolver el dinero sin que nadie lo pida evita un cobro sin entrada.' },
+        { t: 'Un mapa de butacas que se usa con el teclado', what: 'El mapa es una rejilla que se maneja con flechas, Inicio, Fin y Espacio. Cada butaca dice su estado con forma, icono y texto, no solo con color. Un lector de pantalla anuncia qué butaca eliges y cuántas te faltan, y la cuenta atrás del bloqueo se anuncia a los 5, 2 y 1 minutos y a los 30 segundos.', why: 'Si el mapa solo funcionara con ratón o con color, parte de las personas no podría elegir butaca.' },
       ],
       en: [
         { t: 'Hold the seat when it is picked', what: 'Picking a seat creates an 8-minute temporary hold tied to that person. Everyone else sees it as taken straight away, thanks to AJAX polling.' },
         { t: 'Confirm with pessimistic locking', what: 'The purchase is confirmed inside a transaction with SELECT … FOR UPDATE (lockForUpdate) and up to 3 attempts. Two simultaneous purchases are serialised and the second one fails cleanly.' },
-        { t: 'Price by ticket type', what: 'The price starts from the session base price and applies a factor per type: adult, reduced, family and over-65.' },
+        { t: 'Price by ticket type', what: 'The price starts from the session base price and applies a factor per type: adult, reduced, family and over-65. It is calculated on the server, in whole cents: the browser sends no amounts.' },
+        { t: 'Holds that work the same for guests and accounts', what: 'A seat held by a guest showed as free to a signed-in user, who could take it. Now the hold is respected for both.', why: 'A hold that only counts for some people does not protect the seat.' },
+        { t: 'Stripe confirms, not the browser', what: 'Payment is Stripe Checkout in test mode. The booking is not confirmed when the browser comes back: a signed webhook confirms it. Each event is processed once, even if it arrives twice.', why: 'If the booking depended on the browser coming back, closing the tab would leave a charge with no booking.' },
+        { t: 'Seats held while paying', what: 'While someone pays, their seats stay held: the hold is extended until the payment expires. If the payment expires, fails or is cancelled, the seats are released straight away.', why: 'Without extending the hold, someone else could take the seat during payment. Without releasing it, an abandoned payment would leave the seat taken.' },
+        { t: 'Refund if another purchase wins', what: 'If another purchase takes the seat an instant earlier, the payment is refunded automatically.', why: 'The seat is already sold. Returning the money without being asked avoids a charge with no ticket.' },
+        { t: 'A seat map you can use with the keyboard', what: 'The map is a grid you drive with the arrow keys, Home, End and Space. Each seat shows its state with shape, icon and text, not colour alone. A screen reader announces which seat you pick and how many you have left, and the hold countdown is announced at 5, 2 and 1 minutes and at 30 seconds.', why: 'If the map only worked with a mouse or with colour, some people could not pick a seat.' },
       ],
     },
     outcome: {
-      es: ['38 tests con PHPUnit, incluidos los de condiciones de carrera y caducidad de los bloqueos.', 'Entradas con código QR firmado. El pago con Stripe funciona en modo de pruebas y aún lo estoy ajustando.'],
-      en: ['38 PHPUnit tests, including race-condition and hold-expiry tests.', 'Tickets with signed QR codes. Stripe payment runs in test mode and I am still polishing it.'],
+      es: [
+        '76 pruebas con PHPUnit (eran 38), ninguna saltada, incluidas las de condiciones de carrera, caducidad de los bloqueos y webhook con firma inválida o evento repetido.',
+        'Dos pruebas de navegador en cada PR: una con axe recorre 13 pantallas a 390 y 1440 px y otra maneja el mapa de butacas con el teclado. Lighthouse móvil da 100 en accesibilidad en portada, cartelera y ficha.',
+        'Entradas con código QR firmado. Sin claves de Stripe, la demo usa un pago simulado.',
+      ],
+      en: [
+        '76 PHPUnit tests (up from 38), none skipped, including race conditions, hold expiry and a webhook with an invalid signature or a repeated event.',
+        'Two browser tests on every PR: one with axe walks 13 screens at 390 and 1440 px and the other drives the seat map with the keyboard. Mobile Lighthouse gives 100 for accessibility on the home page, listings and film page.',
+        'Tickets with signed QR codes. Without Stripe keys, the demo uses a simulated payment.',
+      ],
+    },
+    learned: {
+      es: [
+        'Un pago tiene más estados que «pagado» y «no pagado»: abandonado, caducado, repetido y llegado tarde. Los dos fallos que salieron en la revisión final estaban en esos bordes.',
+        'Un webhook puede llegar dos veces. Si no es idempotente, la segunda vez tiene un coste.',
+        'Soltar una butaca un solo instante basta para que otra persona se la quede.',
+      ],
+      en: [
+        'A payment has more states than paid and not paid: abandoned, expired, repeated and late. The two bugs the final review found were in those edges.',
+        'A webhook can arrive twice. If it is not idempotent, the second time has a cost.',
+        'Releasing a seat for a single instant is enough for someone else to take it.',
+      ],
     },
   },
 ];
