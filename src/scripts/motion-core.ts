@@ -4,12 +4,16 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
+import { registerEases, tokens } from './tokens';
+import { scramble } from './scramble';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const $ = <T extends Element = HTMLElement>(s: string, root: ParentNode = document) => root.querySelector<T>(s);
 const $$ = <T extends Element = HTMLElement>(s: string, root: ParentNode = document) => [...root.querySelectorAll<T>(s)];
-const EASE = 'expo.out';
+registerEases();
+const T = tokens();
+const EASE = 'out';
 
 export function init() {
   const root = document.documentElement;
@@ -32,7 +36,7 @@ export function init() {
 
       // Lo que está por debajo del Inicio se prepara al primer gesto (scroll, rueda, toque o tecla),
       // en tareas cortas: así la carga de la página no paga el coste de partir textos y medir.
-      const later: (() => unknown)[] = [headings, reveals, () => cases(wide), stack, () => how(wide), () => desk(wide), tape, footer];
+      const later: (() => unknown)[] = [headings, reveals, () => cases(wide), stack, () => how(wide), () => desk(wide), tape, footer, labels];
       const undo: (() => void)[] = [];
       let alive = true, started = false;
       const events = ['scroll', 'wheel', 'touchstart', 'keydown', 'pointerdown'];
@@ -103,7 +107,7 @@ function headings() {
     const split = SplitText.create(el, { type: 'lines', mask: 'lines', linesClass: 'ln', aria: 'none' });
     // Al terminar se deshace la división: si cambia el ancho, el texto vuelve a partirse solo.
     const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 88%', once: true }, onComplete: () => split.revert() });
-    tl.from(split.lines, { yPercent: 110, duration: 1.05, ease: EASE, stagger: 0.08 });
+    tl.from(split.lines, { yPercent: 110, duration: T.brand, ease: EASE, stagger: T.step + 0.01 });
     const dot = $('i', el);
     if (dot) tl.from(dot, { scale: 0, opacity: 0, transformOrigin: '50% 80%', duration: 0.7, ease: 'back.out(3)' }, '-=0.45');
   });
@@ -141,7 +145,7 @@ function reveals() {
     $$(box).forEach((b) => {
       const items = $$(sel, b);
       if (!items.length) return;
-      gsap.from(items, { y: 28, opacity: 0, duration: 0.9, ease: EASE, stagger: 0.07, scrollTrigger: { trigger: b, start: 'top 85%', once: true } });
+      gsap.from(items, { y: 28, opacity: 0, duration: T.slow, ease: EASE, stagger: T.step, scrollTrigger: { trigger: b, start: 'top 85%', once: true } });
     });
   }
 }
@@ -266,6 +270,17 @@ function footer() {
   const gh = () => g.offsetHeight;
   gsap.fromTo('.g-tile:not(.g2)', { y: () => gh() * 0.55, rotate: 22 }, { y: 0, rotate: 8, ease: 'none', scrollTrigger: { ...st, invalidateOnRefresh: true } });
   gsap.fromTo('.g-tile.g2', { y: () => gh() * 0.2, rotate: -30 }, { y: () => -gh() * 0.12, rotate: -12, ease: 'none', scrollTrigger: { ...st, invalidateOnRefresh: true } });
+}
+
+// Etiquetas mono que se descifran al entrar. Las que ya están a la vista al arrancar se quedan como están.
+function labels() {
+  const groups = new Map<Element, number>();
+  $$('.k, .dl dt, .d dt, .meta dt').forEach((el) => {
+    if (el.children.length || el.getBoundingClientRect().top < innerHeight * 0.92) return;
+    const n = groups.get(el.parentElement!) ?? 0;
+    groups.set(el.parentElement!, n + 1);
+    ScrollTrigger.create({ trigger: el, start: 'top 92%', once: true, onEnter: () => scramble(el, T.scramble, n * T.step) });
+  });
 }
 
 // Botones magnéticos: el principal y «Hablemos» siguen un poco al puntero.

@@ -53,6 +53,7 @@ const beacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
     <slot />
     <script>import '../scripts/motion';</script>
     <script>import '../scripts/rive';</script>
+    <script>import '../scripts/micro';</script>
     {beacon && (
       <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: beacon })}></script>
     )}
