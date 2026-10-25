@@ -8,6 +8,7 @@ const c = CASES[index];
 const prev = CASES[(index + CASES.length - 1) % CASES.length];
 const next = CASES[(index + 1) % CASES.length];
 const href = (x: (typeof CASES)[number]) => `${ROUTES[lang].cases}${x.slug[lang]}/`;
+const shotGroups = c.decisions[lang].flatMap((d, i) => (d.shots?.length ? [{ n: String(i + 1).padStart(2, '0'), t: d.t, wide: d.shots.filter((x) => !x.phone), phones: d.shots.filter((x) => x.phone) }] : []));
 const sections = [
   { id: 'contexto', label: t.context },
   { id: 'problema', label: lang === 'es' ? 'El problema' : 'The problem' },
@@ -43,10 +44,29 @@ const sections = [
       <div class="dec">
         {c.decisions[lang].map((d, i) => (
           <div class="d"><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{d.t}</h3>
-            <dl><div><dt>{t.what}</dt><dd>{d.what}</dd></div>{d.why && <div><dt>{t.why}</dt><dd>{d.why}</dd></div>}</dl></div>
+            {(d.problem || d.what || d.why || d.detail || d.check || d.review) && <dl>
+              {d.problem && <div><dt>{t.problem}</dt><dd>{d.problem}</dd></div>}
+              {d.what && <div><dt>{d.problem ? t.decision : t.what}</dt><dd>{d.what}</dd></div>}
+              {d.why && <div><dt>{t.why}</dt><dd>{d.why}</dd></div>}
+              {d.detail && <div><dt>{t.detail}</dt><dd>{d.detail}</dd></div>}
+              {d.check && <div><dt>{t.check}</dt><dd>{d.check}</dd></div>}
+              {d.review && <div><dt>{t.review}</dt><dd>{d.review}</dd></div>}
+            </dl>}
+            {d.items && <ul class="out">{d.items.map((x) => <li>{x}</li>)}</ul>}</div>
         ))}
       </div>
     </section>
+    {shotGroups.length > 0 && (
+      <section class="extra shots"><span class="k">// {t.shots.toLowerCase()}</span><h2>{t.shots}<i>.</i></h2>
+        {shotGroups.map((g) => (
+          <div class="grp"><h3 class="sub">{g.n} · {g.t}</h3>
+            {[g.wide, g.phones].filter((l) => l.length).map((list, k) => (
+              <div class={k === 1 || list[0].phone ? 'sg phones' : 'sg'}>{list.map((x) => <figure class={x.phone ? 'fig phone' : 'fig'}><img src={x.src} alt={x.alt[lang]} width={x.w} height={x.h} loading="lazy" decoding="async" /><figcaption>{x.alt[lang]}</figcaption></figure>)}</div>
+            ))}
+          </div>
+        ))}
+      </section>
+    )}
     {c.visual.type === 'shot' && c.visual.extra && (
       <section class="extra">{c.visual.extra.map((x) => <figure class="fig"><img src={x.src} alt={x.alt[lang]} width="1440" height="900" loading="lazy" decoding="async" /><figcaption>{x.alt[lang]}</figcaption></figure>)}</section>
     )}

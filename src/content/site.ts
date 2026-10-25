@@ -31,9 +31,9 @@ export const UI: Pair<Record<string, string>> = {
     leadStrong: 'Desarrollador full-stack.',
     lead: 'Construyo aplicaciones web completas, del backend a la interfaz, y cuido especialmente lo que no puede fallar.',
     whatIDo: '// lo que hago',
-    proof1: 'Código en producción desde 2025', proof2: '3 casos, 2 con código y demo públicos', proof3: 'Trabajo en ES · CA · AR · EN',
+    proof1: 'Código en producción desde 2025', proof2: '4 casos, 2 con código y demo públicos', proof3: 'Trabajo en ES · CA · AR · EN',
     casesKicker: '01 · proyectos', casesTitle: 'Casos',
-    casesIntro: 'Tres proyectos con el problema, lo que decidí y por qué. Cada uno tiene su página con el detalle.',
+    casesIntro: 'Cuatro proyectos con el problema, lo que decidí y por qué. Cada uno tiene su página con el detalle.',
     problem: 'problema', decision: 'decisión', result: 'resultado',
     readCase: 'Leer el caso', code: 'Código', demo: 'Demo',
     stackKicker: '02 · stack', stackTitle: 'Stack',
@@ -56,6 +56,7 @@ export const UI: Pair<Record<string, string>> = {
     legal: 'Aviso legal y privacidad', home: 'Inicio', allCases: 'Todos los casos', prevCase: 'caso anterior', nextCase: 'siguiente caso',
     context: 'Contexto', decisions: 'Lo que decidí, y por qué', learned: 'Qué aprendí', different: 'Qué haría distinto',
     role: 'rol', year: 'año', stack: 'stack', links: 'enlaces', why: 'por qué', what: 'qué',
+    detail: 'detalle técnico', check: 'comprobación', review: 'revisión', shots: 'Capturas',
     skip: 'Saltar al contenido', langSwitch: 'English',
   },
   en: {
@@ -68,9 +69,9 @@ export const UI: Pair<Record<string, string>> = {
     leadStrong: 'Full-stack developer.',
     lead: 'I build complete web applications, from the backend to the interface, and I take special care with the parts that cannot fail.',
     whatIDo: '// what I do',
-    proof1: 'Code in production since 2025', proof2: '3 case studies, 2 with public code and demo', proof3: 'I work in ES · CA · AR · EN',
+    proof1: 'Code in production since 2025', proof2: '4 case studies, 2 with public code and demo', proof3: 'I work in ES · CA · AR · EN',
     casesKicker: '01 · projects', casesTitle: 'Case studies',
-    casesIntro: 'Three projects: the problem, what I decided and why. Each one has its own page with the details.',
+    casesIntro: 'Four projects: the problem, what I decided and why. Each one has its own page with the details.',
     problem: 'problem', decision: 'decision', result: 'result',
     readCase: 'Read the case', code: 'Code', demo: 'Demo',
     stackKicker: '02 · stack', stackTitle: 'Stack',
@@ -93,6 +94,7 @@ export const UI: Pair<Record<string, string>> = {
     legal: 'Legal notice & privacy', home: 'Home', allCases: 'All case studies', prevCase: 'previous case', nextCase: 'next case',
     context: 'Context', decisions: 'What I decided, and why', learned: 'What I learned', different: "What I'd do differently",
     role: 'role', year: 'year', stack: 'stack', links: 'links', why: 'why', what: 'what',
+    detail: 'technical detail', check: 'how I checked', review: 'review', shots: 'Screenshots',
     skip: 'Skip to content', langSwitch: 'Español',
   },
 };
@@ -223,6 +225,11 @@ export const KEYBOARD: Key[][] = [
 ];
 
 // Casos. `slug` cambia por idioma para que cada URL esté en su idioma.
+// Captura dentro de una decisión. `phone` las agrupa en una fila de pantallas de móvil.
+export type Shot = { src: string; alt: Pair<string>; w: number; h: number; phone?: boolean };
+// `what` es lo que hice; el resto de campos son opcionales (los casos antiguos solo usan `what` y `why`).
+export type Decision = { t: string; problem?: string; what?: string; why?: string; detail?: string; check?: string; review?: string; items?: string[]; shots?: Shot[] };
+
 export type Case = {
   id: string;
   slug: Pair<string>;
@@ -236,11 +243,30 @@ export type Case = {
   visual: { type: 'diagram' } | { type: 'shot'; src: string; alt: Pair<string>; extra?: { src: string; alt: Pair<string> }[] };
   meta: { role: Pair<string>; year: string; code?: string; demo?: string };
   context: Pair<string[]>;
-  decisions: Pair<{ t: string; what: string; why?: string }[]>;
+  decisions: Pair<Decision[]>;
   outcome: Pair<string[]>;
   learned?: Pair<string[]>;
   different?: Pair<string[]>;
 };
+
+// Capturas del caso LaComu: sirven igual en español y en inglés (el texto alternativo lleva los dos idiomas).
+const SHOTS_PUBLIC: Shot[] = [
+  { src: '/img/proyectos/lacomu-sobre.webp', w: 1440, h: 900, alt: { es: 'Página Sobre de LaComu con su propia cabecera flotante y el hero verde con la ilustración del barrio', en: 'LaComu About page with its own floating header and the green hero with the neighbourhood illustration' } },
+];
+const SHOTS_SCENE: Shot[] = [
+  { src: '/img/proyectos/lacomu-escena-1.webp', w: 1140, h: 600, alt: { es: 'Escena del barrio, estado 1: la manzana de edificios con vecinos alrededor', en: 'Neighbourhood scene, state 1: the city block with neighbours around it' } },
+  { src: '/img/proyectos/lacomu-escena-2.webp', w: 1140, h: 600, alt: { es: 'Escena del barrio, estado 2: hilos que unen a vecinos, entidades y administración', en: 'Neighbourhood scene, state 2: threads joining neighbours, organisations and the administration' } },
+  { src: '/img/proyectos/lacomu-escena-3.webp', w: 1140, h: 600, alt: { es: 'Escena del barrio, estado 3: el logo de tres nodos', en: 'Neighbourhood scene, state 3: the three-node logo' } },
+  { src: '/img/proyectos/lacomu-hero-movil.webp', w: 585, h: 1266, phone: true, alt: { es: 'Portada de LaComu en el móvil: cabecera compacta, hero verde con el titular y los botones', en: 'LaComu home page on mobile: compact header, green hero with the headline and the buttons' } },
+  { src: '/img/proyectos/lacomu-escena-movil.webp', w: 585, h: 555, phone: true, alt: { es: 'La escena del barrio en el móvil, con los tres grupos unidos por el trazo del logo', en: 'The neighbourhood scene on mobile, with the three groups joined by the logo stroke' } },
+];
+const SHOTS_A11Y: Shot[] = [
+  { src: '/img/proyectos/lacomu-entidad.webp', w: 1184, h: 505, alt: { es: 'Ficha de una entidad con su cabecera, su estado de verificación y la información de contacto (teléfono y correo difuminados)', en: 'Organisation detail page with its header, verification status and contact information (phone and email blurred)' } },
+];
+const SHOTS_MOBILE: Shot[] = [
+  { src: '/img/proyectos/lacomu-actividades-movil.webp', w: 585, h: 1129, phone: true, alt: { es: 'Lista de actividades en el móvil, en filas compactas con unas cinco por pantalla', en: 'Activities list on mobile, in compact rows with about five per screen' } },
+  { src: '/img/proyectos/lacomu-mapa-movil.webp', w: 585, h: 1174, phone: true, alt: { es: 'Mapa en el móvil con una sola barra arriba, la leyenda de capas y el botón de filtros', en: 'Map on mobile with a single bar on top, the layers legend and the filters button' } },
+];
 
 export const CASES: Case[] = [
   {
@@ -475,6 +501,136 @@ export const CASES: Case[] = [
         'A payment has more states than paid and not paid: abandoned, expired, repeated and late. The two bugs the final review found were in those edges.',
         'A webhook can arrive twice. If it is not idempotent, the second time has a cost.',
         'Releasing a seat for a single instant is enough for someone else to take it.',
+      ],
+    },
+  },
+  {
+    id: 'lacomu',
+    slug: { es: 'lacomu', en: 'lacomu' },
+    kicker: { es: 'caso 04 · Plataforma comunitaria · LaComu, ganadora del Premio Princesa de Girona', en: 'case 04 · Community platform · LaComu, winner of the Princess of Girona Award' },
+    title: { es: 'Una web que se parece a su comunidad.', en: 'A website that looks like its community.' },
+    summary: {
+      es: 'Mejora del diseño de la parte pública y de la experiencia en el móvil de LaComu, plataforma comunitaria de Barcelona, sin tocar logo, textos, rutas ni backend.',
+      en: 'A redesign of the public side and the mobile experience of LaComu, a community platform in Barcelona, without touching the logo, copy, routes or backend.',
+    },
+    problem: {
+      es: 'La presentación y la app vivían en la misma carcasa, la marca apenas se veía y había 39 fallos de accesibilidad. En el móvil, el mapa y las listas costaban de usar.',
+      en: 'The public pages and the app shared one shell, the brand barely showed and there were 39 accessibility failures. On mobile, the map and the lists were hard to use.',
+    },
+    decision: {
+      es: 'Separé la presentación de la app, rediseñé portada, Sobre y Contacte alrededor del logo de tres nodos y arreglé la accesibilidad y el uso en el móvil sin tocar rutas, textos ni backend.',
+      en: 'I split the public pages from the app, redesigned the home page, About and Contact around the three-node logo, and fixed accessibility and mobile use without touching routes, copy or backend.',
+    },
+    result: {
+      es: '0 fallos de accesibilidad en 7 páginas, 6 idiomas completos y los cambios integrados en su repositorio con pull requests revisables. Hoy está desplegado en su entorno de pruebas.',
+      en: '0 accessibility failures across 7 pages, 6 complete languages and the changes merged into their repository through reviewable pull requests. It is now deployed in their test environment.',
+    },
+    tags: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'GSAP', 'MapLibre', 'Vitest', 'axe', 'Playwright'],
+    visual: {
+      type: 'shot',
+      src: '/img/proyectos/lacomu-portada.webp',
+      alt: { es: 'Portada de LaComu con la cabecera flotante y el hero verde con el mapa del barrio', en: 'LaComu home page with the floating header and the green hero with the neighbourhood map' },
+    },
+    meta: {
+      role: { es: 'Diseño y desarrollo front-end de la mejora, de la auditoría a la entrega', en: 'Front-end design and development of the improvement, from audit to delivery' },
+      year: '2026',
+    },
+    context: {
+      es: [
+        'LaComu es una plataforma de Barcelona, ganadora del Premio Princesa de Girona Social 2026, que conecta a vecinos, entidades y administración en un mapa del barrio. El equipo ya tenía la app funcionando; me pidieron mejorar el diseño de la parte pública y la experiencia en el móvil antes de una reunión con la dirección. Trabajé sobre una copia de su frontend y entregué los cambios por pull requests a su repositorio.',
+        'Mi papel: diseño y desarrollo front-end de la mejora, de la auditoría a la entrega. Duración: octubre de 2026.',
+        'Límites fijos: el logo de tres nodos, el verde de marca, los textos y las rutas no se tocan. El proyecto es de LaComu: no publico su código y aquí solo cuento mi contribución.',
+      ],
+      en: [
+        'LaComu is a Barcelona platform, winner of the 2026 Princess of Girona Social Award, that connects neighbours, organisations and the administration on a map of the neighbourhood. The team already had the app working; they asked me to improve the design of the public side and the mobile experience ahead of a meeting with management. I worked on a copy of their frontend and delivered the changes to their repository through pull requests.',
+        'My role: front-end design and development of the improvement, from audit to delivery. Duration: October 2026.',
+        'Fixed limits: the three-node logo, the brand green, the copy and the routes stay untouched. The project belongs to LaComu: I do not publish their code and this page only covers my contribution.',
+      ],
+    },
+    decisions: {
+      es: [
+        { t: 'Separar la presentación de la app',
+          problem: 'Portada, Sobre y Contacte se mostraban dentro de la app, con su lateral y su barra inferior. Parecía un solo producto sin cara propia.',
+          what: 'Una capa pública con su propia cabecera y pie. Las rutas siguen siendo las mismas, así que no se rompe ningún enlace.',
+          shots: SHOTS_PUBLIC },
+        { t: 'La marca como estructura, no como adorno',
+          problem: 'Secciones de tarjetas iguales; el logo y el verde no contaban nada.',
+          what: 'Cabecera flotante, hero en el verde de marca y una escena del barrio que, al hacer scroll, une a vecinos, entidades y administración con el trazo exacto del logo y se convierte en él. Trece ilustraciones de marca, una por idea, en lugar de iconos genéricos.',
+          why: 'El logo ya dice «comunidad conectada»; la escena lo cuenta en vez de repetirlo.',
+          detail: 'GSAP con ScrollTrigger: animación fijada en escritorio y ligada al dedo en el móvil, sin fijar, para no pelear con el scroll. Con «reducir movimiento» todo queda estático.',
+          review: 'El equipo vio que la escena se perdía contra el fondo en claro y oscuro. La puse sobre una tarjeta propia en verde claro, igual en los dos temas, y de paso encontré y arreglé que los hilos no llegaban a pintarse.',
+          shots: SHOTS_SCENE },
+        { t: 'Accesibilidad: de 39 fallos a 0',
+          problem: '39 fallos en 158 elementos: contraste bajo, botones que solo aparecían con el ratón, zonas táctiles pequeñas, páginas que se salían de la pantalla en el móvil.',
+          what: 'Enlace para saltar al contenido, una sola región principal por página, contraste AA en claro y oscuro, zonas táctiles de 44 px y el título de cada tarjeta como enlace real.',
+          check: 'axe con Playwright (WCAG 2.2 AA) a 390 y 1440 px, en claro y oscuro, antes y después.',
+          shots: SHOTS_A11Y },
+        { t: 'La app, cómoda en el móvil',
+          problem: 'Cada actividad ocupaba casi una pantalla y el mapa tenía tres paneles encima.',
+          what: 'Actividades en filas compactas (unas 5 por pantalla en vez de menos de 2), filtros a 44 px, una sola barra sobre el mapa con un panel de capas y el logo como vuelta a la portada.',
+          shots: SHOTS_MOBILE },
+        { t: 'Entregarlo bien',
+          items: [
+            'Cuatro ramas encadenadas (accesibilidad, portada, Sobre y Contacte, app móvil) para que cada revisión fuera pequeña.',
+            'Typecheck, build, lint sin errores y 3.692 pruebas en verde en cada rama.',
+            'Todos los textos nuevos en los 6 idiomas de la plataforma (catalán, valenciano, castellano, inglés, gallego y euskera).',
+            'Vídeo del antes y el después y una presentación para la reunión.',
+          ] },
+      ],
+      en: [
+        { t: 'Separate the public pages from the app',
+          problem: 'Home, About and Contact were shown inside the app, with its sidebar and bottom bar. It looked like a single product with no face of its own.',
+          what: 'A public layer with its own header and footer. The routes stay the same, so no link breaks.',
+          shots: SHOTS_PUBLIC },
+        { t: 'The brand as structure, not decoration',
+          problem: 'Sections of identical cards; the logo and the green said nothing.',
+          what: 'A floating header, a hero in the brand green and a neighbourhood scene that, as you scroll, joins neighbours, organisations and the administration with the exact stroke of the logo and turns into it. Thirteen brand illustrations, one per idea, instead of generic icons.',
+          why: 'The logo already says «connected community»; the scene tells it instead of repeating it.',
+          detail: 'GSAP with ScrollTrigger: the animation is pinned on desktop and tied to the finger on mobile, without pinning, so it does not fight the scroll. With «reduce motion» everything stays static.',
+          review: 'The team saw that the scene got lost against the background in light and dark. I put it on its own light-green card, the same in both themes, and along the way I found and fixed that the threads were not being painted.',
+          shots: SHOTS_SCENE },
+        { t: 'Accessibility: from 39 failures to 0',
+          problem: '39 failures across 158 elements: low contrast, buttons that only appeared on mouse hover, small touch targets and pages that overflowed the screen on mobile.',
+          what: 'A skip-to-content link, a single main region per page, AA contrast in light and dark, 44 px touch targets and each card title as a real link.',
+          check: 'axe with Playwright (WCAG 2.2 AA) at 390 and 1440 px, in light and dark, before and after.',
+          shots: SHOTS_A11Y },
+        { t: 'The app, comfortable on mobile',
+          problem: 'Each activity took almost a whole screen and the map had three panels on top of it.',
+          what: 'Activities in compact rows (about 5 per screen instead of fewer than 2), 44 px filters, a single bar over the map with a layers panel, and the logo as the way back to the home page.',
+          shots: SHOTS_MOBILE },
+        { t: 'Delivering it properly',
+          items: [
+            'Four chained branches (accessibility, home page, About and Contact, mobile app) so each review stayed small.',
+            'Typecheck, build and lint with no errors, and 3,692 tests passing on every branch.',
+            'All new copy in the 6 languages of the platform (Catalan, Valencian, Spanish, English, Galician and Basque).',
+            'A before-and-after video and a presentation for the meeting.',
+          ] },
+      ],
+    },
+    outcome: {
+      es: [
+        '0 fallos de accesibilidad en 7 páginas (antes 39).',
+        '5 actividades por pantalla en el móvil (antes menos de 2).',
+        '1 barra sobre el mapa (antes 3 paneles).',
+        'Cambios integrados en su repositorio y desplegados en su entorno de pruebas.',
+        'Siguiente fase en conversación: el flujo de navegación del mapa y el directorio.',
+      ],
+      en: [
+        '0 accessibility failures across 7 pages (before: 39).',
+        '5 activities per screen on mobile (before: fewer than 2).',
+        '1 bar over the map (before: 3 panels).',
+        'Changes merged into their repository and deployed in their test environment.',
+        'Next phase under discussion: the map navigation flow and the directory.',
+      ],
+    },
+    learned: {
+      es: [
+        'Rediseñar sin poder tocar logo, colores ni textos obliga a trabajar la estructura, el ritmo y el movimiento.',
+        'Repartir el trabajo en pull requests pequeñas hizo que el equipo pudiera revisarlo sin miedo.',
+      ],
+      en: [
+        'Redesigning without being able to touch the logo, colours or copy forces you to work on structure, rhythm and motion.',
+        'Splitting the work into small pull requests let the team review it without fear.',
       ],
     },
   },
