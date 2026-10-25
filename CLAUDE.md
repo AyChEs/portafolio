@@ -85,7 +85,7 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
 4. **Cómo trabajo:** pruebas antes del merge, cambios pequeños y mirar dónde corre. **Sin ninguna frase sobre IA:** el criterio se demuestra en las páginas de caso (decisión, porqué y alternativa descartada). Claude sale como una herramienta más.
 5. **Sobre mí:**
    - bio corta, CV, dónde estoy, trayectoria e idiomas;
-   - «Ahora mismo»: objetos sobre una mesa con datos reales: pase de embarque del último viaje, entrada de cine de la última película (sala 3, fila F, butaca 7, guiño a CineFlow), ficha de lectura con sello «Leyendo ahora» y carné de socio con el deporte que practico (gimnasio), desde cuándo y qué entreno ahora. Son objetos de papel con sombra suave: única excepción a «sin sombras».
+   - Sin sección «Ahora mismo» (retirada el 2026-10-25: alargaba la página y había que mantenerla al día).
 6. **¿Tienes un proyecto?:**
    - qué acepto y qué no;
    - formulario con qué necesitas, plazo y correo, sin presupuesto.

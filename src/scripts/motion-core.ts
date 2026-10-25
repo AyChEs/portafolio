@@ -69,7 +69,7 @@ export function init() {
 
       // Lo que está por debajo del Inicio se prepara al primer gesto (scroll, rueda, toque o tecla),
       // en tareas cortas: así la carga de la página no paga el coste de partir textos y medir.
-      const later: (() => unknown)[] = [() => story(wide), scenes, () => cases(wide), stack, () => how(wide), () => desk(wide), tape, footer, labels, thread];
+      const later: (() => unknown)[] = [() => story(wide), scenes, () => cases(wide), stack, () => how(wide), tape, footer, labels, thread];
       const undo: (() => void)[] = [];
       let alive = true, started = false;
       const events = ['scroll', 'wheel', 'touchstart', 'keydown', 'pointerdown'];
@@ -149,7 +149,6 @@ const SCENES: [root: string, layers: string[][]][] = [
   ['.case .ctext', [['.k', 'h3'], ['.dl > div'], ['.tags', '.links']]],
   ['.about .bio', [['.k', '.sh h2'], ['p'], ['.cta']]],
   ['.side', [['.box']]],
-  ['.ahora', [['.head h3'], ['.head small', ':scope > p']]],
   ['.free > div:first-child', [['.k', '.sh h2'], ['.free-intro'], ['.yesno > div']]],
   ['.free > form', [[':scope']]],
   ['footer .wrap', [['.k', '.fbig'], ['.fl'], ['.legal']]],
@@ -313,24 +312,6 @@ function piece(el: Element | null | undefined, p: number) {
   if (last !== undefined && Math.abs(Number(last) - v) < 0.002) return;
   (el as HTMLElement).dataset.p = String(v);
   el.dispatchEvent(new CustomEvent('rive:progress', { detail: v }));
-}
-
-// Ahora mismo: los objetos de papel caen sobre la mesa y se colocan con un leve giro.
-// Se animan las variables de las propiedades `translate` y `rotate`, que se suman al giro del CSS.
-function desk(wide: boolean) {
-  const objs = $$('.desk .obj');
-  if (!objs.length) return;
-  const spin = [-14, 12, -9, 10, -12];
-  if (wide) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: '.desk', start: 'top 95%', end: 'top 25%', scrub: 0.8 } });
-    objs.forEach((o, i) => {
-      tl.fromTo(o, { '--fy': `${-220 - i * 40}px`, '--fr': `${spin[i % spin.length]}deg`, opacity: 0 },
-        { '--fy': '0px', '--fr': '0deg', opacity: 1, ease: 'power2.out', duration: 1 }, i * 0.18);
-    });
-  } else {
-    objs.forEach((o, i) => gsap.fromTo(o, { '--fy': '-60px', '--fr': `${spin[i % spin.length] / 2}deg`, opacity: 0 },
-      { '--fy': '0px', '--fr': '0deg', opacity: 1, ease: 'none', scrollTrigger: { trigger: o, start: 'top 95%', end: 'top 60%', scrub: 0.6 } }));
-  }
 }
 
 // Cinta de tecnologías: solo se mueve mientras se hace scroll (no se anima sola).

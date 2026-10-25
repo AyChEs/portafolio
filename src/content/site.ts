@@ -44,7 +44,6 @@ export const UI: Pair<Record<string, string>> = {
     aboutKicker: '04 · sobre mí', aboutTitle: 'Sobre mí', cvOther: 'CV en inglés',
     whereK: '// dónde estoy', whereT: 'Tarragona, España', whereS: 'Remoto en España e internacional, o híbrido en Tarragona y Barcelona.',
     pathK: '// trayectoria', langsK: '// idiomas',
-    nowTitle: 'Ahora mismo', nowIntro: 'Fuera del trabajo, esto es lo que tengo encima de la mesa cuando cierro el portátil.',
     freeKicker: '05 · encargos', freeTitle: '¿Tienes un proyecto',
     freeIntro: 'Ahora mismo busco un puesto como desarrollador. Aun así, si tienes un proyecto concreto que encaje con lo que hago, cuéntamelo y te digo con sinceridad si puedo ayudarte.',
     yes: '// encaja', no: '// no encaja',
@@ -82,7 +81,6 @@ export const UI: Pair<Record<string, string>> = {
     aboutKicker: '04 · about', aboutTitle: 'About me', cvOther: 'CV in Spanish',
     whereK: '// where I am', whereT: 'Tarragona, Spain', whereS: 'Remote in Spain and abroad, or hybrid in Tarragona and Barcelona.',
     pathK: '// path', langsK: '// languages',
-    nowTitle: 'Right now', nowIntro: 'Outside work, this is what is on my desk when I close the laptop.',
     freeKicker: '05 · freelance work', freeTitle: 'Got a project',
     freeIntro: "Right now I'm looking for a developer role. Even so, if you have a specific project that fits what I do, tell me about it and I'll be honest about whether I can help.",
     yes: '// a good fit', no: '// not a fit',
@@ -155,27 +153,6 @@ export const PATH: Pair<{ when: string; t: string; s: string; now?: boolean }[]>
 export const LANGS: Pair<[string, string][]> = {
   es: [['ES', 'nativo'], ['CA', 'nativo'], ['AR', 'profesional'], ['EN', 'B2']],
   en: [['ES', 'native'], ['CA', 'native'], ['AR', 'professional'], ['EN', 'B2']],
-};
-
-export const NOW: Pair<Record<string, string>> = {
-  es: {
-    tripK: 'ÚLTIMO VIAJE', tripCity: 'Granada', tripCountry: 'España', tripBestK: 'lo mejor',
-    tripBest: 'La Alhambra y el mirador de San Nicolás.', tripStamp: 'TARRAGONA → GRANADA',
-    filmK: 'ÚLTIMA PELÍCULA', film: 'Spider-Man: Brand New Day', filmNote: 'Me gusta Spider-Man, pero esperaba más.',
-    bookK: 'FICHA DE LECTURA', bookTitleK: 'título', bookTitle: 'La disciplina del alma',
-    bookSub: 'El refinamiento del carácter y el tratamiento de las enfermedades del corazón',
-    bookAuthorK: 'autor', bookAuthor: 'Al-Ghazali', bookStateK: 'estado', bookState: 'en curso', stamp: 'LEYENDO<br>AHORA',
-    gymK: 'CARNÉ DE SOCIO', gymSportK: 'deporte', gymSport: 'Gimnasio', gymFoot: 'Voy al gimnasio.',
-  },
-  en: {
-    tripK: 'LAST TRIP', tripCity: 'Granada', tripCountry: 'Spain', tripBestK: 'the best part',
-    tripBest: 'The Alhambra and the San Nicolás viewpoint.', tripStamp: 'TARRAGONA → GRANADA',
-    filmK: 'LAST FILM', film: 'Spider-Man: Brand New Day', filmNote: 'I like Spider-Man, but I expected more.',
-    bookK: 'READING CARD', bookTitleK: 'title', bookTitle: 'The Discipline of the Soul',
-    bookSub: 'Refining the character and curing the sicknesses of the heart',
-    bookAuthorK: 'author', bookAuthor: 'Al-Ghazali', bookStateK: 'status', bookState: 'reading', stamp: 'READING<br>NOW',
-    gymK: 'MEMBER CARD', gymSportK: 'sport', gymSport: 'Gym', gymFoot: 'I go to the gym.',
-  },
 };
 
 export const FREELANCE: Pair<{ yes: string[]; no: string[]; kinds: string[]; when: string[] }> = {
