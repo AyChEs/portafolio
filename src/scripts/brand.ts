@@ -138,7 +138,8 @@ function opening(layer: HTMLElement, hero: ReturnType<typeof setup>) {
     { opacity: 1, transform: `${go} scale(${S})`, offset: 0.36, easing: EASE_IO },
     { opacity: 1, transform: 'none' },
   ], o);
-  const a2 = layer.animate([{ opacity: 1 }, { opacity: 1, offset: 0.3 }, { opacity: 0, easing: 'linear' }], o);
+  // La capa no deja ver el nombre de debajo hasta que el icono casi ha llegado: así no se ven dos iconos a la vez.
+  const a2 = layer.animate([{ opacity: 1 }, { opacity: 1, offset: 0.66 }, { opacity: 0, easing: 'linear' }], o);
   let over = false;
   const end = (instant: boolean) => {
     if (over) return;

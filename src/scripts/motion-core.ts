@@ -178,16 +178,18 @@ function story(wide: boolean) {
   gsap.set(cards.slice(1), { opacity: 0, y: 60, scale: 0.98 });
   const last = cards.length - 1;
   const tl = gsap.timeline({
-    defaults: { ease: 'none', duration: 1 },
+    defaults: { ease: 'none', duration: 0.3 },
     scrollTrigger: {
       trigger: sec, start: () => `top top+=${Math.round(Math.max(110, (innerHeight - sec.offsetHeight) / 2))}`, end: () => `+=${innerHeight * 0.55 * last + 120}`, pin: true, scrub: 0.5, invalidateOnRefresh: true,
       onUpdate: (self) => mark(Math.round(self.progress * last)),
     },
   });
+  // Cada decisión entra, se queda y sale antes de que entre la siguiente: nunca hay dos textos superpuestos.
   cards.forEach((c, i) => {
-    if (i > 0) tl.to(c, { opacity: 1, y: 0, scale: 1 }, i - 1);
-    if (i < last) tl.to(c, { opacity: 0, y: -60, scale: 0.97 }, i);
+    if (i > 0) tl.to(c, { opacity: 1, y: 0, scale: 1 }, i - 0.5);
+    if (i < last) tl.to(c, { opacity: 0, y: -40, scale: 0.97 }, i + 0.2);
   });
+  tl.set({}, {}, last + 0.5);
   return () => { prog.remove(); sec.classList.remove('staged'); cards.forEach((c) => { delete c.dataset.stage; }); gsap.set(cards, { clearProps: 'all' }); };
 }
 

@@ -563,3 +563,6 @@ canvas.ribbons{display:block}
 .th-node.on{fill:var(--sig);stroke:var(--sig)}
 .th-dot{position:absolute;left:0;top:0;width:9px;height:9px;border-radius:50%;background:var(--sig);box-shadow:0 0 14px 2px var(--kb-glow);will-change:transform}
 @media (max-width:999px){#thread{display:none}}
+
+/* Sobre mí: en escritorio la bio acompaña a la columna alta, sin dejar un hueco bajo el botón de CV. */
+@media (min-width:961px){.about .bio{position:sticky;top:110px}}
