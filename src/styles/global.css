@@ -531,3 +531,11 @@ img{height:auto}
 .top{view-transition-name:top-bar}
 .vis-link{display:block;border-radius:22px}
 @media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}
+
+/* FONDO VIVO (scripts/field.ts): un canvas fijo con la retícula en capas y otro con las cintas.
+   El fondo sigue siendo continuo: los puntos se desvanecen, no hay bandas. Sin script, retícula y cintas estáticas. */
+.field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+canvas.ribbons{display:block}
+.hero .dots{transition:opacity .6s}
+.field-on .hero .dots{opacity:0}
+.field-on .hero svg.ribbons{visibility:hidden}
