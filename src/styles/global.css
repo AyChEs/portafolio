@@ -351,7 +351,7 @@ h1 i{font-style:normal;color:var(--sig)}
 .d dt{font:500 12.5px/1.9 var(--mono);color:var(--mut)}.d dd{margin:0;color:var(--mut)}
 .fig{margin:22px 0 8px;border:1px solid var(--line2);border-radius:20px;background:var(--navy);padding:26px}
 .fig svg{width:100%;height:auto}
-.fig figcaption{margin-top:12px;font-size:13px;color:var(--mut)}
+.fig figcaption{margin-top:12px;font-size:13px;color:#98A2B6}
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
 .metrics div{border:1px solid var(--line);border-radius:18px;padding:20px;background:var(--bg2)}
 .metrics b{display:block;font:800 34px/1.1 "Plus Jakarta Sans Variable";letter-spacing:-.03em}.metrics span{font-size:14px;color:var(--mut)}
