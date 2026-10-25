@@ -351,8 +351,9 @@ h1 i{font-style:normal;color:var(--sig)}
 /* cuerpo: índice lateral + artículo */
 .body{display:grid;grid-template-columns:220px 1fr;gap:72px;padding:var(--sec) 0 var(--sp-5)}
 .toc{position:sticky;top:100px;align-self:start;display:grid;gap:2px}
-.toc a{font-size:14px;color:var(--mut);padding:7px 12px;border-left:2px solid var(--line)}
-.toc a.on{color:var(--txt);border-left-color:var(--sig)}
+.toc a{position:relative;font-size:14px;color:var(--mut);padding:7px 12px;border-left:2px solid var(--line);transition:color var(--d-base)}
+.toc a::after{content:"";position:absolute;left:-2px;top:0;bottom:0;width:2px;background:var(--sig);transform:scaleY(var(--p,0));transform-origin:50% 0}
+.toc a.on{color:var(--txt)}
 .body article{max-width:68ch;min-width:0}
 .body article section{padding-bottom:var(--blk)}
 .body article h2{font:800 32px/1.15 "Plus Jakarta Sans Variable";letter-spacing:-.03em;margin:8px 0 18px}
@@ -544,3 +545,10 @@ canvas.ribbons{display:block}
 .hero .dots{transition:opacity .6s}
 .field-on .hero .dots{opacity:0}
 .field-on .hero svg.ribbons{visibility:hidden}
+
+/* CASO COMO HISTORIA: las decisiones se fijan y pasan una a una (scripts/motion-core.ts, story) */
+.staged .dec{display:grid}
+.staged .dec .d{grid-area:1/1;align-self:start}
+.dec-prog{display:flex;gap:8px;margin-top:var(--sp-4)}
+.dec-prog i{width:28px;height:3px;border-radius:2px;background:var(--line2);transition:background-color var(--d-base),box-shadow var(--d-base)}
+.dec-prog i.on{background:var(--sig);box-shadow:0 0 10px var(--sig)}

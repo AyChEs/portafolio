@@ -36,7 +36,7 @@ export function init() {
 
       // Lo que está por debajo del Inicio se prepara al primer gesto (scroll, rueda, toque o tecla),
       // en tareas cortas: así la carga de la página no paga el coste de partir textos y medir.
-      const later: (() => unknown)[] = [headings, reveals, () => cases(wide), stack, () => how(wide), () => desk(wide), tape, footer, labels];
+      const later: (() => unknown)[] = [() => story(wide), scenes, () => cases(wide), stack, () => how(wide), () => desk(wide), tape, footer, labels];
       const undo: (() => void)[] = [];
       let alive = true, started = false;
       const events = ['scroll', 'wheel', 'touchstart', 'keydown', 'pointerdown'];
@@ -100,17 +100,46 @@ function hero(wide: boolean) {
   gsap.to('.hero .dots', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: h, start: 'top top', end: 'bottom top', scrub: true } });
 }
 
-// Titulares de sección: entran por líneas con máscara y el punto azul llega el último.
-function headings() {
-  $$('.sh h2, .ahora .head h3, .fbig, .body article h2').forEach((el) => {
-    glue(el);
-    const split = SplitText.create(el, { type: 'lines', mask: 'lines', linesClass: 'ln', aria: 'none' });
-    // Al terminar se deshace la división: si cambia el ancho, el texto vuelve a partirse solo.
-    const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 88%', once: true }, onComplete: () => split.revert() });
-    tl.from(split.lines, { yPercent: 110, duration: T.brand, ease: EASE, stagger: T.step + 0.01 });
-    const dot = $('i', el);
-    if (dot) tl.from(dot, { scale: 0, opacity: 0, transformOrigin: '50% 80%', duration: 0.7, ease: 'back.out(3)' }, '-=0.45');
-  });
+// Escenas. Cada bloque entra como una diapositiva: primero el titular (con su etiqueta), después el visual y al
+// final los datos, siempre con el mismo ritmo (tokens de movimiento: --scene entre capas, --step dentro de una capa).
+// Lo que se mueve con el scroll (máscaras de los casos, mesa, pasos fijados) se define más abajo.
+const SCENES: [root: string, layers: string[][]][] = [
+  ['.wrap > .sh', [['.k', 'h2'], ['p']]],
+  ['.case .ctext', [['.k', 'h3'], ['.dl > div'], ['.tags', '.links']]],
+  ['.about .bio', [['.k', '.sh h2'], ['p'], ['.cta']]],
+  ['.side', [['.box']]],
+  ['.ahora', [['.head h3'], ['.head small', ':scope > p']]],
+  ['.free > div:first-child', [['.k', '.sh h2'], ['.free-intro'], ['.yesno > div']]],
+  ['.free > form', [[':scope']]],
+  ['footer .wrap', [['.k', '.fbig'], ['.fl'], ['.legal']]],
+  ['.body article section', [['.k', 'h2'], ['p', '.out li', '.d:not([data-stage])', '.fig', '.metrics > div', '.sub', 'pre']]],
+];
+const isHead = (e: Element) => /^H[1-6]$/.test(e.tagName) || e.classList.contains('fbig');
+
+function scenes() {
+  for (const [rootSel, layers] of SCENES) {
+    $$(rootSel).forEach((root) => {
+      const tl = gsap.timeline({ scrollTrigger: { trigger: root, start: 'top 85%', once: true }, defaults: { ease: EASE } });
+      layers.forEach((sels, i) => {
+        const at = i * T.scene;
+        const els = sels.flatMap((sel) => (sel === ':scope' ? [root] : $$(sel, root)));
+        els.filter(isHead).forEach((h) => head(tl, h, at));
+        const rest = els.filter((e) => !isHead(e));
+        if (rest.length) tl.from(rest, { y: 28, opacity: 0, duration: T.slow, stagger: T.step }, at);
+      });
+    });
+  }
+}
+
+// Titular: entra por líneas con máscara y el punto azul llega el último. Al terminar se deshace la división
+// (si cambia el ancho, el texto vuelve a partirse solo) y se marca con data-in: el hilo del punto ya puede acercarse.
+function head(tl: gsap.core.Timeline, el: HTMLElement, at: number) {
+  glue(el);
+  const split = SplitText.create(el, { type: 'lines', mask: 'lines', linesClass: 'ln', aria: 'none' });
+  tl.from(split.lines, { yPercent: 110, duration: T.brand, stagger: T.step + 0.01, ease: EASE }, at);
+  const dot = $('i', el);
+  if (dot) tl.from(dot, { scale: 0, opacity: 0, transformOrigin: '50% 80%', duration: 0.7, ease: 'back.out(3)' }, at + T.brand * 0.6);
+  tl.call(() => { split.revert(); el.dataset.in = '1'; }, [], at + T.brand * 0.6 + 0.8);
 }
 
 // El punto final va pegado a la última palabra, para que nunca baje solo a otra línea.
@@ -129,25 +158,36 @@ function glue(el: HTMLElement) {
   tail.append(dot);
 }
 
-// Entradas suaves de bloques de texto.
-function reveals() {
-  const groups: [string, string][] = [
-    ['.sh', ':scope > p, :scope .k'],
-    ['.case .ctext', ':scope > *'],
-    ['.about .bio', ':scope > p, :scope > .cta'],
-    ['.side', ':scope > .box'],
-    ['.ahora', ':scope > p, :scope .head small'],
-    ['.free', ':scope > div > .free-intro, :scope .yesno > div, :scope > form'],
-    ['footer .wrap', ':scope > .fl, :scope > .legal'],
-    ['.body article', ':scope .d, :scope .fig, :scope .metrics > div'],
-  ];
-  for (const [box, sel] of groups) {
-    $$(box).forEach((b) => {
-      const items = $$(sel, b);
-      if (!items.length) return;
-      gsap.from(items, { y: 28, opacity: 0, duration: T.slow, ease: EASE, stagger: T.step, scrollTrigger: { trigger: b, start: 'top 85%', once: true } });
-    });
-  }
+// Página de caso, «Decisiones»: en escritorio la sección se fija y las decisiones pasan una a una,
+// con su porqué, mientras unos puntos marcan por cuál vas. En móvil o con poca altura entran como el resto.
+function story(wide: boolean) {
+  const sec = $('#decisiones');
+  const cards = sec ? $$('.dec .d', sec) : [];
+  if (!sec || cards.length < 2 || !wide || innerHeight < 680) return;
+  cards.forEach((c) => { c.dataset.stage = '1'; });
+  sec.classList.add('staged');
+  const prog = document.createElement('div');
+  prog.className = 'dec-prog';
+  prog.setAttribute('aria-hidden', 'true');
+  prog.innerHTML = cards.map(() => '<i></i>').join('');
+  $('.dec', sec)!.after(prog);
+  const dots = $$('i', prog);
+  const mark = (n: number) => dots.forEach((d, i) => d.classList.toggle('on', i <= n));
+  mark(0);
+  gsap.set(cards.slice(1), { opacity: 0, y: 60, scale: 0.98 });
+  const last = cards.length - 1;
+  const tl = gsap.timeline({
+    defaults: { ease: 'none', duration: 1 },
+    scrollTrigger: {
+      trigger: sec, start: () => `top top+=${Math.round(Math.max(110, (innerHeight - sec.offsetHeight) / 2))}`, end: () => `+=${innerHeight * 0.55 * last + 120}`, pin: true, scrub: 0.5, invalidateOnRefresh: true,
+      onUpdate: (self) => mark(Math.round(self.progress * last)),
+    },
+  });
+  cards.forEach((c, i) => {
+    if (i > 0) tl.to(c, { opacity: 1, y: 0, scale: 1 }, i - 1);
+    if (i < last) tl.to(c, { opacity: 0, y: -60, scale: 0.97 }, i);
+  });
+  return () => { prog.remove(); sec.classList.remove('staged'); cards.forEach((c) => { delete c.dataset.stage; }); gsap.set(cards, { clearProps: 'all' }); };
 }
 
 // Casos: la máscara se abre con el scroll (el marco sube mientras su contenido se queda quieto)
