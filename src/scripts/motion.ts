@@ -13,14 +13,24 @@ function start() {
     });
 }
 
-function whenIdle() {
-  const ric = (window as any).requestIdleCallback as ((cb: () => void, o?: { timeout: number }) => number) | undefined;
-  if (ric) ric(start, { timeout: 900 });
-  else setTimeout(start, 200);
+// Para no pagar el coste en la carga, las animaciones arrancan con el primer gesto del visitante
+// (o a los 8 s, o si se llega con un ancla o con la página ya desplazada).
+function arm() {
+  const events = ['scroll', 'wheel', 'touchstart', 'keydown', 'pointerdown', 'pointermove'];
+  let done = false;
+  const go = () => {
+    if (done) return;
+    done = true;
+    events.forEach((e) => removeEventListener(e, go));
+    start();
+  };
+  if (scrollY > 40 || location.hash) return go();
+  events.forEach((e) => addEventListener(e, go, { passive: true }));
+  setTimeout(go, 8000);
 }
 
 if (!reduce.matches) {
-  if (document.readyState === 'complete') whenIdle();
-  else addEventListener('load', whenIdle, { once: true });
+  if (document.readyState === 'complete') arm();
+  else addEventListener('load', arm, { once: true });
 }
 export {};

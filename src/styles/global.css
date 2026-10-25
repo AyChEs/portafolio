@@ -412,9 +412,9 @@ img{height:auto}
 .obj{translate:0 var(--fy,0px);rotate:var(--fr,0deg)}
 #como{overflow-x:clip}
 
-/* La frase del Inicio espera a que entren sus líneas; si las animaciones no llegan, aparece sola. */
-.js-motion:not(.m-on) .hero .lead{opacity:0;animation:m-failsafe .4s 2.4s forwards}
-@keyframes m-failsafe{to{opacity:1}}
+/* La frase del Inicio entra con CSS puro, sin esperar a GSAP: así no pesa en la carga. */
+.js-motion .hero .lead{animation:m-lead 1s .25s cubic-bezier(.16,1,.3,1) backwards}
+@keyframes m-lead{from{opacity:0;transform:translateY(18px)}}
 .m-on .hero h1{will-change:transform,opacity;transform-origin:0 0}
 .ln-mask{padding-bottom:.14em;margin-bottom:-.14em}
 .sh h2 i,.ahora .head h3 i,.fbig i,.body article h2 i{display:inline-block}
@@ -439,7 +439,8 @@ img{height:auto}
 .how.pinned .step.on{border-color:var(--line2);background:var(--bg2)}
 .how.pinned .step.on::before{transform:none}
 .how.pinned .step .n{font-size:14px}
-.how.pinned .step h3{font-size:clamp(24px,2.4vw,32px);margin:22px 0 14px}
+.how.pinned .step{display:flex;flex-direction:column;min-height:min(46vh,400px)}
+.how.pinned .step h3{font-size:clamp(24px,2.4vw,32px);margin:auto 0 14px}
 .how.pinned .step p{font-size:17px;max-width:40ch}
 
 /* Pie: «Ayman.» a todo el ancho, en contorno, que se rellena con el scroll. */

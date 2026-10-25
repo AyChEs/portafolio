@@ -83,16 +83,11 @@ function smooth() {
   return lenis;
 }
 
-// Inicio: la frase entra línea a línea; al bajar, «λyman.» se recoge hacia la barra
+// Inicio: al bajar, «λyman.» se recoge hacia la barra
 // (que a su vez despliega el nombre en scripts/brand.ts) y las cintas se abren en paralaje.
 function hero(wide: boolean) {
   const h = $('.hero');
   if (!h) return;
-  const lead = $('.lead', h);
-  if (lead) {
-    const split = SplitText.create(lead, { type: 'lines', mask: 'lines', linesClass: 'ln', aria: 'none' });
-    gsap.from(split.lines, { yPercent: 105, duration: 1.1, ease: EASE, stagger: 0.09, delay: 0.25, onComplete: () => split.revert() });
-  }
   const tl = gsap.timeline({ scrollTrigger: { trigger: h, start: 'top top', end: () => `+=${Math.min(innerHeight * 0.9, 640)}`, scrub: 0.6 } });
   tl.to('.hero h1', { scale: wide ? 0.62 : 0.75, y: wide ? -40 : -20, opacity: 0, ease: 'none' }, 0)
     .to('.hero .ribbons', { scale: 1.25, y: 120, opacity: 0.2, ease: 'none' }, 0)
