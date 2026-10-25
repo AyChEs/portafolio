@@ -465,10 +465,6 @@ img{height:auto}
 .g-fill{position:absolute;left:0;right:0;top:0;bottom:0;overflow:hidden;display:flex;justify-content:center;align-items:baseline;padding:.16em 0 .28em;pointer-events:none}
 .g-fill-in{display:flex;align-items:baseline;color:var(--g-fill);padding-right:.19em}
 .g-dot{width:.15em;height:.15em;border-radius:50%;background:var(--sig);margin-left:.04em;box-shadow:0 0 .2em var(--glow),0 0 .5em rgba(59,130,246,.45)}
-.g-tile{position:absolute;left:62%;top:6%;width:clamp(56px,8vw,120px);aspect-ratio:1;border-radius:24%;background:var(--tile-bg);display:block;transform:rotate(8deg)}
-.g-tile svg{position:absolute;left:20%;top:22%;width:54%;fill:var(--tile-fg)}
-.g-tile i{position:absolute;left:73%;top:63%;width:12%;height:12%;border-radius:50%;background:var(--punto)}
-.g-tile.g2{left:14%;top:44%;width:clamp(36px,4.6vw,72px);transform:rotate(-12deg);opacity:.9}
 @media (prefers-color-scheme:light){.giant{--g-fill:#76839C;--g-stroke:#B4BFD2}}
 @media (max-width:960px){.how.pinned .step{width:72vw}}
 

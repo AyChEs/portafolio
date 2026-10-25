@@ -1,5 +1,4 @@
 ---
-import Lambda from './Lambda.astro';
 import { UI, PERSON, ROUTES, type Lang } from '../content/site';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -22,8 +21,6 @@ const t = UI[lang];
   </div>
   <div class="giant" aria-hidden="true">
     <div class="giant-in"><span class="g-out">Ayman</span><span class="g-fill"><span class="g-fill-in">Ayman</span></span><span class="g-dot"></span></div>
-    <span class="g-tile"><Lambda /><i></i></span>
-    <span class="g-tile g2"><Lambda /><i></i></span>
   </div>
 </footer>
 <script>
