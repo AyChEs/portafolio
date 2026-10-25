@@ -6,6 +6,7 @@ import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
 import { registerEases, tokens } from './tokens';
 import { scramble } from './scramble';
+import { thread } from './thread';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -36,7 +37,7 @@ export function init() {
 
       // Lo que está por debajo del Inicio se prepara al primer gesto (scroll, rueda, toque o tecla),
       // en tareas cortas: así la carga de la página no paga el coste de partir textos y medir.
-      const later: (() => unknown)[] = [() => story(wide), scenes, () => cases(wide), stack, () => how(wide), () => desk(wide), tape, footer, labels];
+      const later: (() => unknown)[] = [() => story(wide), scenes, () => cases(wide), stack, () => how(wide), () => desk(wide), tape, footer, labels, thread];
       const undo: (() => void)[] = [];
       let alive = true, started = false;
       const events = ['scroll', 'wheel', 'touchstart', 'keydown', 'pointerdown'];
