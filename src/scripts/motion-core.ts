@@ -205,7 +205,7 @@ function how(wide: boolean) {
   const dist = () => Math.max(0, list.scrollWidth - box.clientWidth + 64);
   const tl = gsap.timeline({
     scrollTrigger: {
-      trigger: box, start: 'top top+=96', end: () => `+=${innerHeight * 1.4}`, pin: true, scrub: 0.6,
+      trigger: box, start: 'top top+=96', end: () => `+=${innerHeight * 1.1}`, pin: true, scrub: 0.6,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         setActive(Math.min(steps.length - 1, Math.floor(self.progress * steps.length * 0.999)));
