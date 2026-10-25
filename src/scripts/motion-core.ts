@@ -19,9 +19,12 @@ const EASE = 'out';
 // Red de seguridad: toda animación de entrada que oculta algo (gsap.from) se registra aquí. Si su elemento ya está
 // en pantalla, o por encima, y sigue sin haberse mostrado pasado 1,5 s sin estar sonando, se completa a la fuerza. Así un cálculo de
 // posiciones fallido (fuentes o imágenes tardías, pins que cambian la altura, saltos rápidos) nunca deja contenido oculto.
-const guarded: { el: Element; anim: gsap.core.Animation; since: number }[] = [];
+// Red de seguridad: ninguna entrada puede dejar texto oculto. Se completa de golpe si el bloque
+// ya quedó por encima de la pantalla, si lleva 1,5 s visible sin arrancar o si lleva 4 s
+// «sonando» sin terminar (una animación atascada también cuenta).
+const guarded: { el: Element; anim: gsap.core.Animation; since: number; active: number }[] = [];
 function guard<T extends gsap.core.Animation>(el: Element, anim: T): T {
-  guarded.push({ el, anim, since: 0 });
+  guarded.push({ el, anim, since: 0, active: 0 });
   return anim;
 }
 function sweep() {
@@ -29,11 +32,19 @@ function sweep() {
   for (let i = guarded.length - 1; i >= 0; i--) {
     const g = guarded[i];
     if (g.anim.progress() >= 1 || !g.el.isConnected) { guarded.splice(i, 1); continue; }
-    if (g.anim.isActive()) { g.since = 0; continue; } // está sonando: se deja acabar
     const r = g.el.getBoundingClientRect();
+    const finish = () => { g.anim.progress(1, false); guarded.splice(i, 1); };
+    if (r.bottom <= 0 && r.height > 0) { finish(); continue; } // ya pasó: se muestra entero
+    if (g.anim.isActive()) {
+      g.since = 0;
+      if (!g.active) g.active = now;
+      else if (now - g.active > 4000) finish();
+      continue;
+    }
+    g.active = 0;
     if (r.top >= innerHeight || (r.width === 0 && r.height === 0)) { g.since = 0; continue; }
     if (!g.since) g.since = now;
-    else if (now - g.since > 1500) { g.anim.progress(1, false); guarded.splice(i, 1); }
+    else if (now - g.since > 1500) finish();
   }
 }
 
