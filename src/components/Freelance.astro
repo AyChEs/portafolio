@@ -31,14 +31,28 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
       <input type="hidden" name="lang" value={lang} />
       {siteKey && <div class="cf-turnstile" data-sitekey={siteKey} data-theme="auto" data-language={lang}></div>}
       <button class="btn p" type="submit">{t.fSend}</button>
-      <small>{siteKey ? t.fNote : <>{t.fOff} <a href={`mailto:${PERSON.email}`}>{PERSON.email}</a>.</>}</small>
-      <p class="form-status" role="status" aria-live="polite"></p>
+      <div class="form-end">
+        <span class="sdot" id="form-dot" data-rive="/rive/formulario-ok.riv" data-mode="manual" data-p="0" aria-hidden="true"><i class="fb"></i><canvas></canvas></span>
+        <div>
+          <small>{siteKey ? t.fNote : <>{t.fOff} <a href={`mailto:${PERSON.email}`}>{PERSON.email}</a>.</>}</small>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </div>
+      </div>
     </form>
   </div>
 </div></section>
 {siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  // El punto azul de la marca se transforma en un ✓ al enviarse bien (pieza de Rive, scripts/rive.ts;
+  // sin ella lo hace el CSS) y vuelve a ser punto en cuanto se toca el formulario otra vez.
+  const mark = document.getElementById('form-dot');
+  const dot = (to: 'ok' | '') => {
+    if (!mark || (mark.dataset.state ?? '') === to) return;
+    mark.dataset.state = to;
+    mark.dispatchEvent(new CustomEvent('rive:to', { detail: to ? 1 : 0 }));
+  };
+  form?.addEventListener('input', () => dot(''));
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const status = form.querySelector<HTMLElement>('.form-status')!;
@@ -50,6 +64,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
       const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
       if (!res.ok) throw new Error(String(res.status));
       status.textContent = form.dataset.ok ?? ''; status.className = 'form-status ok'; form.reset();
+      dot('ok');
     } catch {
       status.textContent = `${form.dataset.err} ${form.dataset.email}`; status.className = 'form-status bad';
     } finally { btn.disabled = false; btn.textContent = form.dataset.send ?? ''; }

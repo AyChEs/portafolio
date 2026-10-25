@@ -181,9 +181,15 @@ function how(wide: boolean) {
   const steps = $$('.step', box);
   const labels = $$('.how-prog span', box);
   const list = $('.steps', box)!;
+  const figs = steps.map((s) => $('.rv', s));
   if (!wide) {
-    steps.forEach((s) => gsap.from(s, { y: 40, opacity: 0, duration: 0.9, ease: EASE, scrollTrigger: { trigger: s, start: 'top 88%', once: true } }));
-    return;
+    steps.forEach((s, i) => {
+      gsap.from(s, { y: 40, opacity: 0, duration: 0.9, ease: EASE, scrollTrigger: { trigger: s, start: 'top 88%', once: true } });
+      // Cada ilustración avanza mientras su paso cruza la pantalla.
+      const st = ScrollTrigger.create({ trigger: s, start: 'top 80%', end: 'bottom 50%', onUpdate: (self) => piece(figs[i], self.progress) });
+      piece(figs[i], st.progress);
+    });
+    return () => figs.forEach((f) => piece(f, 1));
   }
   box.classList.add('pinned');
   const setActive = (i: number) => {
@@ -196,11 +202,29 @@ function how(wide: boolean) {
     scrollTrigger: {
       trigger: box, start: 'top top+=96', end: () => `+=${innerHeight * 1.4}`, pin: true, scrub: 0.6,
       invalidateOnRefresh: true,
-      onUpdate: (self) => setActive(Math.min(steps.length - 1, Math.floor(self.progress * steps.length * 0.999))),
+      onUpdate: (self) => {
+        setActive(Math.min(steps.length - 1, Math.floor(self.progress * steps.length * 0.999)));
+        // Los pasos 1 y 2 se ven desde el principio: cada ilustración se completa en su tramo del recorrido.
+        figs.forEach((f, i) => piece(f, (self.progress - RANGES[i][0]) / (RANGES[i][1] - RANGES[i][0])));
+      },
     },
   });
+  figs.forEach((f) => piece(f, 0));
   tl.to(list, { x: () => -dist(), ease: 'none' }, 0).to('.how-prog b', { scaleX: 1, ease: 'none' }, 0);
-  return () => { box.classList.remove('pinned'); steps.forEach((s) => s.classList.remove('on')); };
+  return () => { box.classList.remove('pinned'); steps.forEach((s) => s.classList.remove('on')); figs.forEach((f) => piece(f, 1)); };
+}
+
+// Tramo del recorrido (0 a 1) en el que se completa la ilustración de cada paso.
+const RANGES = [[0.02, 0.42], [0.25, 0.65], [0.5, 0.92]];
+
+// Envía el progreso (0 a 1) a una pieza de Rive; scripts/rive.ts lo escribe en su view model.
+function piece(el: Element | null | undefined, p: number) {
+  if (!el) return;
+  const v = Math.min(1, Math.max(0, p));
+  const last = (el as HTMLElement).dataset.p;
+  if (last !== undefined && Math.abs(Number(last) - v) < 0.002) return;
+  (el as HTMLElement).dataset.p = String(v);
+  el.dispatchEvent(new CustomEvent('rive:progress', { detail: v }));
 }
 
 // Ahora mismo: los objetos de papel caen sobre la mesa y se colocan con un leve giro.
