@@ -1,0 +1,14 @@
+---
+import Base from '../../../layouts/Base.astro';
+import TopBar from '../../../components/TopBar.astro';
+import Footer from '../../../components/Footer.astro';
+import Legal from '../../../components/Legal.astro';
+import { UI, ROUTES } from '../../../content/site';
+const lang = 'es';
+const t = UI[lang];
+---
+<Base lang={lang} title={`${t.legal} · Ayman Charoui`} description={t.legal} path={ROUTES[lang].legal} alt={ROUTES['en'].legal}>
+  <TopBar lang={lang} alt={ROUTES['en'].legal} />
+  <main id="main"><Legal lang={lang} /></main>
+  <Footer lang={lang} />
+</Base>

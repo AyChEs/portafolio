@@ -1,0 +1,33 @@
+---
+import Brand from './Brand.astro';
+import { UI, PERSON, ROUTES, type Lang } from '../content/site';
+interface Props { lang: Lang; alt: string; home?: boolean }
+const { lang, alt, home = false } = Astro.props;
+const t = UI[lang];
+const base = home ? '' : ROUTES[lang].home;
+---
+<a class="skip" href="#main">{t.skip}</a>
+<header class="top" id="top-bar">
+  <div class="wrap">
+    <Brand role="nav" label={`Ayman, ${t.home.toLowerCase()}`} href={ROUTES[lang].home} />
+    <nav aria-label={lang === 'es' ? 'Principal' : 'Main'}>
+      <a class="l" href={`${base}#casos`}>{t.navProjects}</a>
+      <a class="l" href={`${base}#stack`}>{t.navStack}</a>
+      <a class="l" href={`${base}#como`}>{t.navHow}</a>
+      <a class="l" href={`${base}#sobre`}>{t.navAbout}</a>
+      <a class="l" href={`${base}#proyecto`}>{t.navProject}</a>
+      <a class="l" href={PERSON.cv[lang]} download>{t.cv} ↓</a>
+      <a class="lang" href={alt} hreflang={lang === 'es' ? 'en' : 'es'} lang={lang === 'es' ? 'en' : 'es'} data-lang-switch={lang === 'es' ? 'en' : 'es'}>
+        <b>{lang.toUpperCase()}</b> / {lang === 'es' ? 'EN' : 'ES'}<span class="sr-only"> · {t.langSwitch}</span>
+      </a>
+      <a class="btn p" href={`${base}#contacto`} data-magnetic>{t.talk}</a>
+    </nav>
+  </div>
+</header>
+<script>
+  import '../scripts/brand';
+  // Recordar el idioma elegido a mano: lo lee la redirección de la portada.
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch]').forEach((a) =>
+    a.addEventListener('click', () => { document.cookie = `lang=${a.dataset.langSwitch}; path=/; max-age=31536000; samesite=lax`; }),
+  );
+</script>

@@ -1,0 +1,20 @@
+---
+// Portada: elige idioma según el navegador. Lo hace el servidor de Cloudflare (functions/_middleware.ts);
+// esto es el respaldo para quien no ejecute JavaScript ni pase por la función.
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ayman Charoui</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="https://ayches.is-a.dev/en/" />
+    <meta http-equiv="refresh" content="0; url=/en/" />
+    <script is:inline>
+      var l = /(^|; )lang=(es|en)/.exec(document.cookie);
+      var pick = l ? l[2] : (navigator.language || 'en').slice(0, 2) === 'es' ? 'es' : 'en';
+      location.replace('/' + pick + '/');
+    </script>
+  </head>
+  <body><a href="/es/">Español</a> · <a href="/en/">English</a></body>
+</html>

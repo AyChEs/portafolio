@@ -1,0 +1,1 @@
+DBX Studio (https://github.com/t8y2/dbx): Apache License 2.0. Se muestra su icono solo para identificar la herramienta.

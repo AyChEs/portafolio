@@ -1,0 +1,36 @@
+---
+import InvoiceDiagram from './InvoiceDiagram.astro';
+import { UI, CASES, ROUTES, type Lang } from '../content/site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = UI[lang];
+---
+<section id="casos"><div class="wrap">
+  <div class="sh"><div><span class="k">{t.casesKicker}</span><h2>{t.casesTitle}<i>.</i></h2></div><p>{t.casesIntro}</p></div>
+  {CASES.map((c) => (
+    <article class="case">
+      <div class="reveal" style={`view-transition-name:case-box-${c.id}`}>
+      <a class="vis-link" href={`${ROUTES[lang].cases}${c.slug[lang]}/`} tabindex="-1" aria-hidden="true">
+      {c.visual.type === 'diagram'
+        ? <div class="vis diagram"><div class="px"><InvoiceDiagram lang={lang} /></div></div>
+        : <div class="vis"><div class="frame px" style={`view-transition-name:case-vis-${c.id}`}><div class="bar"><i></i><i></i><i></i></div><img src={c.visual.src} alt={c.visual.alt[lang]} width="1440" height="900" loading="lazy" decoding="async" /></div></div>}
+      </a>
+      </div>
+      <div class="ctext">
+        <span class="k">// {c.kicker[lang]}</span>
+        <h3 style={`view-transition-name:case-title-${c.id}`}>{c.title[lang]}</h3>
+        <dl class="dl">
+          <div><dt>{t.problem}</dt><dd>{c.problem[lang]}</dd></div>
+          <div><dt>{t.decision}</dt><dd>{c.decision[lang]}</dd></div>
+          <div><dt>{t.result}</dt><dd>{c.result[lang]}</dd></div>
+        </dl>
+        <div class="tags">{c.tags.map((x) => <span>{x}</span>)}</div>
+        <div class="links">
+          <a href={`${ROUTES[lang].cases}${c.slug[lang]}/`}>{t.readCase} →</a>
+          {c.meta.code && <a href={c.meta.code} target="_blank" rel="noopener">{t.code} ↗</a>}
+          {c.meta.demo && <a href={c.meta.demo} target="_blank" rel="noopener">{t.demo} ↗</a>}
+        </div>
+      </div>
+    </article>
+  ))}
+</div></section>

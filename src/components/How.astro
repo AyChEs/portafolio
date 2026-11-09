@@ -1,0 +1,28 @@
+---
+import { UI, HOW, type Lang } from '../content/site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = UI[lang];
+---
+<section id="como"><div class="wrap how">
+  <div class="sh"><div><span class="k">{t.howKicker}</span><h2>{t.howTitle}<i>.</i></h2></div><p>{t.howIntro}</p></div>
+  <div class="how-prog" aria-hidden="true">
+    {HOW[lang].map((_, i) => <span class={i === 0 ? 'on' : ''}>{String(i + 1).padStart(2, '0')}</span>)}
+    <i><b></b></i>
+  </div>
+  <ol class="steps">
+    {HOW[lang].map((s, i) => (
+      <li class="step">
+        <span class="n">{String(i + 1).padStart(2, '0')}</span>
+        <div class="rv" data-rive={`/rive/${s.rive}.riv`} aria-hidden="true">
+          <picture>
+            <source media="(prefers-color-scheme: light)" srcset={`/rive/${s.rive}-claro.webp`} />
+            <img src={`/rive/${s.rive}.webp`} alt="" width="800" height="400" loading="lazy" decoding="async" />
+          </picture>
+          <canvas></canvas>
+        </div>
+        <h3>{s.t}</h3><p>{s.s}</p>
+      </li>
+    ))}
+  </ol>
+</div></section>
