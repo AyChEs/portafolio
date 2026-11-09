@@ -17,6 +17,8 @@ interface Props {
 }
 const { lang, title, description, path, alt, jsonld } = Astro.props;
 const site = Astro.site!.origin;
+// Origen público de Cloudflare Pages, usado para las vistas previas al compartir la web.
+const socialOrigin = 'https://portafolio-5sn.pages.dev';
 const other = lang === 'es' ? 'en' : 'es';
 const beacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 ---
@@ -43,10 +45,18 @@ const beacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
     <meta property="og:site_name" content="Ayman Charoui" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={site + path} />
-    <meta property="og:image" content={site + '/og.png'} />
+    <meta property="og:url" content={socialOrigin + path} />
+    <meta property="og:image" content={socialOrigin + '/og-linkedin.jpg'} />
+    <meta property="og:image:secure_url" content={socialOrigin + '/og-linkedin.jpg'} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={lang === 'es' ? 'Captura del portafolio de Ayman Charoui, desarrollador full-stack' : 'Screenshot of Ayman Charoui’s full-stack developer portfolio'} />
     <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_GB'} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialOrigin + '/og-linkedin.jpg'} />
     {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
   </head>
   <body>
