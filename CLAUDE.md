@@ -58,9 +58,9 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
   - Pedir el presupuesto en el formulario de freelance.
   - Cambios bruscos de fondo entre secciones (bandas de color a todo el ancho): el fondo es continuo.
   - «Apasionado», «ninja», «rockstar», «robusto», «soluciones», signos de exclamación y rayas largas en los textos visibles.
-- **Accesibilidad:** WCAG 2.2 AA. Contrastes comprobados:
-  - texto 18,3:1; secundario 7,9:1 sobre el fondo y 6,2:1 sobre azul marino;
-  - botón 5,2:1; azul señal como texto 5,5:1.
+- **Accesibilidad:** WCAG 2.2 AA. Contrastes comprobados (v3):
+  - texto 16,8:1; secundario 7,5:1 sobre el fondo y 6,0:1 sobre azul marino;
+  - botón 16,8:1; azul señal como texto 5,5:1 (claro: 5,6:1).
 
   Toda animación respeta `prefers-reduced-motion`: se muestra el estado final, sin movimiento.
 - **Modo:** automático según el sistema o navegador (`prefers-color-scheme`), sin botón. Oscuro por defecto; el claro usa los valores de la tabla, con el icono en su versión azul marino. Si el sistema cambia con la página abierta, la web cambia con una transición suave (2026-10-15).
