@@ -1,0 +1,7 @@
+{
+  "fecha": "2026-11-19",
+  "pagina": "/es/",
+  "escritorio": { "rendimiento": 100, "accesibilidad": 100, "buenasPracticas": 100, "seo": 100, "lcpMs": 604, "cls": 0 },
+  "movil": { "rendimiento": 97, "lcpMs": 2500, "cls": 0 },
+  "axe": { "fallos": 0, "combinaciones": 52 }
+}

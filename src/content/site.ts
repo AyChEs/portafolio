@@ -58,6 +58,9 @@ export const UI: Pair<Record<string, string>> = {
     role: 'rol', year: 'año', stack: 'stack', links: 'enlaces', why: 'por qué', what: 'qué',
     detail: 'detalle técnico', check: 'comprobación', review: 'revisión', shots: 'Capturas',
     skip: 'Saltar al contenido', langSwitch: 'English',
+    statAvail: 'Disponible', statWhere: 'remoto · Tarragona · Barcelona', statFailures: 'fallos',
+    statMeasured: 'Medido en esta página con Lighthouse (escritorio) y axe el',
+    fName: 'nombre', fWhere: 'dónde', fRole: 'rol', fTime: 'hora local', fRoleV: 'Desarrollador full-stack', fWhereV: 'Tarragona, ES',
   },
   en: {
     title: 'Ayman Charoui · Full-stack developer',
@@ -96,6 +99,9 @@ export const UI: Pair<Record<string, string>> = {
     role: 'role', year: 'year', stack: 'stack', links: 'links', why: 'why', what: 'what',
     detail: 'technical detail', check: 'how I checked', review: 'review', shots: 'Screenshots',
     skip: 'Skip to content', langSwitch: 'Español',
+    statAvail: 'Available', statWhere: 'remote · Tarragona · Barcelona', statFailures: 'issues',
+    statMeasured: 'Measured on this page with Lighthouse (desktop) and axe on',
+    fName: 'name', fWhere: 'where', fRole: 'role', fTime: 'local time', fRoleV: 'Full-stack developer', fWhereV: 'Tarragona, ES',
   },
 };
 

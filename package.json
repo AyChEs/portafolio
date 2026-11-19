@@ -8,7 +8,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "rive:build": "sh rive/build.sh"
+    "rive:build": "sh rive/build.sh",
+    "auditar": "node scripts-dev/auditar.cjs",
+    "medir": "node scripts-dev/medir.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",
@@ -21,6 +23,7 @@
     "three": "^0.186.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20261016.1"
+    "@cloudflare/workers-types": "^5.20261016.1",
+    "axe-core": "^4.14.1"
   }
 }

@@ -1,14 +1,28 @@
 ---
 import Brand from './Brand.astro';
 import { UI, PERSON, ROUTES, type Lang } from '../content/site';
+import M from '../content/metricas.json';
 interface Props { lang: Lang; alt: string; home?: boolean }
 const { lang, alt, home = false } = Astro.props;
 const t = UI[lang];
 const base = home ? '' : ROUTES[lang].home;
+// Barra de estado: datos medidos de verdad (src/content/metricas.json, se regenera con `npm run medir`).
+const loc = lang === 'es' ? 'es-ES' : 'en-GB';
+const lcp = (M.escritorio.lcpMs / 1000).toLocaleString(loc, { maximumFractionDigits: 1 });
+const fecha = new Date(M.fecha).toLocaleDateString(loc, { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 <a class="skip" href="#main">{t.skip}</a>
 <header class="top" id="top-bar">
-  <div class="wrap">
+  <div class="stat">
+    <div class="wrap">
+      <p class="m" title={`${t.statMeasured} ${fecha}`}>
+        <span class="sr-only">{t.statMeasured} {fecha}: </span>
+        <span>Lighthouse {M.escritorio.rendimiento}</span><span>LCP {lcp} s</span><span class="x">CLS {M.escritorio.cls}</span><span class="x">axe {M.axe.fallos} {t.statFailures}</span>
+      </p>
+      <p class="a"><b aria-hidden="true"></b><span>{t.statAvail}</span><span class="x">· {t.statWhere}</span></p>
+    </div>
+  </div>
+  <div class="wrap row">
     <Brand role="nav" label={`Ayman, ${t.home.toLowerCase()}`} href={ROUTES[lang].home} />
     <nav aria-label={lang === 'es' ? 'Principal' : 'Main'}>
       <a class="l" href={`${base}#casos`}>{t.navProjects}</a>

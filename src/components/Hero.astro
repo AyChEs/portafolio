@@ -32,9 +32,14 @@ const ribbons = Array.from({ length: 11 }, (_, i) => {
   </svg>
   <canvas id="field-ribbons" class="ribbons" aria-hidden="true"></canvas>
   <div class="wrap">
+    <dl class="ficha">
+      <div><dt>{t.fName}</dt><dd>Ayman Charoui</dd></div>
+      <div><dt>{t.fWhere}</dt><dd>{t.fWhereV} <span class="c">41.12°N 1.24°E</span></dd></div>
+      <div><dt>{t.fRole}</dt><dd>{t.fRoleV}</dd></div>
+      <div><dt>{t.fTime}</dt><dd><time data-clock>--:--</time> <span class="c">CET</span></dd></div>
+    </dl>
     <div class="hero-grid">
       <div>
-        <span class="chip"><b></b>{t.available}</span>
         <h1><Brand role="hero" label={`Ayman Charoui, ${t.leadStrong.replace('.', '').toLowerCase()}`} /></h1>
         <p class="lead"><strong>{t.leadStrong}</strong> {t.lead}</p>
         <div class="cta">
@@ -54,6 +59,20 @@ const ribbons = Array.from({ length: 11 }, (_, i) => {
   </div>
 </div>
 <script>
+  // Hora local de Tarragona en la ficha; se actualiza cada minuto.
+  const clock = document.querySelector<HTMLTimeElement>('[data-clock]');
+  if (clock) {
+    const fmt = new Intl.DateTimeFormat('es-ES', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit' });
+    const zone = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', timeZoneName: 'short' });
+    const tick = () => {
+      const now = new Date();
+      clock.textContent = fmt.format(now);
+      clock.dateTime = now.toISOString();
+      const z = zone.formatToParts(now).find((p) => p.type === 'timeZoneName')?.value;
+      if (z && clock.nextElementSibling) clock.nextElementSibling.textContent = z.replace('GMT+1', 'CET').replace('GMT+2', 'CEST');
+    };
+    tick(); setInterval(tick, 30_000);
+  }
   // El fondo vivo se descarga y arranca con el primer gesto del visitante (como las animaciones de scroll):
   // así no pesa en la carga. Hasta entonces, y con «reducir movimiento», se ve la retícula y las cintas estáticas de CSS.
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
