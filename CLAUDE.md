@@ -44,10 +44,12 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
   - Sin sombras negras: la profundidad viene de las superficies.
   - Solo lo importante (el nombre y el botón principal) lleva un resplandor suave en marino.
 - **Motivo propio: el punto.**
-  - Retícula de puntos de 24 px a muy baja opacidad detrás del Inicio.
+  - Retícula de puntos de 24 px a muy baja opacidad detrás del Inicio, que reacciona al cursor y al scroll.
+  - Fondo vivo en todas las páginas (`components/Aurora.astro`, 2026-11-19): tres manchas de luz en azul marino que derivan despacio y cambian de sitio según la sección, con un grano fino. Es continuo, sin bandas; con «reducir movimiento» queda quieto.
   - Punto final azul en el nombre y en los titulares de sección («Quién soy.»).
   - Punto de estado que late en «Disponible».
-  - Detrás del nombre, cintas de luz azul heredadas de la web anterior, con dos destellos que recorren las líneas.
+  - Las cintas de luz se retiraron el 2026-11-19. Bajo el Inicio, «el taller»: la maqueta ilustrada como película que avanza con el scroll (37 fotogramas en `public/img/taller/`), con tres notas que enlazan a casos, stack y proyecto.
+  - Barra de estado con métricas medidas (`src/content/metricas.json`, `npm run medir` y `npm run auditar`), ficha bajo la barra y marco de página con regla y posición.
 - **Tono:**
   - Primera persona del singular, frases cortas y hechos antes que adjetivos.
   - Precisión técnica, profesional y auténtico.

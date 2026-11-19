@@ -154,3 +154,14 @@ En `docs/marca/v3/`, originales sin optimizar. Al integrarlas se convierten a We
 | `maqueta-lacomu.png` | Caso LaComu: plaza con tablón, rampa de acceso y un punto azul en el tablón. |
 
 Coste: 24 de los 25 créditos acordados (7 imágenes de prueba descartadas, un vídeo descartado, 5 maquetas y el vídeo final). Generadas con Higgsfield (gpt_image_2 y Kling 3.0).
+
+## 13. Fondo vivo (2026-11-19)
+
+A petición de Ayman, el fondo deja de ser negro plano:
+
+- **Luz marino a la deriva** (`components/Aurora.astro`): tres manchas grandes de `#14213D` (una con un toque de azul señal, como mucho al 18 %) que se mueven solas en ciclos de 38 a 58 s.
+- **Escenas por sección:** la sección que ocupa el centro de la pantalla pone `data-scene` en `<html>` (inicio, taller, casos, stack, cómo, sobre mí, proyecto, contacto) y las manchas se desplazan a otra posición en 2,4 s. Así el fondo acompaña la lectura sin bandas de color.
+- **Grano:** una textura de 112 px (10 KB) a baja opacidad para que la tinta no se vea plana.
+- **Campo de puntos:** en el Inicio sigue la retícula que reacciona al cursor y al scroll.
+- Todo es CSS y una imagen; el movimiento usa `transform`, que va por la GPU. Con «reducir movimiento» no hay animación ni transición.
+

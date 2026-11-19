@@ -5,13 +5,6 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = UI[lang];
 
-// Cintas de luz detrás del nombre (heredadas de la web anterior), con dos destellos.
-const ribbons = Array.from({ length: 11 }, (_, i) => {
-  const y0 = 120 + i * 20, amp = 24 + i * 3, ph = i * 0.35;
-  const pts: string[] = [];
-  for (let x = -40; x <= 1480; x += 40) pts.push(`${x},${(y0 + amp * Math.sin(x / 260 + ph) + 10 * Math.sin(x / 90 + ph * 2)).toFixed(1)}`);
-  return { d: 'M' + pts.join(' L'), op: (0.16 + 0.05 * (5 - Math.abs(5 - i))).toFixed(2), w: i === 4 || i === 7 ? 2.2 : 1.4, spark: i === 4 || i === 7 ? `s${i}` : '' };
-});
 ---
 <script is:inline>
   // Primera visita de la sesión: se enciende la apertura antes del primer pintado (scripts/brand.ts la ejecuta).
@@ -23,20 +16,12 @@ const ribbons = Array.from({ length: 11 }, (_, i) => {
 <canvas id="field" class="field" aria-hidden="true"></canvas>
 <div class="hero">
   <div class="dots" aria-hidden="true"></div><div class="glow" aria-hidden="true"></div>
-  <svg class="ribbons" viewBox="0 0 1440 380" preserveAspectRatio="none" aria-hidden="true">
-    <defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#1d4ed8"/><stop offset=".5" stop-color="#60a5fa"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient></defs>
-    {ribbons.map((r) => <>
-      <path d={r.d} stroke="url(#rg)" stroke-width={r.w} fill="none" opacity={r.op} />
-      {r.spark && <path class={`spark ${r.spark}`} d={r.d} stroke="#93c5fd" stroke-width="3" fill="none" stroke-linecap="round" pathLength="1000" stroke-dasharray="140 860" />}
-    </>)}
-  </svg>
-  <canvas id="field-ribbons" class="ribbons" aria-hidden="true"></canvas>
   <div class="wrap">
     <dl class="ficha">
-      <div><dt>{t.fName}</dt><dd>Ayman Charoui</dd></div>
-      <div><dt>{t.fWhere}</dt><dd>{t.fWhereV} <span class="c">41.12°N 1.24°E</span></dd></div>
-      <div><dt>{t.fRole}</dt><dd>{t.fRoleV}</dd></div>
-      <div><dt>{t.fTime}</dt><dd><time data-clock>--:--</time> <span class="c">CET</span></dd></div>
+      <div><dt>{t.fiName}</dt><dd>Ayman Charoui</dd></div>
+      <div><dt>{t.fiWhere}</dt><dd>{t.fiWhereV} <span class="c">41.12°N 1.24°E</span></dd></div>
+      <div><dt>{t.fiRole}</dt><dd>{t.fiRoleV}</dd></div>
+      <div><dt>{t.fiTime}</dt><dd><time data-clock>--:--</time> <span class="c">CET</span></dd></div>
     </dl>
     <div class="hero-grid">
       <div>
@@ -74,7 +59,7 @@ const ribbons = Array.from({ length: 11 }, (_, i) => {
     tick(); setInterval(tick, 30_000);
   }
   // El fondo vivo se descarga y arranca con el primer gesto del visitante (como las animaciones de scroll):
-  // así no pesa en la carga. Hasta entonces, y con «reducir movimiento», se ve la retícula y las cintas estáticas de CSS.
+  // así no pesa en la carga. Hasta entonces, y con «reducir movimiento», se ve la retícula .
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const events = ['pointermove', 'pointerdown', 'touchstart', 'wheel', 'scroll', 'keydown'];
     const go = () => {

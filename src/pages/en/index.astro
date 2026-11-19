@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import TopBar from '../../components/TopBar.astro';
 import Hero from '../../components/Hero.astro';
+import Taller from '../../components/Taller.astro';
 import Cases from '../../components/Cases.astro';
 import Stack from '../../components/Stack.astro';
 import How from '../../components/How.astro';
@@ -29,6 +30,7 @@ const jsonld = {
   <TopBar lang={lang} alt={ROUTES['es'].home} home />
   <main id="main">
     <Hero lang={lang} />
+    <Taller lang={lang} />
     <Cases lang={lang} />
     <Stack lang={lang} />
     <How lang={lang} />
