@@ -139,3 +139,18 @@ Cursores de otros visitantes, asistentes de IA, banners de cookies (no usamos co
 5. Fragmentos de interfaz y maquetas en los casos.
 6. Verificación: Lighthouse ≥ 95, auditoría de 52 combinaciones sin fallos, capturas en 390 y 1440 px.
 7. Actualizar `CLAUDE.md` con las reglas nuevas.
+
+## 12. Piezas generadas (2026-11-19)
+
+En `docs/marca/v3/`, originales sin optimizar. Al integrarlas se convierten a WebP/AVIF en `public/`.
+
+| Archivo | Uso |
+|---|---|
+| `maqueta-inicio.png` | Inicio: taller nocturno con el punto azul sobre la mesa. |
+| `inicio-scroll.mp4` | Película del Inicio: 3 s, 73 fotogramas a 1280 × 716. La cámara se acerca y gira un poco; las líneas del monitor aparecen. Se extraen ~48 fotogramas para dibujarlos con el scroll. |
+| `maqueta-etecnic.png` | Caso Etecnic: subestación y torre de control unidas por un cable con luces. |
+| `maqueta-zellige.png` | Caso Zellige Hotels: hotel en corte con una ventana encendida. |
+| `maqueta-cineflow.png` | Caso CineFlow: sala de cine con tres butacas reservadas en azul. |
+| `maqueta-lacomu.png` | Caso LaComu: plaza con tablón, rampa de acceso y un punto azul en el tablón. |
+
+Coste: 24 de los 25 créditos acordados (7 imágenes de prueba descartadas, un vídeo descartado, 5 maquetas y el vídeo final). Generadas con Higgsfield (gpt_image_2 y Kling 3.0).
