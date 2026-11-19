@@ -16,34 +16,33 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
 - **Frase del Inicio:** «Desarrollador full-stack. Construyo aplicaciones web completas, del backend a la interfaz, y cuido especialmente lo que no puede fallar.» (2026-10-15)
 - **«Lo que no puede fallar» es una actitud, no un límite.** Programo de todo; nunca se presenta como si solo hiciera permisos, facturación o datos.
 
-## Marca (dirección elegida el 2026-10-15: «Medianoche con señal»)
+## Marca (v3 aprobada el 2026-11-19: «Tinta, marino y un punto»; detalle en `docs/marca/BRAND-V3.md`)
 
 - **Logotipo:** la λ con gancho, que es la A de Ayman, y un punto, dentro de un cuadrado de esquinas muy redondeadas. Archivos en `docs/marca/logo/`.
-  - Sobre fondo oscuro se usa el icono invertido (`ayman-icono-claro.svg`): cuadrado `#F3F4F1`, λ `#14213D`, punto `#3A5A8C`.
-  - El favicon es `ayman-icono.svg`.
-  - En la web el logotipo forma el nombre «λyman.»: la λ, «yman» en Plus Jakarta Sans 800 y el punto final en azul señal.
-  - **Animación de entrada:** el icono se recoge sobre la λ y el punto escribe «yman» hasta quedar como punto final (1,1 s, `cubic-bezier(.23,1,.32,1)`). En la barra de navegación, el nombre se recoge en el icono al bajar. Prototipo: `docs/marca/logo/animacion-logo.html`.
-- **Tipografía** (Google Fonts, alojadas en la propia web):
-  - Plus Jakarta Sans 800 para titulares y el nombre.
-  - Plus Jakarta Sans 400 y 600 para el cuerpo.
-  - JetBrains Mono para etiquetas, fechas y datos.
+  - Sobre fondo oscuro se usa el icono invertido (`ayman-icono-claro.svg`). El favicon es `ayman-icono.svg`.
+  - En la web el logotipo forma el nombre «λyman.»: la λ, «yman» en Archivo 800 ancho (`font-stretch:125%`) y el punto final en azul señal.
+  - **Animación de entrada:** el icono se recoge sobre la λ y el punto escribe «yman» hasta quedar como punto final (1,1 s, `cubic-bezier(.23,1,.32,1)`). En la barra de navegación, el nombre se recoge en el icono al bajar.
+- **Tipografía** (Fontsource, alojadas en la propia web):
+  - Archivo variable: titulares estrechos en mayúsculas (`750 condensed`) y el nombre ancho.
+  - Geist variable para el cuerpo.
+  - Geist Mono para etiquetas, fechas, datos y la barra de estado.
 - **Paleta:**
 
-  | Rol | Valor |
-  |---|---|
-  | Fondo | `#04060F`; fondo 2 `#080D1C` |
-  | Superficie de marca (bloques y tarjetas destacadas) | `#14213D`; `#1B2B4D` al pasar el ratón |
-  | Texto | `#F3F4F1` |
-  | Texto secundario | `#98A2B6` |
-  | Línea | `#1C2742`; `#2A3B61` en superficies de marca |
-  | Principal | azul marino `#14213D` |
-  | Señal (solo acciones y estados) | botón `#2563EB` con texto blanco; punto, brillo y estado activo `#3B82F6`; etiquetas mono `#93C5FD` |
+  | Rol | Oscuro (por defecto) | Claro |
+  |---|---|---|
+  | Fondo | tinta `#07080B`; fondo 2 `#0E1014` | tiza `#ECEBE6`; `#F6F6F3` |
+  | Marca: azul marino (bloques, tarjetas, maquetas) | `#14213D`; `#1B2B4D` al pasar el ratón | `#14213D` |
+  | Texto | tiza `#ECEBE6` | tinta `#0B0D12` |
+  | Texto secundario | `#9A9EA7` | `#4E535C` |
+  | Línea | `#23262D`; `#2A3B61` sobre marino | `#D6D5CF` |
+  | Señal (solo el punto, foco, «Disponible», enlace activo) | `#3B82F6` | `#1D4ED8` |
+  | Botón principal | tiza con texto tinta | tinta con texto tiza |
 
-- **Proporción:** 60 % fondo, 30 % azul marino, 10 % señal azul como máximo.
+- **Proporción:** 60 % tinta, 30 % marino, 7 % tiza en titulares y botones, 3 % señal como máximo.
 - **Forma:**
   - Esquinas de 22 px en tarjetas, 12 px en botones y píldora en las etiquetas.
   - Sin sombras negras: la profundidad viene de las superficies.
-  - Solo lo importante (el nombre y el botón principal) lleva un resplandor azul suave.
+  - Solo lo importante (el nombre y el botón principal) lleva un resplandor suave en marino.
 - **Motivo propio: el punto.**
   - Retícula de puntos de 24 px a muy baja opacidad detrás del Inicio.
   - Punto final azul en el nombre y en los titulares de sección («Quién soy.»).
@@ -64,7 +63,7 @@ Portafolio personal para que me contraten como desarrollador full-stack y para a
   - botón 5,2:1; azul señal como texto 5,5:1.
 
   Toda animación respeta `prefers-reduced-motion`: se muestra el estado final, sin movimiento.
-- **Modo:** automático según el sistema o navegador (`prefers-color-scheme`), sin botón. Oscuro por defecto; el claro usa fondo `#F3F4F1`, superficie `#FFFFFF`, texto `#0F1626`, secundario `#4A5468`, señal `#2563EB` y etiquetas `#1D4ED8`, con el icono en su versión azul marino. Si el sistema cambia con la página abierta, la web cambia con una transición suave (2026-10-15).
+- **Modo:** automático según el sistema o navegador (`prefers-color-scheme`), sin botón. Oscuro por defecto; el claro usa los valores de la tabla, con el icono en su versión azul marino. Si el sistema cambia con la página abierta, la web cambia con una transición suave (2026-10-15).
 - **Idioma:** según el navegador (español si está en español; si no, inglés), con un selector discreto ES/EN.
 
 ## Estructura de la web (2026-10-15)

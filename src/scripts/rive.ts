@@ -10,8 +10,8 @@ type RiveMod = typeof import('./rive-runtime');
 type Vmi = NonNullable<InstanceType<RiveMod['Rive']>['viewModelInstance']>;
 
 const COLORS = {
-  dark: { ink: 'F3F4F1', mut: '98A2B6', line: '2A3B61', surf: '14213D', sig: '3B82F6', lab: '93C5FD', onSig: '04060F' },
-  light: { ink: '0F1626', mut: '4A5468', line: 'C6CEDC', surf: 'E6EBF4', sig: '2563EB', lab: '1D4ED8', onSig: 'FFFFFF' },
+  dark: { ink: 'ECEBE6', mut: '9A9EA7', line: '2A3B61', surf: '14213D', sig: '3B82F6', lab: 'B4B8C0', onSig: '07080B' },
+  light: { ink: '0B0D12', mut: '4E535C', line: 'C4C3BC', surf: 'E2E1DB', sig: '1D4ED8', lab: '3E434C', onSig: 'FFFFFF' },
 };
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const light = matchMedia('(prefers-color-scheme: light)');

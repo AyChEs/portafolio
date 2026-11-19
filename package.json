@@ -11,8 +11,9 @@
     "rive:build": "sh rive/build.sh"
   },
   "dependencies": {
-    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
-    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
     "@rive-app/canvas-lite": "2.44.2",
     "astro": "^7.3.8",
     "gsap": "3.15.0",

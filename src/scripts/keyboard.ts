@@ -121,7 +121,7 @@ export function boot(host: HTMLElement) {
       } else if (key.mono) {
         x.fillStyle = '#14213D'; x.font = '800 54px ui-monospace, Menlo, monospace'; x.textAlign = 'center'; x.fillText(key.mono, cw / 2, 112);
       }
-      if (key.label) { x.fillStyle = '#14213D'; x.font = '700 31px "Plus Jakarta Sans Variable", system-ui, sans-serif'; x.textAlign = 'center'; x.fillText(key.label, cw / 2, 214); }
+      if (key.label) { x.fillStyle = '#14213D'; x.font = '700 31px "Geist Variable", system-ui, sans-serif'; x.textAlign = 'center'; x.fillText(key.label, cw / 2, 214); }
       const t = new THREE.CanvasTexture(c);
       t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = renderer.capabilities.getMaxAnisotropy();
       return t;

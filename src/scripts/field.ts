@@ -32,7 +32,7 @@ export function boot() {
 
   let W = 0, H = 0, dpr = 1;
   let rw = 0, rh = 0;
-  let sig = '#3B82F6', base = '147,197,253', baseA = 0.17, ribOp = 0.9;
+  let sig = '#3B82F6', base = '236,235,230', baseA = 0.17, ribOp = 0.9;
   let px = -999, py = -999, tx = -999, ty = -999; // cursor suavizado y objetivo
   let vel = 0, lastY = scrollY, lastMove = 0, lastScroll = 0;
   const ripples: { x: number; y: number; t: number }[] = [];
@@ -41,9 +41,9 @@ export function boot() {
 
   const palette = () => {
     const l = light.matches;
-    sig = l ? '#2563EB' : '#3B82F6';
-    base = l ? '20,33,61' : '147,197,253';
-    baseA = l ? 0.3 : 0.3;
+    sig = l ? '#1D4ED8' : '#3B82F6';
+    base = l ? '11,13,18' : '236,235,230';
+    baseA = l ? 0.26 : 0.2;
     ribOp = parseFloat(css('--ribbon-op')) || 0.9;
   };
   const fit = () => {

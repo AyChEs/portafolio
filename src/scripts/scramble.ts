@@ -1,6 +1,6 @@
 // Etiquetas mono que se «descifran»: pasan por caracteres aleatorios hasta su texto (unos 300 ms).
 // El texto real queda en el DOM (en un span oculto a la vista) mientras dura el efecto, así que el
-// lector de pantalla lo lee igual. El ancho no cambia: son etiquetas en JetBrains Mono.
+// lector de pantalla lo lee igual. El ancho no cambia: son etiquetas en Geist Mono.
 const SET = 'abcdefghijklmnopqrstuvwxyz0123456789/_<>#=+';
 
 export function scramble(el: HTMLElement, ms: number, delay = 0) {
