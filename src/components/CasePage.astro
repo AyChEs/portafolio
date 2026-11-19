@@ -1,0 +1,108 @@
+---
+import InvoiceDiagram from './InvoiceDiagram.astro';
+import { UI, CASES, ROUTES, type Lang } from '../content/site';
+interface Props { lang: Lang; index: number }
+const { lang, index } = Astro.props;
+const t = UI[lang];
+const c = CASES[index];
+const prev = CASES[(index + CASES.length - 1) % CASES.length];
+const next = CASES[(index + 1) % CASES.length];
+const href = (x: (typeof CASES)[number]) => `${ROUTES[lang].cases}${x.slug[lang]}/`;
+const shotGroups = c.decisions[lang].flatMap((d, i) => (d.shots?.length ? [{ n: String(i + 1).padStart(2, '0'), t: d.t, wide: d.shots.filter((x) => !x.phone), phones: d.shots.filter((x) => x.phone) }] : []));
+const sections = [
+  { id: 'contexto', label: t.context },
+  { id: 'problema', label: lang === 'es' ? 'El problema' : 'The problem' },
+  { id: 'decisiones', label: t.decisions },
+  { id: 'resultado', label: t.result[0].toUpperCase() + t.result.slice(1) },
+  ...(c.learned ? [{ id: 'aprendi', label: t.learned }] : []),
+];
+---
+<div class="chead"><div class="wrap">
+  <p class="crumb"><a href={`${ROUTES[lang].home}#casos`}>{t.casesTitle}</a> / {c.title[lang].replace(/\.$/, '')}</p>
+  <h1 style={`view-transition-name:case-title-${c.id}`}>{c.title[lang].replace(/\.$/, '')}<i>.</i></h1>
+  <p class="sum">{c.summary[lang]}</p>
+  <dl class="meta">
+    <div><dt>{t.role}</dt><dd>{c.meta.role[lang]}</dd></div>
+    <div><dt>{t.year}</dt><dd>{c.meta.year}</dd></div>
+    <div><dt>{t.stack}</dt><dd class="chips">{c.tags.map((x) => <span>{x}</span>)}</dd></div>
+    <div><dt>{t.links}</dt><dd>{c.meta.code ? <a href={c.meta.code} target="_blank" rel="noopener">{t.code} ↗</a> : <span class="pend">{lang === 'es' ? 'Privado' : 'Private'}</span>}{c.meta.demo && <a href={c.meta.demo} target="_blank" rel="noopener">{t.demo} ↗</a>}</dd></div>
+  </dl>
+</div></div>
+
+<div class="wrap">
+  {c.visual.type === 'diagram'
+    ? <div class="hero-shot diag" style={`view-transition-name:case-box-${c.id}`}><InvoiceDiagram lang={lang} /></div>
+    : <div class="hero-shot" style={`view-transition-name:case-box-${c.id}`}><div class="frame" style={`view-transition-name:case-vis-${c.id}`}><div class="bar"><i></i><i></i><i></i></div><img src={c.visual.src} alt={c.visual.alt[lang]} width="1440" height="900" decoding="async" /></div></div>}
+</div>
+
+<div class="wrap"><div class="body">
+  <nav class="toc" aria-label={lang === 'es' ? 'En este caso' : 'In this case'}>{sections.map((s, i) => <a href={`#${s.id}`} class={i === 0 ? 'on' : ''}>{s.label}</a>)}</nav>
+  <article>
+    <section id="contexto"><span class="k">// {t.context.toLowerCase()}</span><h2>{t.context}<i>.</i></h2>{c.context[lang].map((p) => <p>{p}</p>)}</section>
+    <section id="problema"><span class="k">// {t.problem}</span><h2>{lang === 'es' ? 'El problema' : 'The problem'}<i>.</i></h2><p>{c.problem[lang]}</p></section>
+    <section id="decisiones"><span class="k">// {lang === 'es' ? 'decisiones' : 'decisions'}</span><h2>{t.decisions}<i>.</i></h2>
+      <div class="dec">
+        {c.decisions[lang].map((d, i) => (
+          <div class="d"><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{d.t}</h3>
+            {(d.problem || d.what || d.why || d.detail || d.check || d.review) && <dl>
+              {d.problem && <div><dt>{t.problem}</dt><dd>{d.problem}</dd></div>}
+              {d.what && <div><dt>{d.problem ? t.decision : t.what}</dt><dd>{d.what}</dd></div>}
+              {d.why && <div><dt>{t.why}</dt><dd>{d.why}</dd></div>}
+              {d.detail && <div><dt>{t.detail}</dt><dd>{d.detail}</dd></div>}
+              {d.check && <div><dt>{t.check}</dt><dd>{d.check}</dd></div>}
+              {d.review && <div><dt>{t.review}</dt><dd>{d.review}</dd></div>}
+            </dl>}
+            {d.items && <ul class="out">{d.items.map((x) => <li>{x}</li>)}</ul>}</div>
+        ))}
+      </div>
+    </section>
+    {shotGroups.length > 0 && (
+      <section class="extra shots"><span class="k">// {t.shots.toLowerCase()}</span><h2>{t.shots}<i>.</i></h2>
+        {shotGroups.map((g) => (
+          <div class="grp"><h3 class="sub">{g.n} · {g.t}</h3>
+            {[g.wide, g.phones].filter((l) => l.length).map((list, k) => (
+              <div class={k === 1 || list[0].phone ? 'sg phones' : 'sg'}>{list.map((x) => <figure class={x.phone ? 'fig phone' : 'fig'}><img src={x.src} alt={x.alt[lang]} width={x.w} height={x.h} loading="lazy" decoding="async" /><figcaption>{x.alt[lang]}</figcaption></figure>)}</div>
+            ))}
+          </div>
+        ))}
+      </section>
+    )}
+    {c.visual.type === 'shot' && c.visual.extra && (
+      <section class="extra">{c.visual.extra.map((x) => <figure class="fig"><img src={x.src} alt={x.alt[lang]} width="1440" height="900" loading="lazy" decoding="async" /><figcaption>{x.alt[lang]}</figcaption></figure>)}</section>
+    )}
+    <section id="resultado"><span class="k">// {t.result}</span><h2>{t.result[0].toUpperCase() + t.result.slice(1)}<i>.</i></h2><ul class="out">{c.outcome[lang].map((o) => <li>{o}</li>)}</ul></section>
+    {c.learned && <section id="aprendi"><span class="k">// {t.learned.toLowerCase()}</span><h2>{t.learned}<i>.</i></h2><ul class="out">{c.learned[lang].map((o) => <li>{o}</li>)}</ul>
+      {c.different && <><h3 class="sub">{t.different}</h3><ul class="out">{c.different[lang].map((o) => <li>{o}</li>)}</ul></>}</section>}
+  </article>
+</div></div>
+
+<div class="wrap"><nav class="next" aria-label={lang === 'es' ? 'Más casos' : 'More cases'}>
+  <a href={href(prev)}><span class="k">← {t.prevCase}</span><b>{prev.title[lang]}</b></a>
+  <a href={href(next)} style="text-align:right"><span class="k">{t.nextCase} →</span><b>{next.title[lang]}</b></a>
+</nav></div>
+<script>
+  // El índice lateral marca la sección que se está leyendo y cuánto llevas de ella.
+  // Si una sección está fijada con GSAP (las decisiones), el progreso se mide sobre su contenedor de fijado.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+  const secs = links.map((a) => document.querySelector(a.hash)).filter(Boolean) as HTMLElement[];
+  if (secs.length) {
+    let raf = 0;
+    const box = (s: HTMLElement) => (s.parentElement?.classList.contains('pin-spacer') ? s.parentElement : s).getBoundingClientRect();
+    const update = () => {
+      raf = 0;
+      const mid = innerHeight * 0.5;
+      let active = 0;
+      secs.forEach((s, i) => {
+        const r = box(s);
+        links[i].style.setProperty('--p', clamp01((mid - r.top) / r.height).toFixed(3));
+        if (r.top <= mid) active = i;
+      });
+      links.forEach((a, i) => a.classList.toggle('on', i === active));
+    };
+    const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+    const queue = () => { if (!raf) raf = requestAnimationFrame(update); };
+    addEventListener('scroll', queue, { passive: true });
+    addEventListener('resize', queue);
+    update();
+  }
+</script>

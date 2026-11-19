@@ -1,0 +1,29 @@
+---
+// Escena del Inicio (marca v3): la maqueta del taller como película que avanza con el scroll.
+// Sin JavaScript o con «reducir movimiento» se ve el último fotograma fijo y las tres notas.
+import { UI, type Lang } from '../content/site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = UI[lang];
+const FRAMES = 37;
+---
+<section class="taller" aria-label={t.tallerLabel} data-frames={FRAMES}>
+  <div class="taller-in">
+    <div class="wrap">
+      <div class="taller-stage">
+        <div class="taller-pic">
+        <img class="taller-img" src={`/img/taller/${String(FRAMES - 1).padStart(2, '0')}.webp`} width="1120" height="626" alt={t.tallerAlt} loading="lazy" decoding="async" />
+        <canvas class="taller-cv" aria-hidden="true"></canvas>
+        </div>
+        <ol class="taller-notes">
+          <li class="n1"><a href="#casos"><span class="k">{t.t1k}</span><b>{t.t1} →</b></a></li>
+          <li class="n2"><a href="#stack"><span class="k">{t.t2k}</span><b>{t.t2} →</b></a></li>
+          <li class="n3"><a href="#proyecto"><span class="k">{t.t3k}</span><b>{t.t3} →</b></a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  import '../scripts/taller';
+</script>

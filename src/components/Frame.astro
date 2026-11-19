@@ -1,0 +1,25 @@
+---
+// Marco de la página (marca v3): dos líneas finas en los bordes, cruces de registro en las esquinas,
+// una regla que avanza con el scroll y la posición vertical en mono. Solo en pantallas anchas; es decoración.
+---
+<div class="frame-x" aria-hidden="true">
+  <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+  <span class="ruler"></span>
+  <span class="coord"><span data-coord-y>Y 0000</span> · <span data-coord-p>00</span> %</span>
+</div>
+<script>
+  const root = document.documentElement;
+  const y = document.querySelector<HTMLElement>('[data-coord-y]');
+  const p = document.querySelector<HTMLElement>('[data-coord-p]');
+  let raf = 0;
+  const draw = () => {
+    raf = 0;
+    const max = Math.max(1, root.scrollHeight - innerHeight);
+    const sy = Math.max(0, Math.round(scrollY));
+    root.style.setProperty('--sy', String(sy % 100));
+    if (y) y.textContent = 'Y ' + String(sy).padStart(4, '0');
+    if (p) p.textContent = String(Math.min(100, Math.round((sy / max) * 100))).padStart(2, '0');
+  };
+  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(draw); }, { passive: true });
+  draw();
+</script>

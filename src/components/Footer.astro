@@ -1,0 +1,35 @@
+---
+import { UI, PERSON, ROUTES, type Lang } from '../content/site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = UI[lang];
+---
+<footer id="contacto">
+  <div class="glow"></div>
+  <div class="wrap">
+    <span class="k">{t.contactKicker}</span>
+    <p class="fbig">{t.talk.replace(/[.!]$/, '')}<i>.</i></p>
+    <div class="fl">
+      <span class="mail"><a id="mail" href={`mailto:${PERSON.email}`}>{PERSON.email}</a><button type="button" id="copy" data-copied={t.copied}>{t.copy}</button></span>
+      <div class="soc">
+        <a href={PERSON.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a>
+        <a href={PERSON.github} rel="me noopener" target="_blank">GitHub ↗</a>
+        <a href={PERSON.cv[lang]} download>CV ↓</a>
+      </div>
+    </div>
+    <div class="legal"><span>{PERSON.name} · Tarragona</span><a href={ROUTES[lang].legal}>{t.legal}</a></div>
+  </div>
+  <div class="giant" aria-hidden="true">
+    <div class="giant-in"><span class="g-out">Ayman</span><span class="g-fill"><span class="g-fill-in">Ayman</span></span><span class="g-dot"></span></div>
+  </div>
+</footer>
+<script>
+  const b = document.getElementById('copy');
+  b?.addEventListener('click', async () => {
+    const mail = document.getElementById('mail')?.textContent ?? '';
+    try { await navigator.clipboard.writeText(mail); } catch { return; }
+    const prev = b.textContent;
+    b.textContent = b.dataset.copied ?? '';
+    setTimeout(() => { b.textContent = prev; }, 1600);
+  });
+</script>

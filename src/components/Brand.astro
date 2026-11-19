@@ -1,0 +1,9 @@
+---
+// «λyman.»: la λ es la A de Ayman. La animación vive en scripts/brand.ts.
+interface Props { role: 'hero' | 'nav'; label: string; href?: string }
+const { role, label, href } = Astro.props;
+const Tag = href ? 'a' : 'span';
+---
+<Tag class="brand" data-brand={role} href={href}>
+  <span class="sr-only">{label}</span><span class="tile" aria-hidden="true"></span><svg class="lam" viewBox="0 0 95.7 100" aria-hidden="true"><path d="M 26.5 0 L 52.2 0 L 95.7 100 L 67.4 100 L 47.8 55.7 L 27 100 L 0 100 L 34.3 26.1 C 30.9 24.3 25.7 24.8 22.2 23 C 19.1 21.3 18.3 18.7 19.1 15.7 L 21.7 3 Q 22.6 0 26.5 0 Z"/></svg><span class="rest" aria-hidden="true">yman</span><span class="dot" aria-hidden="true"></span>
+</Tag>

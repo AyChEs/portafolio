@@ -1,0 +1,165 @@
+---
+import { UI, FREELANCE, PERSON, type Lang } from '../content/site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = UI[lang];
+const f = FREELANCE[lang];
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+<section id="proyecto"><div class="wrap">
+  <div class="free">
+    <div>
+      <span class="k">{t.freeKicker}</span>
+      <div class="sh" style="margin-bottom:22px"><h2>{t.freeTitle}<i>?</i></h2></div>
+      <p class="free-intro">{t.freeIntro}</p>
+      <div class="yesno">
+        <div class="si"><span class="k">{t.yes}</span><ul>{f.yes.map((x) => <li>{x}</li>)}</ul></div>
+        <div class="no"><span class="k">{t.no}</span><ul>{f.no.map((x) => <li>{x}</li>)}</ul></div>
+      </div>
+    </div>
+    <form id="contact-form" class="wiz" method="post" action="/api/contact" novalidate data-ok={t.fOk} data-mail={t.fMail} data-err={t.fErr} data-sending={t.fSending} data-send={t.fSend} data-email={PERSON.email} data-live={siteKey ? '1' : ''} data-pick={t.wPick} data-short={t.wShort}>
+      <div class="wiz-head">
+        <p class="wiz-n" aria-live="polite"><span class="sr-only">{t.wStep} </span>[<span data-n>1</span>/4]</p>
+        <ol class="wiz-bar" aria-hidden="true"><li class="on"></li><li></li><li></li><li></li></ol>
+      </div>
+      <fieldset class="st" data-step="1">
+        <legend tabindex="-1">{t.fKind}</legend>
+        <div class="opts">{f.kinds.map((x, i) => <label class="opt"><input type="radio" name="kind" value={x} required /><span>{x}</span></label>)}</div>
+      </fieldset>
+      <fieldset class="st" data-step="2">
+        <legend tabindex="-1">{t.fWhat}</legend>
+        <textarea name="message" required minlength="10" maxlength="2000" placeholder={t.fWhatPh} aria-describedby="wiz-count"></textarea>
+        <small id="wiz-count" class="count"><span data-count>0</span> / 2000 {t.wChars}</small>
+      </fieldset>
+      <fieldset class="st" data-step="3">
+        <legend tabindex="-1">{t.fWhen}</legend>
+        <div class="opts">{f.when.map((x) => <label class="opt"><input type="radio" name="when" value={x} required /><span>{x}</span></label>)}</div>
+      </fieldset>
+      <fieldset class="st" data-step="4">
+        <legend tabindex="-1">{t.wContact}</legend>
+        <div class="row2">
+          <label>{t.fName}<input name="name" type="text" autocomplete="name" required maxlength="80" /></label>
+          <label>{t.fEmail}<input name="email" type="email" autocomplete="email" required maxlength="120" placeholder={t.fEmailPh} /></label>
+        </div>
+        {siteKey && <div class="cf-turnstile" data-sitekey={siteKey} data-theme="auto" data-language={lang}></div>}
+      </fieldset>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input type="hidden" name="lang" value={lang} />
+      <p class="wiz-err" role="alert"></p>
+      <div class="wiz-nav">
+        <button class="btn s" type="button" data-prev>← {t.wPrev}</button>
+        <button class="btn p" type="button" data-next>{t.wNext} →</button>
+        <button class="btn p" type="submit" data-submit>{t.fSend}</button>
+      </div>
+      <dl class="wiz-sum">
+        <dt class="h">{t.wSummary}</dt><dd class="h"></dd>
+        <dt>{t.wSumKind}</dt><dd data-sum="kind">{t.wEmpty}</dd>
+        <dt>{t.wSumWhen}</dt><dd data-sum="when">{t.wEmpty}</dd>
+        <dt>{t.wSumWho}</dt><dd data-sum="who">{t.wEmpty}</dd>
+      </dl>
+      <div class="form-end">
+        <span class="sdot" id="form-dot" data-rive="/rive/formulario-ok.riv" data-mode="manual" data-p="0" aria-hidden="true"><i class="fb"></i><canvas></canvas></span>
+        <div>
+          <small>{siteKey ? t.fNote : t.fOff}</small>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div></section>
+{siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  // El punto azul de la marca se transforma en un ✓ al enviarse bien (pieza de Rive, scripts/rive.ts;
+  // sin ella lo hace el CSS) y vuelve a ser punto en cuanto se toca el formulario otra vez.
+  const mark = document.getElementById('form-dot');
+  const dot = (to: 'ok' | '') => {
+    if (!mark || (mark.dataset.state ?? '') === to) return;
+    mark.dataset.state = to;
+    mark.dispatchEvent(new CustomEvent('rive:to', { detail: to ? 1 : 0 }));
+  };
+  form?.addEventListener('input', () => dot(''));
+
+  // Pasos: sin JavaScript se ve el formulario entero; con él, un paso cada vez, con resumen y validación por paso.
+  if (form) {
+    const steps = [...form.querySelectorAll<HTMLFieldSetElement>('.st')];
+    const bar = [...form.querySelectorAll('.wiz-bar li')];
+    const n = form.querySelector('[data-n]')!;
+    const err = form.querySelector<HTMLElement>('.wiz-err')!;
+    const prev = form.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = form.querySelector<HTMLButtonElement>('[data-next]')!;
+    const send = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const count = form.querySelector('[data-count]')!;
+    const empty = form.querySelector<HTMLElement>('[data-sum="kind"]')!.textContent ?? '';
+    let at = 0;
+    form.classList.add('wiz-on');
+    const show = (i: number, focus = true) => {
+      at = Math.max(0, Math.min(steps.length - 1, i));
+      steps.forEach((s, k) => { s.hidden = k !== at; });
+      bar.forEach((b, k) => b.classList.toggle('on', k <= at));
+      n.textContent = String(at + 1);
+      prev.hidden = at === 0; next.hidden = at === steps.length - 1; send.hidden = at !== steps.length - 1;
+      err.textContent = '';
+      if (focus) steps[at].querySelector<HTMLElement>('legend')?.focus();
+    };
+    // Un paso vale si todos sus campos son válidos; si no, se dice qué falta con texto, no solo con color.
+    const valid = () => {
+      const s = steps[at];
+      const radios = s.querySelectorAll<HTMLInputElement>('input[type=radio]');
+      if (radios.length && ![...radios].some((r) => r.checked)) { err.textContent = form.dataset.pick ?? ''; radios[0].focus(); return false; }
+      const ta = s.querySelector('textarea');
+      if (ta && ta.value.trim().length < 10) { err.textContent = form.dataset.short ?? ''; ta.setAttribute('aria-invalid', 'true'); ta.focus(); return false; }
+      ta?.removeAttribute('aria-invalid');
+      for (const el of s.querySelectorAll<HTMLInputElement>('input:not([type=radio])')) if (!el.checkValidity()) { el.reportValidity(); return false; }
+      return true;
+    };
+    next.addEventListener('click', () => { if (valid()) show(at + 1); });
+    prev.addEventListener('click', () => show(at - 1));
+    // Intro en un campo de texto avanza de paso en lugar de enviar.
+    form.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.target as HTMLElement).tagName === 'INPUT' && at < steps.length - 1) { e.preventDefault(); next.click(); }
+    });
+    form.addEventListener('change', (e) => {
+      const r = e.target as HTMLInputElement;
+      if (r.type === 'radio') { err.textContent = ''; setTimeout(() => { if (valid()) show(at + 1); }, 180); }
+    });
+    const sum = () => {
+      const f = new FormData(form), v = (k: string) => String(f.get(k) ?? '').trim();
+      const put = (k: string, x: string) => { form.querySelector<HTMLElement>(`[data-sum="${k}"]`)!.textContent = x || empty; };
+      put('kind', v('kind')); put('when', v('when'));
+      put('who', [v('name'), v('email')].filter(Boolean).join(' · '));
+      count.textContent = String(v('message').length);
+    };
+    form.addEventListener('input', sum); form.addEventListener('change', sum);
+    form.addEventListener('reset', () => setTimeout(() => { sum(); show(0, false); }));
+    show(0, false); sum();
+  }
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const status = form.querySelector<HTMLElement>('.form-status')!;
+    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    // Con los pasos activos, solo se envía desde el último.
+    if (form.classList.contains('wiz-on') && form.querySelector<HTMLElement>('[data-step="4"]')!.hidden) return;
+    if (!form.reportValidity()) return;
+    // Sin servicio de envío (sin claves de Turnstile y Resend), el mensaje sale por el correo del visitante.
+    const viaMail = () => {
+      const f = new FormData(form), v = (k: string) => String(f.get(k) ?? '').trim();
+      const es = v('lang') !== 'en';
+      const subject = `Portafolio · ${v('kind')} · ${v('name')}`.replace(/[\r\n]+/g, ' ');
+      const body = [`${es ? 'Nombre' : 'Name'}: ${v('name')}`, `${es ? 'Correo' : 'Email'}: ${v('email')}`, `${es ? 'Tipo' : 'Type'}: ${v('kind')}`, `${es ? 'Plazo' : 'When'}: ${v('when')}`, '', v('message')].join('\r\n');
+      status.textContent = `${form.dataset.mail} ${form.dataset.email}`; status.className = 'form-status ok';
+      location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    };
+    if (!form.dataset.live) { viaMail(); return; }
+    btn.disabled = true; btn.textContent = form.dataset.sending ?? '';
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+      if (res.status === 503) { viaMail(); return; }
+      if (!res.ok) throw new Error(String(res.status));
+      status.textContent = form.dataset.ok ?? ''; status.className = 'form-status ok'; form.reset();
+      dot('ok');
+    } catch {
+      status.textContent = `${form.dataset.err} ${form.dataset.email}`; status.className = 'form-status bad';
+    } finally { btn.disabled = false; btn.textContent = form.dataset.send ?? ''; }
+  });
+</script>

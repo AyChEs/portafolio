@@ -1,0 +1,20 @@
+---
+import Base from '../../../layouts/Base.astro';
+import TopBar from '../../../components/TopBar.astro';
+import Footer from '../../../components/Footer.astro';
+import CasePage from '../../../components/CasePage.astro';
+import { CASES, ROUTES } from '../../../content/site';
+const lang = 'es';
+export function getStaticPaths() {
+  return CASES.map((c, i) => ({ params: { slug: c.slug['es'] }, props: { i } }));
+}
+const { i } = Astro.props;
+const c = CASES[i];
+const path = `${ROUTES[lang].cases}${c.slug[lang]}/`;
+const alt = `${ROUTES['en'].cases}${c.slug['en']}/`;
+---
+<Base lang={lang} title={`${c.title[lang].replace(/\.$/, '')} · Ayman Charoui`} description={c.summary[lang]} path={path} alt={alt}>
+  <TopBar lang={lang} alt={alt} />
+  <main id="main"><CasePage lang={lang} index={i} /></main>
+  <Footer lang={lang} />
+</Base>

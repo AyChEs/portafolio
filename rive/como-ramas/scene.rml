@@ -1,0 +1,320 @@
+<Rive version="1" kind="fragment">
+    <Artboard defaultStateMachineId="0:139" viewModelId="0:40" viewModelInstanceId="0:41" width="400" height="200" styleId="0:5" name="Cambios" id="0:2">
+        <LayoutComponentStyle name="Artboard Style" id="0:5"/>
+        <Joystick posX="0" posY="0" width="10" height="10" xId="0:137" name="Scrub" id="0:138">
+            <DataBindContext sourcePathIds="0:40-0:45" propertyKey="299"/>
+        </Joystick>
+        <Shape x="352" y="76" scaleX="0" scaleY="0" name="Punto final" id="0:135">
+            <Ellipse width="14" height="14" originX="0.5" originY="0.5" name="Path"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="3B82F6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:50" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+        <Shape x="352" y="76" opacity="0" scaleX="0" scaleY="0" name="Halo final" id="0:133">
+            <Ellipse width="28" height="28" originX="0.5" originY="0.5" name="Path"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="3B82F6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:50" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+        <Shape x="298" y="76" scaleX="0" scaleY="0" name="Fusión" id="0:131">
+            <Ellipse width="14" height="14" originX="0.5" originY="0.5" name="Path"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="3B82F6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:50" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+        <Shape x="298" y="76" opacity="0" scaleX="0.5" scaleY="0.5" name="Onda" id="0:129">
+            <Ellipse width="28" height="28" originX="0.5" originY="0.5" name="Path"/>
+            <Stroke thickness="2" cap="round" join="round" name="Stroke">
+                <SolidColor colorValue="3B82F6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:50" propertyKey="37"/>
+                </SolidColor>
+            </Stroke>
+        </Shape>
+        <Shape x="262" y="146" scaleX="0" scaleY="0" name="Commit rama 2" id="0:127">
+            <Ellipse width="12" height="12" originX="0.5" originY="0.5" name="Path"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="3B82F6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:50" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+        <Shape x="210" y="146" scaleX="0" scaleY="0" name="Commit rama 1" id="0:125">
+            <Ellipse width="12" height="12" originX="0.5" originY="0.5" name="Path"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="3B82F6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:50" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+        <Shape x="172" y="76" name="Commit 3" id="0:123">
+            <Ellipse width="12" height="12" originX="0.5" originY="0.5" name="Path"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="98A2B6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:47" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+        <Shape x="110" y="76" name="Commit 2" id="0:121">
+            <Ellipse width="12" height="12" originX="0.5" originY="0.5" name="Path"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="98A2B6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:47" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+        <Shape x="48" y="76" name="Commit 1" id="0:119">
+            <Ellipse width="12" height="12" originX="0.5" originY="0.5" name="Path"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="98A2B6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:47" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+        <Shape x="0" y="0" name="Principal tras la fusión" id="0:116">
+            <PointsPath isClosed="false" name="Path">
+                <StraightVertex x="298" y="76"/>
+                <StraightVertex x="352" y="76"/>
+            </PointsPath>
+            <Stroke thickness="3" cap="round" join="round" name="Stroke">
+                <SolidColor colorValue="3B82F6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:50" propertyKey="37"/>
+                </SolidColor>
+                <TrimPath start="0" end="0" id="0:117" name="Trim"/>
+            </Stroke>
+        </Shape>
+        <Shape x="0" y="0" name="Rama" id="0:113">
+            <PointsPath isClosed="false" name="Path">
+                <StraightVertex x="172" y="76"/>
+                <StraightVertex x="172" y="146" radius="16"/>
+                <StraightVertex x="298" y="146" radius="16"/>
+                <StraightVertex x="298" y="76"/>
+            </PointsPath>
+            <Stroke thickness="3" cap="round" join="round" name="Stroke">
+                <SolidColor colorValue="3B82F6" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:50" propertyKey="37"/>
+                </SolidColor>
+                <TrimPath start="0" end="0" id="0:114" name="Trim"/>
+            </Stroke>
+        </Shape>
+        <Shape x="0" y="0" name="Rama (guía)" id="0:111">
+            <PointsPath isClosed="false" name="Path">
+                <StraightVertex x="172" y="76"/>
+                <StraightVertex x="172" y="146" radius="16"/>
+                <StraightVertex x="298" y="146" radius="16"/>
+                <StraightVertex x="298" y="76"/>
+            </PointsPath>
+            <Stroke thickness="3" cap="round" join="round" name="Stroke">
+                <SolidColor colorValue="2A3B61" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:48" propertyKey="37"/>
+                </SolidColor>
+            </Stroke>
+        </Shape>
+        <Shape x="0" y="0" name="Principal" id="0:109">
+            <PointsPath isClosed="false" name="Path">
+                <StraightVertex x="24" y="76"/>
+                <StraightVertex x="376" y="76"/>
+            </PointsPath>
+            <Stroke thickness="3" cap="round" join="round" name="Stroke">
+                <SolidColor colorValue="2A3B61" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:48" propertyKey="37"/>
+                </SolidColor>
+            </Stroke>
+        </Shape>
+        <Shape x="208" y="172" name="Texto rama" id="0:107">
+            <Rectangle id="0:108" width="20" height="4" cornerRadiusTL="2" originX="0" originY="0.5" name="Path"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="93C5FD" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:51" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+        <Shape x="196" y="172" name="Etiqueta rama" id="0:105">
+            <Rectangle id="0:106" width="44" height="18" cornerRadiusTL="9" originX="0" originY="0.5" name="Path"/>
+            <Stroke thickness="1" cap="round" join="round" name="Stroke">
+                <SolidColor colorValue="2A3B61" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:48" propertyKey="37"/>
+                </SolidColor>
+            </Stroke>
+        </Shape>
+        <Shape x="36" y="34" name="Texto principal" id="0:103">
+            <Rectangle id="0:104" width="20" height="4" cornerRadiusTL="2" originX="0" originY="0.5" name="Path"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="93C5FD" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:51" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+        <Shape x="24" y="34" name="Etiqueta principal" id="0:101">
+            <Rectangle id="0:102" width="44" height="18" cornerRadiusTL="9" originX="0" originY="0.5" name="Path"/>
+            <Stroke thickness="1" cap="round" join="round" name="Stroke">
+                <SolidColor colorValue="2A3B61" name="Color">
+                    <DataBindContext sourcePathIds="0:40-0:48" propertyKey="37"/>
+                </SolidColor>
+            </Stroke>
+        </Shape>
+        <StateMachine name="Main" id="0:139">
+            <StateMachineLayer name="Layer 1" id="0:140">
+                <AnyState x="300" y="-160"/>
+                <ExitState x="500" y="-160"/>
+                <EntryState x="0" y="0"/>
+            </StateMachineLayer>
+        </StateMachine>
+        <LinearAnimation loopValue="oneShot" fps="60" duration="120" name="Story" id="0:137">
+            <KeyedObject objectId="0:114">
+                <KeyedProperty property="end">
+                    <KeyFrameDouble value="0" frame="6" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.65" y1="0" x2="0.35" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="60" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:125">
+                <KeyedProperty property="scaleX">
+                    <KeyFrameDouble value="0" frame="26" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.34" y1="1.56" x2="0.64" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="35" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+                <KeyedProperty property="scaleY">
+                    <KeyFrameDouble value="0" frame="26" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.34" y1="1.56" x2="0.64" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="35" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:127">
+                <KeyedProperty property="scaleX">
+                    <KeyFrameDouble value="0" frame="37" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.34" y1="1.56" x2="0.64" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="46" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+                <KeyedProperty property="scaleY">
+                    <KeyFrameDouble value="0" frame="37" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.34" y1="1.56" x2="0.64" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="46" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:131">
+                <KeyedProperty property="scaleX">
+                    <KeyFrameDouble value="0" frame="58" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.34" y1="1.56" x2="0.64" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="70" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+                <KeyedProperty property="scaleY">
+                    <KeyFrameDouble value="0" frame="58" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.34" y1="1.56" x2="0.64" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="70" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:129">
+                <KeyedProperty property="scaleX">
+                    <KeyFrameDouble value="0.5" frame="60" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.16" y1="1" x2="0.3" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="2" frame="84" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+                <KeyedProperty property="scaleY">
+                    <KeyFrameDouble value="0.5" frame="60" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.16" y1="1" x2="0.3" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="2" frame="84" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+                <KeyedProperty property="opacity">
+                    <KeyFrameDouble value="0" frame="0" interpolationType="hold">
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="0.7" frame="60" interpolationType="linear">
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="0" frame="84" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:117">
+                <KeyedProperty property="end">
+                    <KeyFrameDouble value="0" frame="68" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.16" y1="1" x2="0.3" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="88" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:135">
+                <KeyedProperty property="scaleX">
+                    <KeyFrameDouble value="0" frame="84" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.34" y1="1.56" x2="0.64" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="98" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+                <KeyedProperty property="scaleY">
+                    <KeyFrameDouble value="0" frame="84" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.34" y1="1.56" x2="0.64" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="98" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:133">
+                <KeyedProperty property="scaleX">
+                    <KeyFrameDouble value="0" frame="84" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.16" y1="1" x2="0.3" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="104" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+                <KeyedProperty property="scaleY">
+                    <KeyFrameDouble value="0" frame="84" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.16" y1="1" x2="0.3" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="104" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+                <KeyedProperty property="opacity">
+                    <KeyFrameDouble value="0" frame="84" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.16" y1="1" x2="0.3" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="0.22" frame="104" interpolationType="linear">
+                    </KeyFrameDouble>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+    </Artboard>
+    <ViewModel defaultInstanceId="0:41" name="Cambios" id="0:40">
+        <ViewModelPropertyNumber name="progress" id="0:45"/>
+        <ViewModelPropertyColor name="ink" id="0:46"/>
+        <ViewModelPropertyColor name="mut" id="0:47"/>
+        <ViewModelPropertyColor name="line" id="0:48"/>
+        <ViewModelPropertyColor name="surf" id="0:49"/>
+        <ViewModelPropertyColor name="sig" id="0:50"/>
+        <ViewModelPropertyColor name="lab" id="0:51"/>
+        <ViewModelPropertyColor name="onSig" id="0:52"/>
+        <ViewModelInstance exports="true" name="Default" id="0:41">
+            <ViewModelInstanceNumber propertyValue="-1" viewModelPropertyId="0:45"/>
+            <ViewModelInstanceColor propertyValue="FFF3F4F1" viewModelPropertyId="0:46"/>
+            <ViewModelInstanceColor propertyValue="FF98A2B6" viewModelPropertyId="0:47"/>
+            <ViewModelInstanceColor propertyValue="FF2A3B61" viewModelPropertyId="0:48"/>
+            <ViewModelInstanceColor propertyValue="FF14213D" viewModelPropertyId="0:49"/>
+            <ViewModelInstanceColor propertyValue="FF3B82F6" viewModelPropertyId="0:50"/>
+            <ViewModelInstanceColor propertyValue="FF93C5FD" viewModelPropertyId="0:51"/>
+            <ViewModelInstanceColor propertyValue="FF04060F" viewModelPropertyId="0:52"/>
+        </ViewModelInstance>
+    </ViewModel>
+</Rive>
